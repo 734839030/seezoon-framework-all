@@ -57,7 +57,22 @@ $(function() {
 	//点击父部门选择框
 	$("#parent-input").click(function(){
 		$.seezoon.chooseDept(function(event, treeId, treeNode){
-			
+			//自己选择自己时候提示
+			var currentId = way.get("model.form.data.id");
+			if (treeNode.id == currentId) {
+				layer.msg("不能选择当前部门");
+				return false;
+			}
+			if ( currentId && -1!=treeNode.parentIds.indexOf(currentId)) {//不能选择自己的子节点
+				layer.msg("不能选择子节点");
+				return false;
+			}
+			way.set("model.form.data.parentId",treeNode.id);
+			way.set("model.form.data.parentName",treeNode.name);
+			return true;
+		},function(){
+			way.set("model.form.data.parentId",null);
+			way.set("model.form.data.parentName",null);
 		});
 	});
 	// 添加

@@ -111,57 +111,7 @@
 	</div>
 	<!-- 添加与修改end -->
 	@@include('../common/common-js.html')
-	<!-- @@include('../common/dept.html') -->
-	<!-- 部门组件 -->
-	<div id="deptLayer" class="undisplay pd10">
-		<ul id="deptTree" class="ztree ">
-
-		</ul>
-	</div>
-	<script type="text/javascript">
-;(function($) {
-	$.seezoon = {
-		chooseDept:function(clickCallback){
-			var setting = {
-					data : {
-						simpleData : {
-							enable : true,
-							idKey : "id",
-							pIdKey : "parentId",
-						}
-					},
-					callback : {
-						onClick : function(event, treeId, treeNode) {
-							clickCallback(event, treeId, treeNode);
-						}
-					}
-				};
-				$.post(requestPath + "/sys/dept/qryAll.do", function(respone) {
-					//选择上级tree
-					$.fn.zTree.init($("#deptTree"), setting,respone.data);
-					var treeObj = $.fn.zTree.getZTreeObj("deptTree");
-					treeObj.expandAll(true);
-				});
-				layer.open({
-				 	  title:'上级部门',
-				 	  offset: '50px',
-		              skin: 'layui-layer-molv',
-		              shade: 0,
-		              shadeClose: false,
-				 	  icon: 1,
-				 	  area: ['300px', '450px'],
-					  type: 1, 
-					  btn: ['清除'],
-					  yes:function(){
-						  way.set("model.form.data.parentId",null);
-						  way.set("model.form.data.parentName","无");
-						  layer.close(index);
-					  },
-					  content:  $("#deptLayer") 
-					});
-		}
-	}
-})(jQuery);
+	@@include('../common/dept.html')
 </script>
 	<script src="/js/sys/dept.js"></script>
 </body>

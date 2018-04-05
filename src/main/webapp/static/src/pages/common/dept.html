@@ -1,33 +1,50 @@
 <!-- 部门组件 -->
-<ul id="deptTree" class="ztree undisplay pd10">
+<div id="deptLayer" class="undisplay pd10">
+	<ul id="deptTree" class="ztree ">
 
-</ul>
+	</ul>
+</div>
 <script type="text/javascript">
 ;(function($) {
-	$.fn.dept=function(clickCallback){
-		var setting = {
-				data : {
-					simpleData : {
-						enable : true,
-						idKey : "id",
-						pIdKey : "parentId",
+	$.seezoon = {
+	    index:0,
+		chooseDept:function(clickCallback,clearCallback){
+			var setting = {
+					data : {
+						simpleData : {
+							enable : true,
+							idKey : "id",
+							pIdKey : "parentId",
+						}
+					},
+					callback : {
+						onClick : function(event, treeId, treeNode) {
+							if (clickCallback(event, treeId, treeNode)){
+								layer.close($.seezoon.index);
+							}
+						}
 					}
-				},
-				callback : {
-					onClick : function(event, treeId, treeNode) {
-						clickCallback(event, treeId, treeNode);
-					}
-				}
-			};
-			$.post($.fn.dept.defaultDeptOptions.path, function(respone) {
-				//选择上级tree
-				$.fn.zTree.init($("#deptTree"), setting,respone.data);
-				var treeObj = $.fn.zTree.getZTreeObj("deptTree");
-				treeObj.expandAll(true);
-			});
-	};
-	$.fn.dept.defaultDeptOptions = {
-			path:requestPath + "/sys/dept/qryAll.do",
+				};
+				$.post(requestPath + "/sys/dept/qryAll.do", function(respone) {
+					//选择上级tree
+					$.fn.zTree.init($("#deptTree"), setting,respone.data);
+					var treeObj = $.fn.zTree.getZTreeObj("deptTree");
+					treeObj.expandAll(true);
+				});
+				this.index = layer.open({
+				 	  title:'上级部门',
+				 	  offset: '50px',
+		              skin: 'layui-layer-lan',
+				 	  icon: 1,
+				 	  area: ['300px', '450px'],
+					  type: 1, 
+					  btn: ['清除'],
+					  yes:function(){
+						  clearCallback();
+						  layer.close($.seezoon.index);
+					  },
+					  content:  $("#deptLayer") 
+					});
+		}
 	}
 })(jQuery);
-</script>
