@@ -61,14 +61,8 @@
       <if test="paramKey != null" >
         param_key = #{paramKey,jdbcType=VARCHAR},
       </if>
-      <if test="value != null" >
+      <if test="paramValue != null" >
         param_value = #{paramValue,jdbcType=VARCHAR},
-      </if>
-      <if test="createBy != null" >
-        create_by = #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="updateBy != null" >
         update_by = #{updateBy,jdbcType=VARCHAR},
@@ -87,8 +81,6 @@
     set name = #{name,jdbcType=VARCHAR},
       param_key = #{paramKey,jdbcType=VARCHAR},
       param_value = #{paramValue,jdbcType=VARCHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       remarks = #{remarks,jdbcType=VARCHAR}

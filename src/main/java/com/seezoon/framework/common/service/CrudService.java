@@ -77,7 +77,7 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 
 	@Transactional(readOnly = true)
 	public PageInfo<T> findByPage(T t, int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize, Boolean.FALSE);
+		PageHelper.startPage(pageNum, pageSize, Boolean.TRUE);
 		List<T> list = this.findList(t);
 		PageInfo<T> pageInfo = new PageInfo<T>(list);
 		return pageInfo;

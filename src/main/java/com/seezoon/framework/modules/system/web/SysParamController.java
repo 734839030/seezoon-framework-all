@@ -1,8 +1,12 @@
 package com.seezoon.framework.modules.system.web;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +56,14 @@ public class SysParamController extends BaseController {
 	public ResponeModel delete(@RequestParam Serializable id) {
 		int cnt = sysParamService.deleteById(id);
 		return ResponeModel.ok(cnt);
+	}
+	
+	@PostMapping("/checkParamKey.do")
+	public Map<String,Object> checkParamKey(@RequestParam(required=false) String id,@RequestParam  String paramKey){
+		Map<String,Object> result = new HashMap<>();
+		SysParam sysParam = sysParamService.findByParamKey(paramKey.trim());
+		result.put("valid", sysParam == null || sysParam.getId().equals(id));
+		return result;
 	}
 	
 }

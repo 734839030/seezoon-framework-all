@@ -22,7 +22,7 @@
 							</div>
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="键"
-									name="paramKey"  way-data="paramKey" maxlength="50">
+									name="paramKey" way-data="paramKey" maxlength="50">
 							</div>
 							<button type="button" class="btn btn-default" id="search">
 								<i class="fa fa-search"></i>
@@ -59,38 +59,43 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" way-data="title" way-html="true">
-					</h4>
+					<h4 class="modal-title" way-data="title" way-html="true"></h4>
 				</div>
-				<form class="form-horizontal" way-scope="data" id="data-form" >
+				<form class="form-horizontal" way-scope="data" id="data-form">
 					<div class="modal-body">
 						<input type="hidden" way-data="id" name="id">
 						<div class="form-group">
-							<label class="col-sm-2 control-label">名称<font class="text-red">*</font></label>
+							<label class="col-sm-2 control-label">名称<font
+								class="text-red">*</font></label>
 							<div class="col-sm-5">
-								<input type="text" class="form-control" way-data="name"  name="name"
-									placeholder=""  maxlength="50"   minlength="1" 
-									required> 
+								<input type="text" class="form-control" way-data="name"
+									name="name" placeholder="" maxlength="50" minlength="1"
+									required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">键<font class="text-red">*</font></label>
+							<label class="col-sm-2 control-label">键<font
+								class="text-red">*</font></label>
 							<div class="col-sm-5">
-								<input type="text" class="form-control" way-data="paramKey"  maxlength="50" minlength="1"  name="paramKey" required
-									placeholder="" >
+								<input type="text" class="form-control" way-data="paramKey"
+									maxlength="50" minlength="1" name="paramKey" required
+									placeholder="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">值<font class="text-red">*</font></label>
+							<label class="col-sm-2 control-label">值<font
+								class="text-red">*</font></label>
 							<div class="col-sm-5">
-								<input type="text" class="form-control" way-data="paramValue"  maxlength="100" minlength="1"  name="paramValue" required
-									placeholder="" >
+								<input type="text" class="form-control" way-data="paramValue"
+									maxlength="100" minlength="1" name="paramValue" required
+									placeholder="">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">备注</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="3"   way-data="remarks" name="remarks" maxlength="255"></textarea>
+								<textarea class="form-control" rows="3" way-data="remarks"
+									name="remarks" maxlength="255"></textarea>
 							</div>
 						</div>
 					</div>
@@ -99,7 +104,7 @@
 							data-dismiss="modal">
 							<i class="fa fa-times"></i> 取消
 						</button>
-						<button type="submit" class="btn btn-primary" >
+						<button type="submit" class="btn btn-primary">
 							<i class="fa fa-save"></i> 保存
 						</button>
 					</div>
@@ -108,6 +113,49 @@
 		</div>
 	</div>
 	<!-- 添加与修改end -->
+	<!--查看  start-->
+	<div class="modal fade" id="modal-view" role="dialog"
+		way-scope="model.view">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">系统参数</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">名称</label>
+							<div class="col-sm-5">
+								<p class="form-control-static" way-data="name"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">键</label>
+							<div class="col-sm-5">
+								<p class="form-control-static" way-data="paramKey"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">值</label>
+							<div class="col-sm-5">
+								<p class="form-control-static" way-data="paramValue"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">备注</label>
+							<div class="col-sm-5">
+								<p class="form-control-static" way-data="remarks"></p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 	@@include('../common/common-js.html')
 	<script src="/js/sys/param.js"></script>
 </body>

@@ -4,9 +4,11 @@ $(function() {
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
 			$("#data-form")[0].reset();
+			way.set("model.form.data",null);
 		},
 		getFormData : function() {
-			return way.get("model.form.data");
+			var data =  way.get("model.form.data");
+			return data?data:{};
 		},
 		setFormTitle : function(title) {
 			way.set("model.form.title", title);
@@ -18,12 +20,39 @@ $(function() {
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.form.data",respone.data);
 			})
-		}
+		},
+		setViewDataById:function(id){
+			$.get(this.path + "/get.do",{id:id},function(respone){
+				way.set("model.view",respone.data);
+			})
+		},
 	};
 	// 校验
-	$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
+	$("#data-form").bootstrapValidator({
+		fields:{
+			paramKey:{
+				validators:{
+					threshold:1,
+					remote: {
+	                    url: model.path + "/checkParamKey.do",//验证地址
+	                    data:{
+		                    	id:function(){
+		                    		return model.getFormData().id;
+		                    },
+		                    paramKey:function(){
+		                    		return model.getFormData().paramKey;
+		                    	},
+	                    },
+	                    message: '键已存在',//提示消息
+	                    type:'post',
+	                   delay: 500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+	                },
+				}
+			}
+		}
+	}).on("success.form.bv", function(e) {// 提交
 		e.preventDefault();
-		var id = way.get("model.form.data.id");
+		var id = model.getFormData().id;
 		var optUrl = model.path + "/save.do";
 		if (id) {
 			optUrl = model.path + "/update.do";
@@ -36,7 +65,14 @@ $(function() {
 			}
 		});
 	});
-	;
+	/**
+	 * 查看
+	 */
+	$("body").on("click", ".view", function() {
+		var id = $(this).data("id");
+		model.setViewDataById(id);
+		$('#modal-view').modal('toggle');
+	});
 	// 查询
 	$("#search").click(function() {
 		model.tableRefresh();
@@ -91,6 +127,10 @@ $(function() {
 		}, {
 			field : 'name',
 			title : '名称',
+			formatter : function(value, row, index) {
+			    return "<a href='#' class='view' data-id='" + row.id + "'>" + value + "</a>"
+			}
+			
 		}, {
 			field : 'paramKey',
 			title : '键',
