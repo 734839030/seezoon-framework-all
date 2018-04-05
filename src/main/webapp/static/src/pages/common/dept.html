@@ -1,0 +1,33 @@
+<!-- 部门组件 -->
+<ul id="deptTree" class="ztree undisplay pd10">
+
+</ul>
+<script type="text/javascript">
+;(function($) {
+	$.fn.dept=function(clickCallback){
+		var setting = {
+				data : {
+					simpleData : {
+						enable : true,
+						idKey : "id",
+						pIdKey : "parentId",
+					}
+				},
+				callback : {
+					onClick : function(event, treeId, treeNode) {
+						clickCallback(event, treeId, treeNode);
+					}
+				}
+			};
+			$.post($.fn.dept.defaultDeptOptions.path, function(respone) {
+				//选择上级tree
+				$.fn.zTree.init($("#deptTree"), setting,respone.data);
+				var treeObj = $.fn.zTree.getZTreeObj("deptTree");
+				treeObj.expandAll(true);
+			});
+	};
+	$.fn.dept.defaultDeptOptions = {
+			path:requestPath + "/sys/dept/qryAll.do",
+	}
+})(jQuery);
+</script>

@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.seezoon.framework.common.dao.CrudDao;
@@ -36,21 +38,31 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 	}
 
 	public int updateSelective(T t) {
+		Assert.notNull(t,"更新对象为空");
+		Assert.notNull(t.getId(),"更新对象id为空");
+		Assert.hasLength(t.getId().toString(),"更新对象id为空");
 		t.setUpdateDate(new Date());
 		return d.updateByPrimaryKeySelective(t);
 	}
 
 	public int updateById(T t) {
+		Assert.notNull(t,"更新对象为空");
+		Assert.notNull(t.getId(),"更新对象id为空");
+		Assert.hasLength(t.getId().toString(),"更新对象id为空");
 		t.setUpdateDate(new Date());
 		return d.updateByPrimaryKey(t);
 	}
 
 	@Transactional(readOnly = true)
 	public T findById(Serializable id) {
+		Assert.notNull(id,"id为空");
+		Assert.hasLength(id.toString(),"id为空");
 		return d.selectByPrimaryKey(id);
 	}
 
 	public int deleteById(Serializable id) {
+		Assert.notNull(id,"id为空");
+		Assert.hasLength(id.toString(),"id为空");
 		return d.deleteByPrimaryKey(id);
 	}
 

@@ -1,5 +1,9 @@
 package com.seezoon.framework.modules.system.entity;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.seezoon.framework.common.entity.BaseEntity;
 
 /**
@@ -12,16 +16,22 @@ public class SysParam extends BaseEntity<String> {
 	/**
 	 * 名称
 	 */
+	@NotNull
+	@Length(min=1,max=50)
 	private String name;
 
 	/**
 	 * 键
 	 */
+	@NotNull
+	@Length(min=1,max=50)
 	private String paramKey;
 
 	/**
 	 * 值
 	 */
+	@NotNull
+	@Length(min=1,max=50)
 	private String paramValue;
 
 	public String getName() {
