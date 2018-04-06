@@ -7,9 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.seezoon.framework.common.Constants;
 import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.utils.TreeHelper;
@@ -65,5 +69,11 @@ public class SysMenuController extends BaseController {
 	public ResponeModel delete(@RequestParam Serializable id) {
 		int cnt = sysMenuService.deleteById(id);
 		return ResponeModel.ok(cnt);
+	}
+	@PostMapping("/batchSave.do")
+	public ResponeModel batchSave(@RequestBody List<SysMenu> list ) {
+		//直接用list接收到的json 参数实际上是jsonObject，强转到SysMenu 会报错,下列性能不好，应该不想循环List 转化
+		sysMenuService.batchSave(JSON.parseArray(JSON.toJSONString(list), SysMenu.class));
+		return ResponeModel.ok();
 	}
 }

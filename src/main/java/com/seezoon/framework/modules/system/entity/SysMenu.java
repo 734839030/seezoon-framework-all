@@ -1,5 +1,10 @@
 package com.seezoon.framework.modules.system.entity;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.seezoon.framework.common.entity.TreeEntity;
 
 public class SysMenu extends TreeEntity<String> {
@@ -8,36 +13,48 @@ public class SysMenu extends TreeEntity<String> {
 	/**
 	 * 名称
 	 */
+	@NotNull
+	@Length(min=1,max=50)
 	private String name;
 
 	/**
 	 * 链接
 	 */
+	@Length(max=200)
 	private String href;
 
 	/**
 	 * 目标
 	 */
+	@Length(max=10)
 	private String target;
 
 	/**
 	 * 0：目录 1：菜单 2：按钮
 	 */
+	@NotNull
+	@Length(max=2)
+	@Pattern(regexp="0|1|2")
 	private String type;
 
 	/**
 	 * 图标
 	 */
+	@Length(max=50)
 	private String icon;
 
 	/**
 	 * 是否在菜单中显示1显示，0 不显示
 	 */
+	@NotNull
+	@Length(max=1)
+	@Pattern(regexp="0|1")
 	private String isShow;
 
 	/**
 	 * 权限标识
 	 */
+	@Length(max=200)
 	private String permission;
 
 	public String getName() {

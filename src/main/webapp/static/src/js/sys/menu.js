@@ -58,6 +58,34 @@ $(function() {
 	$("#search").click(function() {
 		model.tableRefresh();
 	});
+	//批量保存
+	$("#batch-save").click(function(){
+		var chanegeData = [];
+		 $("#table tbody tr").each(function(i,v){
+			var unsavedData = $(v).find(".editable-unsaved");
+			 var rowData = {};
+			 $.each(unsavedData,function(k,j){
+				 rowData.id = $(j).data("pk");
+				 rowData[$(j).data("name")] = $(j).data("value");
+				 chanegeData.push(rowData);
+			 });
+		 });
+		 if (chanegeData.length == 0) {
+			 layer.msg("无数据改动");
+			 return false;
+		 }
+		 $.ajax({
+				url:model.path+"/batchSave.do",
+				contentType : "application/json;charset=UTF-8",
+				data:JSON.stringify(chanegeData),
+				success:function(respone){
+					if (respone.responeCode == "0") {
+						layer.msg("保存成功");
+						model.tableRefresh();
+					} 
+				}
+			});
+	});
 	//点击父菜单选择框
 	$(".parent-input").click(function(){
 		$.seezoon.chooseMenu(way.get("model.form.data.parentId"),function(treeNode){
@@ -84,7 +112,7 @@ $(function() {
 		model.resetDataForm();
 		model.setFormTitle("<i class='fa fa-plus'>添加</i>");
 		//编辑后的再点添加需要移除之前的状态
-		$("#myTabs a").attr("data-toggle","tab").parent().removeClass("disabled").eq(0).tab("show");
+		//$("#myTabs a").attr("data-toggle","tab").parent().removeClass("disabled").eq(0).tab("show");
 		$("#form-panel").modal('toggle');
 	});
 	//添加下级菜单
@@ -106,13 +134,14 @@ $(function() {
 			//选中tab
 			var type = model.getFormData().type;
 			//禁用其他
-			$("#myTabs a").removeAttr("data-toggle").parent().addClass("disabled");
+			//$("#myTabs a").removeAttr("data-toggle").parent().addClass("disabled");
+			//$('#myTabs a[href="#tab_ml"]').attr("data-toggle","tab").tab('show').parent().removeClass("disabled");
 			if (type == '0') {//目录
-				$('#myTabs a[href="#tab_ml"]').attr("data-toggle","tab").tab('show').parent().removeClass("disabled");
+				$('#myTabs a[href="#tab_ml"]').tab('show');
 			} else if (type == '1') {//菜单
-				$('#myTabs a[href="#tab_cd"]').attr("data-toggle","tab").tab('show').parent().removeClass("disabled");
+				$('#myTabs a[href="#tab_cd"]').tab('show');
 			} else if (type == '2') {//按钮
-				$('#myTabs a[href="#tab_an"]').attr("data-toggle","tab").tab('show').parent().removeClass("disabled");
+				$('#myTabs a[href="#tab_an"]').tab('show');
 			}
 			$("#form-panel").modal('toggle');
 		}
@@ -202,10 +231,23 @@ $(function() {
 		{
 			field : 'sort',
 			title : '排序',
-		},
-		{
-			field : 'ext.test',
-			title : '链接',
+			editable:{
+				mode:'inline',
+				showbuttons:false,
+				onblur:'submit',
+				validate: function(value) {
+					value = $.trim(value)
+				    if(value == '') {
+				        return '不能为空';
+				    }
+				    if(!/^\d+$/.test( value )){
+			    			return '输入整数数字';
+				    }
+				    if(value.length >10){
+		    				return '不能超过10位';
+				    }
+				}
+			}
 		},
 		{
 			field : 'target',
@@ -222,6 +264,18 @@ $(function() {
 		{
 			field : 'permission',
 			title : '授权标识',
+			editable:{
+				mode:'inline',
+				showbuttons:false,
+				emptytext:'-',
+				onblur:'submit',
+				validate: function(value) {
+					value = $.trim(value)
+				    if(value.length >200){
+		    				return '不能超过200位';
+				    }
+				}
+			}
 		},
 		{
 			field : 'isShow',

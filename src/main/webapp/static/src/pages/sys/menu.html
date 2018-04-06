@@ -2,6 +2,7 @@
 <html>
 <head>@@include('../common/header.html',{"title":"菜单管理"})
 @@include('../common/tree.html')
+<link rel="stylesheet" href="/plugins/bootstrap-table/extensions/bootstrap3-editable/css/bootstrap-editable.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -23,6 +24,9 @@
 							</div>
 							<button type="button" class="btn btn-default" id="search">
 								<i class="fa fa-search"></i>
+							</button>
+							<button type="button" class="btn btn-default" id="batch-save">
+								<i class="fa fa-save">批量保存</i>
 							</button>
 							<div class="btn-group pull-right">
 								<button type="button" class="btn btn-primary" id="add">
@@ -64,7 +68,7 @@
 							<ul class="nav nav-tabs" id="myTabs">
 								<li class="active "><a href="#tab_ml" data-toggle="tab" 
 									aria-expanded="true">目录</a></li>
-								<li class="disabled"><a href="#tab_cd" data-toggle="tab"   class="disabled"
+								<li class=""><a href="#tab_cd" data-toggle="tab"
 									aria-expanded="false">菜单</a></li>
 								<li class=""><a href="#tab_an" data-toggle="tab"
 									aria-expanded="false">按钮</a></li>
@@ -303,6 +307,7 @@
 	</div>
 	<!-- 添加与修改end -->
 	@@include('../common/common-js.html')
+	@@include('../common/edittable.html')
 	<script src="/js/sys/menu.js"></script>
 	<script src="/js/lib/sf-menu.js"></script>
 </body>
