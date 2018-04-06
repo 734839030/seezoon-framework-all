@@ -56,7 +56,7 @@ $(function() {
 	});
 	//点击父部门选择框
 	$("#parent-input").click(function(){
-		$.seezoon.chooseDept(function(event, treeId, treeNode){
+		$.seezoon.chooseDept(way.get("model.form.data.parentId"),function(treeNode){
 			//自己选择自己时候提示
 			var currentId = way.get("model.form.data.id");
 			if (treeNode.id == currentId) {
