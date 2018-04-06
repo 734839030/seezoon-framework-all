@@ -33,7 +33,7 @@ public class SysDeptController extends BaseController {
 		sysDept.setDirection(Constants.ASC);
 		List<SysDept> list = sysDeptService.findList(sysDept);
 		//数据机构调整
-		return ResponeModel.ok(treeHelper.treeGridList(list, null));
+		return ResponeModel.ok(treeHelper.treeGridList(list));
 	}
 
 	@RequestMapping("/get.do")

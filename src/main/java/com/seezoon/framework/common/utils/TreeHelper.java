@@ -27,15 +27,22 @@ public class TreeHelper<T extends TreeEntity<String>> {
 	 *            从哪里开始排
 	 * @return
 	 */
-	public List<T> treeGridList(List<T> list, String parentId) {
-		if (null == parentId) {
-			parentId = DEFAULT_PARENTID;
+	public List<T> treeGridList(List<T> list) {
+		List<T> result = this.nextLevelTreeList(list, DEFAULT_PARENTID);
+		//没有匹配到的，如父节点不是0 的； 搜索场景
+		for(T t :list) {
+			if (!result.contains(t)) {
+				result.add(t);
+			}
 		}
+		return result;
+	}
+	private List<T> nextLevelTreeList(List<T> list, String parentId){
 		List<T> result = new ArrayList<>();
 		for (T t : list) {//
 			if (parentId.equals(t.getParentId())) {// 从跟节点开始
 				result.add(t);
-				result.addAll(this.treeGridList(list, t.getId()));
+				result.addAll(this.nextLevelTreeList(list, t.getId()));
 			}
 		}
 		return result;

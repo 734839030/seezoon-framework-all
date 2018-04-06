@@ -23,7 +23,7 @@
     from sys_dept
     where id = #{id,jdbcType=VARCHAR}
   </select>
-   <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.system.entity.SysParam" >
+  <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.system.entity.SysParam" >
     select 
     <include refid="Base_Column_List" />
     from sys_dept
