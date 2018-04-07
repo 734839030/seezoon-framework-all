@@ -70,7 +70,7 @@ public class SysUserController extends BaseController {
 		return result;
 	}
 	@PostMapping("/setStatus.do")
-	public ResponeModel setStatus(@RequestParam String id,@Validated @Pattern(regexp="1|0") @RequestParam String status,BindingResult bindingResult) {
+	public ResponeModel setStatus(@RequestParam String id, @RequestParam String status) {
 		SysUser sysUser = new SysUser();
 		sysUser.setId(id);
 		sysUser.setStatus(status);

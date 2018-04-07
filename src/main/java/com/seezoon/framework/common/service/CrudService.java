@@ -34,7 +34,11 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 		if (null == t.getId() || StringUtils.isEmpty(t.getId().toString())) {
 			t.setId(IdGen.uuid());
 		}
-		return d.insert(t);
+		int cnt = d.insert(t);
+		if (t.isNeedBak()) {
+			this.saveBak(t.getId());
+		}
+		return cnt;
 	}
 
 	public int updateSelective(T t) {
@@ -42,7 +46,11 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 		Assert.notNull(t.getId(),"更新对象id为空");
 		Assert.hasLength(t.getId().toString(),"更新对象id为空");
 		t.setUpdateDate(new Date());
-		return d.updateByPrimaryKeySelective(t);
+		int cnt = d.updateByPrimaryKeySelective(t);
+		if (t.isNeedBak()) {
+			this.saveBak(t.getId());
+		}
+		return cnt;
 	}
 
 	public int updateById(T t) {
@@ -50,7 +58,11 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 		Assert.notNull(t.getId(),"更新对象id为空");
 		Assert.hasLength(t.getId().toString(),"更新对象id为空");
 		t.setUpdateDate(new Date());
-		return d.updateByPrimaryKey(t);
+		int cnt = d.updateByPrimaryKey(t);
+		if (t.isNeedBak()) {
+			this.saveBak(t.getId());
+		}
+		return cnt;
 	}
 
 	@Transactional(readOnly = true)
@@ -63,6 +75,9 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 	public int deleteById(Serializable id) {
 		Assert.notNull(id,"id为空");
 		Assert.hasLength(id.toString(),"id为空");
+//		if (t.isNeedBak()) {
+//			this.saveBak(t.getId());
+//		}
 		return d.deleteByPrimaryKey(id);
 	}
 
@@ -93,5 +108,9 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 		List<T> list = this.findList(t);
 		PageInfo<T> pageInfo = new PageInfo<T>(list);
 		return pageInfo;
+	}
+	
+	private int saveBak(Serializable id) {
+		return d.insertBak(this.findById(id));
 	}
 }

@@ -19,7 +19,12 @@ import com.seezoon.framework.common.entity.BaseEntity;
 public interface CrudDao<T extends BaseEntity<String>> extends BaseDao {
 
 	public int insert(T t);
-
+	/**
+	 * 关键业务场景需要备份表
+	 * @param t
+	 * @return
+	 */
+	public int insertBak(T t);
 	public int updateByPrimaryKeySelective(T t);
 
 	public int updateByPrimaryKey(T t);

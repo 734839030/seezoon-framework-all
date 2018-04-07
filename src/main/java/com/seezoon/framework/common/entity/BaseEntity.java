@@ -2,6 +2,8 @@ package com.seezoon.framework.common.entity;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * 主键默认支持String 和 Long
  * 
@@ -39,6 +41,16 @@ public class BaseEntity<PK> extends QueryEntity{
 	 * 备注信息
 	 */
 	private String remarks;
+	
+	/**
+	 * 是否需要备份，子类改变该值可以变更写到同步表
+	 */
+	@JSONField(serialize=false)
+	private boolean isNeedBak =false;
+
+	public boolean isNeedBak() {
+		return isNeedBak;
+	}
 
 	public PK getId() {
 		return id;

@@ -18,33 +18,38 @@
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <!-- DB 字段截止 -->
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    
   </resultMap>
   <sql id="Base_Column_List" >
-    id, dept_id, login_name, password, salt, name, mobile, photo, email, user_type, status, 
-    create_by, create_date, update_by, update_date, remarks
+    u.*,d.name dept_name
+  </sql>
+  <sql id="Join_Table" >
+    sys_user u left join sys_dept d on u.dept_id = d.id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from sys_user
-    where id = #{id,jdbcType=VARCHAR}
+    from <include refid="Join_Table" />
+    where u.id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.system.entity.SysUser" >
     select 
     <include refid="Base_Column_List" />
-    from sys_user
+    from <include refid="Join_Table" /> 
     <where>
     		<if test="deptId !=null and deptId!=''">
-    			and dept_id = #{deptId}
+    			and u.dept_id = #{deptId}
     		</if>
     		<if test="status !=null and status!=''">
-    			and status = #{status}
+    			and u.status = #{status}
     		</if>
     		<if test="loginName !=null and loginName!=''">
-    			and login_name = #{loginName}
+    			and u.login_name = #{loginName}
     		</if>
     		<if test="name !=null and name!=''">
-    			and name like concat('%',#{name},'%')
+    			and u.name like concat('%',#{name},'%')
     		</if>
     </where>
     <!-- 有注入安全漏洞 后台系统忽略可以提高开发速度 -->
@@ -58,6 +63,20 @@
   </delete>
   <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysUser" >
     insert into sys_user (id, dept_id, login_name, 
+      password, salt, name, 
+      mobile, photo, email, 
+      user_type, status, create_by, 
+      create_date, update_by, update_date, 
+      remarks)
+    values (#{id,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertBak" parameterType="com.seezoon.framework.modules.system.entity.SysUser" >
+    insert into sys_user_bak (id, dept_id, login_name, 
       password, salt, name, 
       mobile, photo, email, 
       user_type, status, create_by, 

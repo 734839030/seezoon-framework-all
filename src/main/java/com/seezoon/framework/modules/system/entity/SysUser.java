@@ -74,7 +74,13 @@ public class SysUser extends BaseEntity<String>{
 	@Length(min=1,max=1)
 	@Pattern(regexp="1|0")
 	private String status;
+	/** DB 字段截止 **/
+	private String deptName;
 
+	@Override
+	public boolean isNeedBak() {
+		return Boolean.TRUE;
+	}
 	public String getDeptId() {
 		return deptId;
 	}
@@ -154,4 +160,13 @@ public class SysUser extends BaseEntity<String>{
 	public void setStatus(String status) {
 		this.status = status == null ? null : status.trim();
 	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+	
 }

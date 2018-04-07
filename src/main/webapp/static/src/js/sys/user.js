@@ -68,7 +68,6 @@ $(function() {
 			loginName:{
 				threshold:5,
 				validators:{
-					threshold:5,
 					remote: {
 	                    url: model.path + "/checkLoginName.do",//验证登录用户名
 	                    data:{
@@ -81,7 +80,7 @@ $(function() {
 	                    },
 	                    message: '用户名已存在',//提示消息
 	                    type:'post',
-	                    delay: 2000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+	                    delay: 500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
 	                },
 				}
 			}
@@ -140,7 +139,7 @@ $(function() {
 	//设置状态
 	$("body").on("click", ".setStatus", function() {
 		var id = $(this).data("id");
-		var id = $(this).data("status");
+		var status = $(this).data("status");
 		$.post(model.path + "/setStatus.do",{id:id,status:status},function(respone){
 			model.tableRefresh();
 		});
@@ -202,7 +201,7 @@ $(function() {
 			title : '状态',
 			formatter : function(value, row, index) {
 				if (value == '1'){//正常
-					value = "<span class='label label-success'>启用</span>";
+					value = "<span class='label label-success'>正常</span>";
 				} else if (value == '0') {//禁用
 					value = "<span class='label label-danger'>禁用</span>"
 				} 

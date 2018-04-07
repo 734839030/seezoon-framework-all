@@ -3,6 +3,8 @@ package com.seezoon.framework.common.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class QueryEntity {
 
 	/**
@@ -17,10 +19,12 @@ public class QueryEntity {
 	/**
 	 * 页码
 	 */
+	@JSONField(serialize=false)
 	private Integer page = 1;
 	/**
 	 * 每页大小
 	 */
+	@JSONField(serialize=false)
 	private Integer pageSize = 20;
 	/**
 	 * 自定义查询字段
