@@ -86,6 +86,16 @@ $(function() {
 				}
 			});
 	});
+	//获取图标
+	$(".get-icon").click(function(){
+		layer.open({
+			  title:"图标",
+			  type: 2, //iframe
+			  maxmin:true,
+			  area: ['95%', '95%'],
+			  content: '/pages/common/icon.html'  //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+			}); 
+	});
 	//点击父菜单选择框
 	$(".parent-input").click(function(){
 		$.seezoon.chooseMenu(way.get("model.form.data.parentId"),function(treeNode){
@@ -133,6 +143,8 @@ $(function() {
 			model.setFormTitle("<i class='fa fa-edit'>编辑</i>");
 			//选中tab
 			var type = model.getFormData().type;
+			var icon = model.getFormData().icon;
+			$(".icon").addClass(icon);
 			//禁用其他
 			//$("#myTabs a").removeAttr("data-toggle").parent().addClass("disabled");
 			//$('#myTabs a[href="#tab_ml"]').attr("data-toggle","tab").tab('show').parent().removeClass("disabled");
