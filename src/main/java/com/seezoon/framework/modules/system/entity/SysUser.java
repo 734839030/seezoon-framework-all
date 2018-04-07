@@ -1,5 +1,11 @@
 package com.seezoon.framework.modules.system.entity;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.alibaba.fastjson.annotation.JSONField;
 import com.seezoon.framework.common.entity.BaseEntity;
 
 public class SysUser extends BaseEntity<String>{
@@ -7,51 +13,66 @@ public class SysUser extends BaseEntity<String>{
 	/**
 	 * 部门
 	 */
+	@NotNull
+	@Length(min=1,max=32)
 	private String deptId;
 
 	/**
 	 * 登录名
 	 */
+	@NotNull
+	@Length(min=1,max=50)
 	private String loginName;
 
 	/**
 	 * 密码
 	 */
+	@JSONField(serialize=false)
 	private String password;
 
 	/**
 	 * 盐
 	 */
+	@JSONField(serialize=false)
 	private String salt;
 
 	/**
 	 * 姓名
 	 */
+	@NotNull
+	@Length(min=1,max=50)
 	private String name;
 
 	/**
 	 * 手机
 	 */
+	@Length(max=50)
 	private String mobile;
 
 	/**
 	 * 用户头像
 	 */
+	@Length(max=100)
 	private String photo;
 
 	/**
 	 * 邮箱
 	 */
+	@Length(max=50)
 	private String email;
 
 	/**
 	 * 用户类型，业务扩展用，读取字典
 	 */
+	@Length(max=2)
 	private String userType;
 
 	/**
-	 * 状态1：启用，0：禁用
+	 * 状态1：正常，0：禁用
 	 */
+	@NotNull
+	@Length(min=1,max=1)
+	@Pattern(regexp="1|0")
 	private String status;
 
 	public String getDeptId() {

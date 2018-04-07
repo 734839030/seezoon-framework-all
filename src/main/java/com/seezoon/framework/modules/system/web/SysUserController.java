@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.constraints.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +22,7 @@ import com.seezoon.framework.modules.system.entity.SysUser;
 import com.seezoon.framework.modules.system.service.SysUserService;
 
 @RestController
-@RequestMapping("${admin.path}/sys/param")
+@RequestMapping("${admin.path}/sys/user")
 public class SysUserController extends BaseController {
 
 	@Autowired
@@ -58,9 +61,21 @@ public class SysUserController extends BaseController {
 	@PostMapping("/checkLoginName.do")
 	public Map<String,Object> checkLoginName(@RequestParam(required=false) String id,@RequestParam  String loginName){
 		Map<String,Object> result = new HashMap<>();
-		SysUser sysUser = sysUserService.findByLoginName(loginName.trim());
-		result.put("valid", sysUser == null || sysUser.getId().equals(id));
+		if(StringUtils.isEmpty(loginName)) {
+			result.put("valid",Boolean.TRUE);
+		} else {
+			SysUser sysUser = sysUserService.findByLoginName(loginName);
+			result.put("valid", sysUser == null || sysUser.getId().equals(id));
+		}
 		return result;
+	}
+	@PostMapping("/setStatus.do")
+	public ResponeModel setStatus(@RequestParam String id,@Validated @Pattern(regexp="1|0") @RequestParam String status,BindingResult bindingResult) {
+		SysUser sysUser = new SysUser();
+		sysUser.setId(id);
+		sysUser.setStatus(status);
+		int cnt = this.sysUserService.updateSelective(sysUser);
+		return ResponeModel.ok(cnt);
 	}
 	
 }

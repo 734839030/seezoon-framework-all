@@ -1,5 +1,6 @@
 /**
  * 菜单选择组件
+ * 使用方法 $.seezoon.chooseMenu('需要默认选中的treeId','点确定后的回调方法','点清清除的回调方法');
  * @param $
  * @returns
  */
@@ -24,7 +25,7 @@
 						}
 					}
 				};
-				$.post(requestPath + "/sys/menu/qryAll.do", function(respone) {
+				$.post(adminContextPath + "/sys/menu/qryAll.do", function(respone) {
 					//选择上级tree
 					$.fn.zTree.init($("#menuTree"), setting,respone.data);
 					var treeObj = $.fn.zTree.getZTreeObj("menuTree");

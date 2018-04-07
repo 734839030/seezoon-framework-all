@@ -1,5 +1,4 @@
 $(function(){
-	var path = requestPath + "/sys/dict";
 	/**
 	 * 字典列表与code转汉字
 	 */
@@ -17,7 +16,7 @@ $(function(){
 				//取消异步
 				$.ajaxSetup({async : false});
 				var dict = [];
-				$.get(path + "/public/dict", {type:type}, function(respone) {
+				$.get(publicContextPath + "/dict/getDictsByType.do", {type:type}, function(respone) {
 					if (respone.responeCode == "0") {
 						dict = respone.data;
 						//存入sessionStorage
@@ -42,7 +41,7 @@ $(function(){
 				return json[value];
 			} else {
 				var map = {};
-				var dictList = $.getDictListByType(type);
+				var dictList = $.getDictList(type);
 				if (dictList) {
 					$.each(dictList,function(i,v){
 						map[v.code] = v.name
@@ -71,7 +70,7 @@ $(function(){
 		var dictType = $(this).data("sf-dict-type");
 		var required = $(this).data("sf-required");
 
-		var dictList = $.getDictListByType(dictType);
+		var dictList = $.getDictList(dictType);
 		if (dictList) {
 			$.each(dictList,function(j,k){
 				k.inputName = inputName;
@@ -84,7 +83,7 @@ $(function(){
 				}
 			});
 		}
-		if ($(this).hasClass(".sf-radio")) {
+		if ($(this).hasClass("sf-radio")) {
 			$("#sf-radio-temlate").tmpl(dictList).appendTo(this);
 		} else {
 			$("#sf-checkbox-temlate").tmpl(dictList).appendTo(this);
@@ -92,7 +91,7 @@ $(function(){
 	});
 	$(".sf-select").each(function(i,v){
 		var dictType = $(this).data("sf-dict-type");
-		var dictList = $.getDictListByType(dictType);
+		var dictList = $.getDictList(dictType);
 		if (dictList) {
 			$.each(dictList,function(j,k){
 				//禁用

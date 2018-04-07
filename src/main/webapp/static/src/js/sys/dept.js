@@ -1,6 +1,6 @@
 $(function() {
 	var model = {
-		path : requestPath + "/sys/dept",
+		path : adminContextPath + "/sys/dept",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
 			$("#data-form")[0].reset();

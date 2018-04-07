@@ -21,7 +21,7 @@ import com.seezoon.framework.modules.system.service.SysDictService;
  * @author hdf 2018年4月5日
  */
 @RestController
-@RequestMapping({ "${admin.path}/public/dict", "${front.path}/public/dict" })
+@RequestMapping("/public/dict")
 public class PublicDictController extends BaseController {
 
 	@Autowired

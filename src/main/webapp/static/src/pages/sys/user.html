@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>@@include('../common/header.html',{"title":"系统参数"})
+<head>
+@@include('../common/header.html',{"title":"用户管理"})
+@@include('../common/ztree.html')
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 		<div class="content-wrapper ml0">
 			<section class="content-header">
-				<h1>系统参数</h1>
+				<h1>用户管理</h1>
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa fa-dashboard"></i>系统管理</a></li>
-					<li class="active">系统参数</li>
+					<li class="active">用户管理</li>
 				</ol>
 			</section>
 			<section class="content container-fluid">
@@ -17,12 +19,19 @@
 					<div class="box-body">
 						<form class="form-inline" way-data="model.search">
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="名称"
+								<input type="text" class="form-control" placeholder="登录名"
+									name="loginName" way-data="loginName" maxlength="50">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="姓名"
 									name="name" way-data="name" maxlength="50">
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="键"
-									name="paramKey" way-data="paramKey" maxlength="50">
+								<select class="form-control" name="status" way-data="status">
+										<option value="">请选择状态</option>
+										<option value="1">正常</option>
+										<option value="0">禁用</option>
+									</select>
 							</div>
 							<button type="button" class="btn btn-default" id="search">
 								<i class="fa fa-search"></i>
@@ -65,30 +74,82 @@
 					<div class="modal-body">
 						<input type="hidden" way-data="id" name="id">
 						<div class="form-group">
-							<label class="col-sm-2 control-label">名称<font
+							<label class="col-sm-2 control-label">上级部门<font
+								class="text-red">*</font></label>
+							<div class="col-sm-5">
+								<input type="hidden" way-data="deptId" name="deptId">
+								<input type="text" class="form-control" way-data="deptName" required
+									id="dept-input" name="deptName" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">用户名<font
+								class="text-red">*</font></label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" way-data="loginName"
+									maxlength="50" minlength="5" name="loginName" required pattern="^[0-9a-zA-Z_]+$"
+									placeholder="字母数字下划线">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">密码</label>
+							<div class="col-sm-5">
+								<input type="password" class="form-control" way-data="password"
+									maxlength="100" minlength="5" name="password"
+									placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">确认密码</label>
+							<div class="col-sm-5">
+								<input type="password" class="form-control" way-data="conFirmPassword"
+									maxlength="100" minlength="5" name="conFirmPassword"  
+									placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">姓名<font
 								class="text-red">*</font></label>
 							<div class="col-sm-5">
 								<input type="text" class="form-control" way-data="name"
-									name="name" placeholder="" maxlength="50" minlength="1"
-									required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">键<font
-								class="text-red">*</font></label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" way-data="paramKey"
-									maxlength="50" minlength="1" name="paramKey" required
+									maxlength="50" minlength="1" name="name" required
 									placeholder="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">值<font
+							<label class="col-sm-2 control-label">用户类型</label>
+							<div class="col-sm-5">
+									<select class="form-control sf-select" data-sf-dict-type="sys_user_type" >
+										<option value="">请选择</option>
+									</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">手机号</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" way-data="mobile"
+									maxlength="50"  name="mobile" 
+									placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">邮箱</label>
+							<div class="col-sm-5">
+								<input type="email" class="form-control" way-data="email"
+									maxlength="50"  name="email"  
+									placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">状态<font
 								class="text-red">*</font></label>
 							<div class="col-sm-5">
-								<input type="text" class="form-control" way-data="paramValue"
-									maxlength="100" minlength="1" name="paramValue" required
-									placeholder="">
+								<label class="radio-inline"> <input type="radio" required 
+									way-data="status" name="status" value="1">正常
+								</label>
+								<label class="radio-inline"> <input type="radio" required
+									way-data="status"  name="status" value="0">禁用
+								</label>
 							</div>
 						</div>
 						<div class="form-group">
@@ -113,50 +174,8 @@
 		</div>
 	</div>
 	<!-- 添加与修改end -->
-	<!--查看  start-->
-	<div class="modal fade" id="modal-view" role="dialog"
-		way-scope="model.view">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">系统参数</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">名称:</label>
-							<div class="col-sm-5">
-								<p class="form-control-static" way-data="name"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">键:</label>
-							<div class="col-sm-5">
-								<p class="form-control-static" way-data="paramKey"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">值:</label>
-							<div class="col-sm-5">
-								<p class="form-control-static" way-data="paramValue"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">备注:</label>
-							<div class="col-sm-5">
-								<p class="form-control-static" way-data="remarks"></p>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
 	@@include('../common/common-js.html')
-	<script src="/js/sys/param.js"></script>
+	<script src="/js/sys/user.js"></script>
+	<script src="/js/lib/sf-dept.js"></script>
 </body>
 </html>

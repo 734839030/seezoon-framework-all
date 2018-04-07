@@ -1,10 +1,12 @@
 $(function() {
 	var model = {
-		path : requestPath + "/sys/param",
+		path : adminContextPath + "/sys/user",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
 			$("#data-form")[0].reset();
-			way.set("model.form.data",null);
+			way.set("model.form.data",{
+				status:'1',
+			});
 		},
 		getFormData : function() {
 			var data =  way.get("model.form.data");
@@ -20,32 +22,66 @@ $(function() {
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.form.data",respone.data);
 			})
-		},
-		setViewDataById:function(id){
-			$.get(this.path + "/get.do",{id:id},function(respone){
-				way.set("model.view",respone.data);
-			})
-		},
+		}
 	};
 	// 校验
 	$("#data-form").bootstrapValidator({
 		fields:{
-			paramKey:{
+			password:{
 				validators:{
-					threshold:1,
+					identical:{
+						message:'两次密码不一致',
+						field:'conFirmPassword'
+					},
+					different:{
+						message:'密码不能和用户名相同',
+						field:'loginName'
+					},
+					callback: {
+						message:'新用户必须填密码',
+						callback:function(value, validator){//框架验证完回调
+							//修改不做处理，新增value 为空即为false
+							return model.getFormData().id?true:value;
+						}
+					}
+				}
+			},
+			conFirmPassword:{
+				validators:{
+					identical:{
+						message:'两次密码不一致',
+						field:'password'
+					},
+					different:{
+						message:'密码不能和用户名相同',
+						field:'loginName'
+					},
+					callback: {
+						message:'新用户必须填密码',
+						callback:function(value, validator){//框架验证完回调
+							//修改不做处理，新增value 为空即为false
+							return model.getFormData().id?true:value;
+						}
+					}
+				}
+			},
+			loginName:{
+				threshold:5,
+				validators:{
+					threshold:5,
 					remote: {
-	                    url: model.path + "/checkParamKey.do",//验证地址
+	                    url: model.path + "/checkLoginName.do",//验证登录用户名
 	                    data:{
 		                    	id:function(){
 		                    		return model.getFormData().id;
 		                    },
-		                    paramKey:function(){
-		                    		return model.getFormData().paramKey;
+		                    loginName:function(){
+		                    		return model.getFormData().loginName;
 		                    	},
 	                    },
-	                    message: '键已存在',//提示消息
+	                    message: '用户名已存在',//提示消息
 	                    type:'post',
-	                   delay: 500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+	                    delay: 2000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
 	                },
 				}
 			}
@@ -65,17 +101,23 @@ $(function() {
 			}
 		});
 	});
-	/**
-	 * 查看
-	 */
-	$("body").on("click", ".view", function() {
-		var id = $(this).data("id");
-		model.setViewDataById(id);
-		$('#modal-view').modal('toggle');
-	});
 	// 查询
 	$("#search").click(function() {
 		model.tableRefresh();
+	});
+	//选择部门
+	$("#dept-input").click(function(){
+		//readOnly 不会触发bootstrap valiator 重新校验，所以选择部门后，手动修改校验状态
+		$.seezoon.chooseDept(way.get("model.form.data.deptId"),function(treeNode){
+			way.set("model.form.data.deptId",treeNode.id);
+			way.set("model.form.data.deptName",treeNode.name);
+			$("#data-form").data('bootstrapValidator').updateStatus('deptName', 'VALID');
+			return true;
+		},function(){
+			way.set("model.form.data.deptId",null);
+			way.set("model.form.data.deptName",null);
+			$("#data-form").data('bootstrapValidator').updateStatus('deptName', 'INVALID');
+		});
 	});
 	// 添加
 	$("#add").click(function() {
@@ -94,6 +136,14 @@ $(function() {
 			model.setFormTitle("<i class='fa fa-edit'>编辑</i>");
 			$("#form-panel").modal('toggle');
 		}
+	});
+	//设置状态
+	$("body").on("click", ".setStatus", function() {
+		var id = $(this).data("id");
+		var id = $(this).data("status");
+		$.post(model.path + "/setStatus.do",{id:id,status:status},function(respone){
+			model.tableRefresh();
+		});
 	});
 	// 删除
 	$("#delete").click(function() {
@@ -125,24 +175,58 @@ $(function() {
 		columns : [ {
 			checkbox : true
 		}, {
+			field : 'loginName',
+			title : '用户名',
+		}, 
+		{
 			field : 'name',
-			title : '名称',
+			title : '姓名',
+		},
+		{
+			field : 'deptName',
+			title : '部门',
+		},
+		{
+			field : 'mobile',
+			title : '手机号',
+		},
+		{
+			field : 'userType',
+			title : '用户类型',
 			formatter : function(value, row, index) {
-			    return "<a href='#' class='view' data-id='" + row.id + "'>" + value + "</a>"
+				return $.getDictName('sys_user_type',value);
 			}
-			
-		}, {
-			field : 'paramKey',
-			title : '键',
-		}, {
-			field : 'paramValue',
-			title : '值'
+		},
+		{
+			field : 'status',
+			title : '状态',
+			formatter : function(value, row, index) {
+				if (value == '1'){//正常
+					value = "<span class='label label-success'>启用</span>";
+				} else if (value == '0') {//禁用
+					value = "<span class='label label-danger'>禁用</span>"
+				} 
+				return value;
+			}
 		}, {
 			field : 'updateDate',
 			title : '更新时间',
 			sortName : 'update_date',
 			sortable : true,
 			order : 'desc'
-		} ]
+		},{
+			field : 'oper',
+			title : '操作',
+			formatter : function(value, row, index) {
+				var oper;
+				if (row.status == '0') {//禁用状态
+					oper = "<a  href='#' class='text-success setStatus' data-id='" + row.id  + "' data-status='1'>启用</a>";
+				} else {//正常状态
+					oper = "<a  href='#' class='text-danger setStatus' data-id='" + row.id  + "' data-status='0'>禁用</a>";
+				}
+				return oper;
+			}
+				
+		}]
 	});
 });

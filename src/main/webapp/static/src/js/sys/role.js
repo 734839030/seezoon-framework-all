@@ -1,6 +1,6 @@
 $(function() {
 	var model = {
-		path : requestPath + "/sys/role",
+		path : adminContextPath + "/sys/role",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
 			$("#data-form")[0].reset();
@@ -21,7 +21,7 @@ $(function() {
 		setFormDataById:function(id){
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.form.data",respone.data);
-				$.post(requestPath + "/sys/menu/qryByRoleId.do",{roleId:id},function(respone1){
+				$.post(adminContextPath + "/sys/menu/qryByRoleId.do",{roleId:id},function(respone1){
 					//勾选角色所拥有的菜单
 					var roleMenus = respone1.data;
 					for(var i=0; i<roleMenus.length; i++) {
@@ -34,7 +34,7 @@ $(function() {
 		menuTree:null,
 		init:function(){
 			//初始化ztree
-			$.post(requestPath + "/sys/menu/qryAll.do",function(respone){
+			$.post(adminContextPath + "/sys/menu/qryAll.do",function(respone){
 				//选择上级tree
 				model.menuTree = $.fn.zTree.init($("#menuTree"), {
 					data:{

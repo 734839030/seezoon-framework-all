@@ -1,5 +1,6 @@
 /**
  * 部门选择组件
+ * $.chooseDept('需要默认选中的treeId','点确定后的回调方法','点清清除的回调方法');
  * @param $
  * @returns
  */
@@ -24,7 +25,7 @@
 						}
 					}
 				};
-				$.post(requestPath + "/sys/dept/qryAll.do", function(respone) {
+				$.post(adminContextPath + "/sys/dept/qryAll.do", function(respone) {
 					//选择上级tree
 					$.fn.zTree.init($("#deptTree"), setting,respone.data);
 					var treeObj = $.fn.zTree.getZTreeObj("deptTree");

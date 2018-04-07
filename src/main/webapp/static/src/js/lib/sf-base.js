@@ -1,5 +1,17 @@
 //后台请求地址
 var requestPath = "${requestPath}$";
+/**
+ * admin后端应用请求接口前缀
+ */
+var adminContextPath = requestPath + "/a";
+/**
+ * 前端应用请求接口前缀
+ */
+var frontContextPath = requestPath + "/f";
+/**
+ * 公共
+ */
+var publicContextPath = requestPath + "/public"; 
 // wayjs 默认不存储localstoreage
 way.options.persistent = false;
 /**
@@ -59,51 +71,4 @@ $.ajaxSetup({
 	},
 	// 同步设置
 	//async : false
-});
-$.extend({
-	getSearchCondition : function() {
-		return way.get("model.search");
-	}
-});
-/**
- * 验证框架默认属性
- */
-$.extend($.fn.bootstrapValidator.DEFAULT_OPTIONS,{
-	excluded: [':disabled'],
-});
-// 分页表格 默认值设置
-$.extend($.fn.bootstrapTable.defaults, {
-	method : 'post',
-	striped : true,
-	pagination : true,
-	pageSize : 10,
-	paginationLoop : false,
-	pageList : [ 20, 50, 100 ],
-	sidePagination : 'server',
-	idField : 'id',
-	uniqueId : 'id',
-	singleSelect : true,
-	clickToSelect : true,
-	contentType : 'application/x-www-form-urlencoded',
-	queryParams : function(params) {
-		var param = {
-			page : this.pageNumber,
-			pageSize : this.pageSize,
-			sortField : this.sortName,
-			direction : this.sortOrder
-		}
-		var data = $.getSearchCondition();
-		$.extend(param, data);
-		return param;
-	},
-	onDblClickRow:function(row, $element, field){
-		$('#table').bootstrapTable('checkBy', {field:'id',values:[row.id]});
-		$("#edit:visible").click();
-	},
-	responseHandler : function(res) {
-		return {
-			total : res.data.total,
-			rows : res.data.list
-		};
-	},
 });

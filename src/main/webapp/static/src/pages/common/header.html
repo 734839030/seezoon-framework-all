@@ -20,6 +20,8 @@
 <link rel="stylesheet" href="/css/base.css">
 
 <script src="/plugins/jquery/jquery.min.js"></script>
+<!-- 字典工具 -->
+<script src="/js/lib/sf-dict.js"></script>
 <!--[if lt IE 9]>
 <script src="/plugins/html5/html5shiv.min.js"></script>
 <script src="/plugins/html5/respond.min.js"></script>
@@ -38,5 +40,5 @@
 </label>  
 </script>
 <script id="sf-select-temlate" type="text/x-jquery-tmpl">
-<option value="${code}">${name}</option>
+<option value="${code}" ${disabled}>${name}</option>
 </script>
