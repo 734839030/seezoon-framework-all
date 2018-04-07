@@ -3,9 +3,9 @@ package com.seezoon.framework.modules.system.service;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.seezoon.framework.common.service.CrudService;
 import com.seezoon.framework.modules.system.dao.SysMenuDao;
@@ -37,5 +37,11 @@ public class SysMenuService extends CrudService<SysMenuDao, SysMenu> {
 		for (SysMenu sysMenu : list) {
 			this.updateSelective(sysMenu);
 		}
+	}
+	public List<SysMenu> findByRoleId(String roleId){
+		if (StringUtils.isEmpty(roleId)) {
+			return this.findList(null);
+		}
+		return this.d.findByRoleId(roleId);
 	}
 }

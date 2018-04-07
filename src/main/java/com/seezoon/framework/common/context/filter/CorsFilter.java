@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * 测试时候前后端分离 在web.xml 配置
+ * @author hdf
+ * 2018年4月7日
+ */
 public class CorsFilter implements Filter {
 
 	@Override

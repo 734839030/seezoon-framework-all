@@ -28,7 +28,7 @@ public class SysDeptController extends BaseController {
 	private TreeHelper<SysDept> treeHelper = new TreeHelper<>();
 
 	@PostMapping("/qryAll.do")
-	public ResponeModel qryPage(SysDept sysDept) {
+	public ResponeModel qryAll(SysDept sysDept) {
 		sysDept.setSortField("sort");
 		sysDept.setDirection(Constants.ASC);
 		List<SysDept> list = sysDeptService.findList(sysDept);

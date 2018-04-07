@@ -33,7 +33,6 @@ public class SysParamController extends BaseController {
 
 	@RequestMapping("/get.do")
 	public ResponeModel get(@RequestParam Serializable id) {
-		System.out.println(id);
 		SysParam sysParam = sysParamService.findById(id);
 		return ResponeModel.ok(sysParam);
 	}

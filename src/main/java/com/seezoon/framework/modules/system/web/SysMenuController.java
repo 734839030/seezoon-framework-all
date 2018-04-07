@@ -2,6 +2,7 @@ package com.seezoon.framework.modules.system.web;
 
 import java.io.Serializable;
 import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.seezoon.framework.common.Constants;
 import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.utils.TreeHelper;
@@ -30,7 +30,7 @@ public class SysMenuController extends BaseController {
 	private TreeHelper<SysMenu> treeHelper = new TreeHelper<>();
 
 	@PostMapping("/qryAll.do")
-	public ResponeModel qryPage(SysMenu sysMenu) {
+	public ResponeModel qryAll(SysMenu sysMenu) {
 		sysMenu.setSortField("sort");
 		sysMenu.setDirection(Constants.ASC);
 		List<SysMenu> list = sysMenuService.findList(sysMenu);
@@ -75,5 +75,9 @@ public class SysMenuController extends BaseController {
 		//直接用list接收到的json 参数实际上是jsonObject，强转到SysMenu 会报错,下列性能不好，应该不想循环List 转化
 		sysMenuService.batchSave(JSON.parseArray(JSON.toJSONString(list), SysMenu.class));
 		return ResponeModel.ok();
+	}
+	@PostMapping("/qryByRoleId.do")
+	public ResponeModel qryMenuByRoleId(@RequestParam(required=false) String roleId) {
+		return ResponeModel.ok(sysMenuService.findByRoleId(roleId));
 	}
 }

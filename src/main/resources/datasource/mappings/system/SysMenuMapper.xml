@@ -49,6 +49,13 @@
 		order by ${sortField} ${direction}
 	</if>
   </select>
+  <select id="findByRoleId" parameterType="String" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from sys_menu m,sys_role_menu rm
+    where m.id = rm.menu_id  and rm.role_id = #{roleId}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sys_menu
     where id = #{id,jdbcType=VARCHAR}

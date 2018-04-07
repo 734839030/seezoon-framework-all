@@ -5,6 +5,7 @@ $(function() {
 			$("#data-form-ml,#data-form-cd,#data-form-an").bootstrapValidator('resetForm', true);
 			$("#data-form-ml,#data-form-cd,#data-form-an")[0].reset();
 			way.set("model.form.data",{
+				target:"main",
 				isShow:"1",
 				sort:10,
 			});

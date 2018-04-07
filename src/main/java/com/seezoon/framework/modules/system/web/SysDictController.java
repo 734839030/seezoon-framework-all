@@ -31,7 +31,6 @@ public class SysDictController extends BaseController {
 
 	@RequestMapping("/get.do")
 	public ResponeModel get(@RequestParam Serializable id) {
-		System.out.println(id);
 		SysDict sysDict = sysDictService.findById(id);
 		return ResponeModel.ok(sysDict);
 	}
