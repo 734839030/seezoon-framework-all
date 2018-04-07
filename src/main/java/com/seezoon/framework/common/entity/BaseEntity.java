@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * 主键默认支持String 和 Long
+ * 
  * @author hdf
  * 2018年3月31日
  * @param <PK>
