@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 单元测试父类
@@ -14,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  */
 @RunWith(SpringJUnit4ClassRunner.class) // 使用junit4进行测试
 @ContextConfiguration(locations = {"classpath*:/spring-mvc.xml", "classpath*:spring-context*.xml" }) // 初始化core
+@Transactional(rollbackFor=Exception.class)
 @WebAppConfiguration
 public class BaseJunitTest {
 	/**

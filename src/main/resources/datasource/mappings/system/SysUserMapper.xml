@@ -61,6 +61,15 @@
     delete from sys_user
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteUserRoleByUserId" parameterType="java.lang.String">
+		delete from sys_user_role where user_id= #{userId}
+	</delete>
+  <insert id="insertUserRole" parameterType="java.util.List">
+		insert into sys_user_role (user_id, role_id) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.userId,jdbcType=VARCHAR}, #{item.roleId,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
   <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysUser" >
     insert into sys_user (id, dept_id, login_name, 
       password, salt, name, 

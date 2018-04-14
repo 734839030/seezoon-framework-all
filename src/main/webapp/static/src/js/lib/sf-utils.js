@@ -1,4 +1,5 @@
 $(function(){
+	
 	/**
 	 * 字典列表与code转汉字
 	 */
@@ -51,6 +52,21 @@ $(function(){
 					}
 					return map[value];
 				}
+			}
+		},
+		//checkBox 反选
+		/**
+		 * 节点，选中值
+		 */
+		checkBoxCheck($input,array){
+			if (array) {
+				$.each($input,function(i,v){
+					if (-1 != $.inArray($(v).val(),array)) {
+						$(v).attr("checked","checked");
+					} else {
+						$(v).removeAttr("checked");
+					}
+				})
 			}
 		}
 	});

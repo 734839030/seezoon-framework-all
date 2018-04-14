@@ -1,8 +1,6 @@
 package com.seezoon.framework.modules.system.web;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -30,7 +28,11 @@ public class SysRoleController extends BaseController {
 		PageInfo<SysRole> page = sysRoleService.findByPage(sysRole, sysRole.getPage(), sysRole.getPageSize());
 		return ResponeModel.ok(page);
 	}
-
+	@PostMapping("/qryAll.do")
+	public ResponeModel qryAll() {
+		return ResponeModel.ok(this.sysRoleService.findList(null));
+	}
+	
 	@RequestMapping("/get.do")
 	public ResponeModel get(@RequestParam Serializable id) {
 		SysRole sysRole = sysRoleService.findById(id);

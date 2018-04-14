@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.seezoon.framework.common.Constants;
 import com.seezoon.framework.common.service.CrudService;
 import com.seezoon.framework.modules.system.dao.SysMenuDao;
 import com.seezoon.framework.modules.system.entity.SysMenu;
@@ -22,13 +23,15 @@ public class SysMenuService extends CrudService<SysMenuDao, SysMenu> {
 	}
 	@Override
 	public int deleteById(Serializable id) {
-		//删除下级部门
+		//删除下级菜单
 		SysMenu sysMenu = this.findById(id);
 		Assert.notNull(sysMenu,"菜单为空");
 		List<SysMenu> list = this.findByParentIds(sysMenu.getParentIds() + sysMenu.getId());
-		for (SysMenu sDept : list) {
-			super.deleteById(sDept.getId());
+		for (SysMenu smenu : list) {
+			this.d.deleteRoleMenuByMenuId(smenu.getId());
+			super.deleteById(smenu.getId());
 		}
+		this.d.deleteRoleMenuByMenuId(id);
 		return super.deleteById(id);
 	}
 	
@@ -44,4 +47,16 @@ public class SysMenuService extends CrudService<SysMenuDao, SysMenu> {
 		}
 		return this.d.findByRoleId(roleId);
 	}
+	public List<SysMenu> findShowMenuByUserId(String userId){
+		Assert.hasLength(userId,"userId为空");
+		return this.d.findByUserId(userId);
+	}
+	
+	public List<SysMenu> findShowMenuAll(){
+		SysMenu menu = new SysMenu();
+		menu.setIsShow(Constants.YES);
+		menu.setSortField("sort");
+		menu.setDirection(Constants.ASC);
+		return this.findList(menu);
+	} 
 }

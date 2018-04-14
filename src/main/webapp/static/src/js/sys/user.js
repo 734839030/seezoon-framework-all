@@ -18,15 +18,32 @@ $(function() {
 		tableRefresh : function() {
 			$('#table').bootstrapTable("refresh");
 		},
-		setFormDataById:function(id){
+		setFormDataById:function(id,callback){
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.form.data",respone.data);
+				if (callback) {
+					callback(respone.data);
+				}
 			})
+		},
+		init:function(){
+			//渲染角色
+			$.post(adminContextPath + "/sys/role/qryAll.do",function(respone){
+				$("#roles-temlate").tmpl(respone.data).appendTo($("#roles"));
+			});
 		}
 	};
+	model.init();
 	// 校验
 	$("#data-form").bootstrapValidator({
 		fields:{
+			roleIds:{
+				validators:{
+					required:{
+						message:'角色必选',
+					}
+				}
+			},
 			password:{
 				validators:{
 					identical:{
@@ -41,7 +58,7 @@ $(function() {
 						message:'新用户必须填密码',
 						callback:function(value, validator){//框架验证完回调
 							//修改不做处理，新增value 为空即为false
-							return model.getFormData().id?true:value;
+							return model.getFormData().id?true:$.trim(value) != '';
 						}
 					}
 				}
@@ -60,7 +77,7 @@ $(function() {
 						message:'新用户必须填密码',
 						callback:function(value, validator){//框架验证完回调
 							//修改不做处理，新增value 为空即为false
-							return model.getFormData().id?true:value;
+							return model.getFormData().id?true:$.trim(value)!='';
 						}
 					}
 				}
@@ -87,6 +104,12 @@ $(function() {
 		}
 	}).on("success.form.bv", function(e) {// 提交
 		e.preventDefault();
+		//请选择角色
+		if ($("input[name='roleIds']:checked").length == 0) {
+			layer.msg("请勾选角色");
+			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
+			return false;
+		}
 		var id = model.getFormData().id;
 		var optUrl = model.path + "/save.do";
 		if (id) {
@@ -131,7 +154,9 @@ $(function() {
 			layer.msg("请选择一行");
 		} else {
 			model.resetDataForm();
-			model.setFormDataById(rows[0].id);
+			model.setFormDataById(rows[0].id,function(data){
+				$.checkBoxCheck($("input[name='roleIds']"),data.roleIds);
+			});
 			model.setFormTitle("<i class='fa fa-edit'>编辑</i>");
 			$("#form-panel").modal('toggle');
 		}

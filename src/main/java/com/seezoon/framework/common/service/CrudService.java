@@ -75,9 +75,10 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 	public int deleteById(Serializable id) {
 		Assert.notNull(id,"id为空");
 		Assert.hasLength(id.toString(),"id为空");
-//		if (t.isNeedBak()) {
-//			this.saveBak(t.getId());
-//		}
+		T t = this.findById(id);
+		if (t.isNeedBak()) {
+			this.saveBak(t);
+		}
 		return d.deleteByPrimaryKey(id);
 	}
 
@@ -109,8 +110,23 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 		PageInfo<T> pageInfo = new PageInfo<T>(list);
 		return pageInfo;
 	}
-	
-	private int saveBak(Serializable id) {
-		return d.insertBak(this.findById(id));
+	/**
+	 * 备份数据
+	 * @param id
+	 * @return
+	 */
+	public int saveBak(Serializable id) {
+		return this.saveBak(this.findById(id));
+	}
+	/**
+	 * 备份数据
+	 * @param t
+	 * @return
+	 */
+	public int saveBak(T t) {
+		if (null == t) {
+			return 0;
+		}
+		return this.d.insertBak(t);
 	}
 }

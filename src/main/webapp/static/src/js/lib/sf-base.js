@@ -58,6 +58,13 @@ $.ajaxSetup({
 	crossDomain:true,
 	statusCode : {
 		310 :function(){//未登录
+			if  (window.location.href.indexOf("/login.html") ==-1) {
+				if (self != top) {
+					window.top.location.href='/pages/login.html';
+				} else {
+					window.location.href='/pages/login.html';
+				}
+			}
 		},
 		311 :function(){
 			layer.msg("未授权，请联系管理员");

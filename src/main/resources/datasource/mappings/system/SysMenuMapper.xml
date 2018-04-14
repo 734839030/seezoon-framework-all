@@ -37,6 +37,9 @@
     		<if test="parentId !=null and parentId!=''">
     			parent_id = #{parentId,jdbcType=VARCHAR}
     		</if>
+    		<if test="isShow !=null and isShow!=''">
+    			is_show = #{isShow,jdbcType=VARCHAR}
+    		</if>
     		<if test="parentIds !=null and parentIds!=''">
     			and parent_ids like concat(#{parentIds},'%')
     		</if>
@@ -55,7 +58,17 @@
     from sys_menu m,sys_role_menu rm
     where m.id = rm.menu_id  and rm.role_id = #{roleId}
   </select>
-  
+  <select id="findByUserId" parameterType="String" resultMap="BaseResultMap">
+   select 
+    distinct <include refid="Base_Column_List" />
+    from sys_menu m,sys_role_menu rm ,sys_user_role ur
+    where ur.user_id = #{userId} and ur.role_id = rm.role_id and rm.menu_id = m.id   and is_show = '1'
+    order by sort asc
+  </select>
+  <delete id="deleteRoleMenuByMenuId" parameterType="java.lang.String" >
+    delete from sys_role_menu
+    where menu_id = #{menuId,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sys_menu
     where id = #{id,jdbcType=VARCHAR}

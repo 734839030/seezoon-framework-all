@@ -18,4 +18,6 @@
 	</context:component-scan>
 	
 	<import resource="classpath*:datasource/spring-context-jdbc.xml" /> 
+	<import resource="classpath*:redis/spring-context-redis-single.xml" /> 
+	
 </beans> 

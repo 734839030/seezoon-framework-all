@@ -20,14 +20,14 @@ $(function() {
 		tableRefresh : function() {
 			$('#table').bootstrapTable("refresh");
 		},
-		setFormDataById:function(id){
-			//下面需要直接取 所以不能异步
-			$.ajaxSetup({async : false});
+		setFormDataById:function(id,callback){
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.form.data",respone.data);
 				model.setParent(respone.data.parentId);
+				if (callback){
+					callback(respone.data);
+				}
 			})
-			$.ajaxSetup({async : true});
 		},
 		setParent:function(parentId){
 			if (parentId && parentId !='0') {
@@ -122,6 +122,7 @@ $(function() {
 	$("#add").click(function() {
 		model.resetDataForm();
 		model.setFormTitle("<i class='fa fa-plus'>添加</i>");
+		$('#myTabs a[href="#tab_ml"]').tab('show');
 		//编辑后的再点添加需要移除之前的状态
 		//$("#myTabs a").attr("data-toggle","tab").parent().removeClass("disabled").eq(0).tab("show");
 		$("#form-panel").modal('toggle');
@@ -131,6 +132,7 @@ $(function() {
 		model.resetDataForm();
 		model.setParent($(this).data("id"));
 		model.setFormTitle("<i class='fa fa-plus'>添加</i>");
+		$('#myTabs a[href="#tab_cd"]').tab('show');
 		$("#form-panel").modal('toggle');
 	});
 	// 编辑
@@ -140,22 +142,23 @@ $(function() {
 			layer.msg("请选择一行");
 		} else {
 			model.resetDataForm();
-			model.setFormDataById(rows[0].id);
 			model.setFormTitle("<i class='fa fa-edit'>编辑</i>");
-			//选中tab
-			var type = model.getFormData().type;
-			var icon = model.getFormData().icon;
-			$(".icon").addClass(icon);
-			//禁用其他
-			//$("#myTabs a").removeAttr("data-toggle").parent().addClass("disabled");
-			//$('#myTabs a[href="#tab_ml"]').attr("data-toggle","tab").tab('show').parent().removeClass("disabled");
-			if (type == '0') {//目录
-				$('#myTabs a[href="#tab_ml"]').tab('show');
-			} else if (type == '1') {//菜单
-				$('#myTabs a[href="#tab_cd"]').tab('show');
-			} else if (type == '2') {//按钮
-				$('#myTabs a[href="#tab_an"]').tab('show');
-			}
+			model.setFormDataById(rows[0].id,function(data){
+				//选中tab
+				var type = data.type;
+				var icon = data.icon;
+				$(".icon").addClass(icon);
+				//禁用其他
+				//$("#myTabs a").removeAttr("data-toggle").parent().addClass("disabled");
+				//$('#myTabs a[href="#tab_ml"]').attr("data-toggle","tab").tab('show').parent().removeClass("disabled");
+				if (type == '0') {//目录
+					$('#myTabs a[href="#tab_ml"]').tab('show');
+				} else if (type == '1') {//菜单
+					$('#myTabs a[href="#tab_cd"]').tab('show');
+				} else if (type == '2') {//按钮
+					$('#myTabs a[href="#tab_an"]').tab('show');
+				}
+			});
 			$("#form-panel").modal('toggle');
 		}
 	});
