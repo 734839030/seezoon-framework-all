@@ -28,7 +28,6 @@ public class SeezoonFastJsonHttpMessageConverter extends FastJsonHttpMessageConv
 	@Override
 	protected void writeInternal(Object obj, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
-		logger.info(JSON.toJSONString(obj));
 		if (null != obj && obj instanceof ResponeModel) {
 			ResponeModel responeModel = (ResponeModel) obj;
 			String responeCode = responeModel.getResponeCode();

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
 import com.seezoon.framework.common.context.beans.ResponeModel;
+import com.seezoon.framework.common.utils.BtRemoteValidateResult;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.entity.SysParam;
 import com.seezoon.framework.modules.system.service.SysParamService;
@@ -56,11 +57,9 @@ public class SysParamController extends BaseController {
 	}
 	
 	@PostMapping("/checkParamKey.do")
-	public Map<String,Object> checkParamKey(@RequestParam(required=false) String id,@RequestParam  String paramKey){
-		Map<String,Object> result = new HashMap<>();
+	public BtRemoteValidateResult checkParamKey(@RequestParam(required=false) String id,@RequestParam  String paramKey){
 		SysParam sysParam = sysParamService.findByParamKey(paramKey.trim());
-		result.put("valid", sysParam == null || sysParam.getId().equals(id));
-		return result;
+		return BtRemoteValidateResult.valid(sysParam == null || sysParam.getId().equals(id));
 	}
 	
 }

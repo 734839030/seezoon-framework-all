@@ -37,13 +37,6 @@ $(function() {
 	// 校验
 	$("#data-form").bootstrapValidator({
 		fields:{
-			roleIds:{
-				validators:{
-					required:{
-						message:'角色必选',
-					}
-				}
-			},
 			password:{
 				validators:{
 					identical:{

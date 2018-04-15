@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.seezoon.framework.common.context.beans.ResponeModel;
+import com.seezoon.framework.common.utils.BtRemoteValidateResult;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.entity.SysRole;
 import com.seezoon.framework.modules.system.entity.SysUser;
@@ -65,7 +66,7 @@ public class SysUserController extends BaseController {
 	public ResponeModel update(@Validated SysUser sysUser, BindingResult bindingResult) {
 		//密码为空则不更新
 		sysUser.setPassword(StringUtils.trimToNull(sysUser.getPassword()));
-		int cnt = sysUserService.updateSelective(sysUser);
+		int cnt = sysUserService.updateUserRoleSelective(sysUser);
 		return ResponeModel.ok(cnt);
 	}
 
@@ -76,15 +77,13 @@ public class SysUserController extends BaseController {
 	}
 	
 	@PostMapping("/checkLoginName.do")
-	public Map<String,Object> checkLoginName(@RequestParam(required=false) String id,@RequestParam  String loginName){
-		Map<String,Object> result = new HashMap<>();
+	public BtRemoteValidateResult checkLoginName(@RequestParam(required=false) String id,@RequestParam  String loginName){
 		if(StringUtils.isEmpty(loginName)) {
-			result.put("valid",Boolean.TRUE);
+			return BtRemoteValidateResult.valid(Boolean.TRUE);
 		} else {
 			SysUser sysUser = sysUserService.findByLoginName(loginName);
-			result.put("valid", sysUser == null || sysUser.getId().equals(id));
+			return BtRemoteValidateResult.valid(sysUser == null || sysUser.getId().equals(id));
 		}
-		return result;
 	}
 	
 	@PostMapping("/setStatus.do")

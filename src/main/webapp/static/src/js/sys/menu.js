@@ -309,7 +309,7 @@ $(function() {
 			field : 'oper',
 			title : '操作',
 			formatter : function(value, row, index) {
-				var oper =  "<a  href='#' class='text-success addMenu'  data-id='" + row.id+ "' >添加下级菜单</a>";
+				var oper =  "<a  href='#' class='text-success addMenu'  data-id='" + row.id+ "' >添加下级</a>";
 				return oper;
 			}
 		}]

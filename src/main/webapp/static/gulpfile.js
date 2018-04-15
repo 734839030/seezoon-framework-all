@@ -1,4 +1,4 @@
-//npm install gulp gulp-file-include del express gulp-replace
+//npm install gulp gulp-file-include del express gulp-replace -g
 var gulp = require('gulp');
 var fileinclude  = require('gulp-file-include');
 var replace = require('gulp-replace');

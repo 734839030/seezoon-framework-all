@@ -28,22 +28,27 @@ public class SysUserService extends CrudService<SysUserDao, SysUser> {
 	@Override
 	public int save(SysUser t) {
 		//处理密码
-		//sha256加密
-		String salt = RandomStringUtils.randomAlphanumeric(20);
-		t.setSalt(salt);
-		t.setPassword(ShiroUtils.sha256(t.getPassword(), t.getSalt()));
+		t.setPassword(encryptPwd(t.getPassword(), null));
 		int cnt = super.save(t);
 		// 插入角色
 		this.saveUserRole(t.getRoleIds(), t.getId());
 		return cnt;
 	}
-
 	@Override
 	public int updateSelective(SysUser t) {
 		if (StringUtils.isNotEmpty(t.getPassword())) {
 			SysUser sysUser = this.findById(t.getId());
 			Assert.notNull(sysUser,"用户不存在");
-			t.setPassword(ShiroUtils.sha256(t.getPassword(), sysUser.getSalt()));
+			t.setPassword(encryptPwd(t.getPassword(), sysUser.getSalt()));
+		}
+		int cnt = super.updateSelective(t);
+		return cnt;
+	}
+	public int updateUserRoleSelective(SysUser t) {
+		if (StringUtils.isNotEmpty(t.getPassword())) {
+			SysUser sysUser = this.findById(t.getId());
+			Assert.notNull(sysUser,"用户不存在");
+			t.setPassword(encryptPwd(t.getPassword(), sysUser.getSalt()));
 		}
 		int cnt = super.updateSelective(t);
 		// 删除user关联的所有role
@@ -62,5 +67,20 @@ public class SysUserService extends CrudService<SysUserDao, SysUser> {
 			return this.d.insertUserRole(userRoleList);
 		}
 		return 0;
+	}
+	public String encryptPwd(String password,String salt) {
+		Assert.hasLength(password,"密码为空");
+		if (StringUtils.isEmpty(salt)) {
+			//sha256加密
+			salt = RandomStringUtils.randomAlphanumeric(20);
+		}
+		return ShiroUtils.sha256(password, salt);
+	}
+	public boolean validatePwd(String password,String userId) {
+		Assert.hasLength(password,"密码为空");
+		Assert.hasLength(userId,"用户id为空");
+		SysUser user = this.findById(userId);
+		Assert.notNull(user,"用户不存在");
+		return user.getPassword().equals(ShiroUtils.sha256(password, user.getSalt()));
 	}
 }
