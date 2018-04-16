@@ -31,8 +31,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 			super.onAccessDenied(request, response);
 			return true;
 		} else {
-			String userId = ShiroUtils.getUserId();
-			System.out.println(userId);
+			//String userId = ShiroUtils.getUserId();
 			HttpServletResponse res = (HttpServletResponse)response;
 			HttpServletRequest req = (HttpServletRequest)request;
 			String method = req.getMethod();

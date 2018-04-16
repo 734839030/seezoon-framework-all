@@ -38,22 +38,17 @@
 			<ref bean="shiroFilterChainDefinitions" />
 		</property>
 	</bean>
-
-	<bean id="userRealm" class="com.seezoon.framework.modules.system.shiro.UserRealm">
-		<!-- 开启权限数据缓存  -->
-		<property name="authorizationCachingEnabled" value="true"></property>
-		<property name="authorizationCacheName" value="authorizationCache"></property>
-	</bean>
-	<bean id="redisManager" class="org.crazycake.shiro.RedisManager">
-		<property name="host" value="${redis.host}" />
-		<property name="port" value="${redis.port}" />
-		<property name="jedisPoolConfig" ref="shiroJedisPoolConfig" />
-	</bean>
 	<!-- Jedis 连接池配置 -->
 	<bean id="shiroJedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
 		<property name="maxIdle" value="${redis.maxIdle}" />
 		<property name="maxTotal" value="${redis.maxTotal}" />
+	</bean>
+
+	<bean id="redisManager" class="org.crazycake.shiro.RedisManager">
+		<property name="host" value="${redis.host}" />
+		<property name="port" value="${redis.port}" />
+		<property name="jedisPoolConfig" ref="shiroJedisPoolConfig" />
 	</bean>
 	<bean id="redisSessionDAO" class="org.crazycake.shiro.RedisSessionDAO">
 		<property name="redisManager" ref="redisManager" />
@@ -74,11 +69,15 @@
 		<property name="sessionDAO" ref="redisSessionDAO" />
 	</bean>
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-		<!-- <property name="name" value="seezoon.sessionId"></property> -->
+		<property name="name" value="seezoon.sessionId"></property>
 		<property name="path" value="/"></property>
 		<property name="domain" value="${admin.session.domain}"></property>
 	</bean>
-
+	<bean id="userRealm" class="com.seezoon.framework.modules.system.shiro.UserRealm">
+		<!-- 开启权限数据缓存  -->
+		<property name="authorizationCachingEnabled" value="true"></property>
+		<property name="authorizationCacheName" value="authorizationCache"></property>
+	</bean>
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="sessionManager" ref="sessionManager" />
 		<property name="cacheManager" ref="cacheManager" />

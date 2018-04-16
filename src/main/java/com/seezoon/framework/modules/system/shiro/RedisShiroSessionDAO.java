@@ -11,10 +11,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 /**
- * shiro session dao
+ * shiro session dao 采用 shiro-redis 代替了
  * @author hdf
  * 2018年4月15日
  */
+@Deprecated
 @Component
 public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
     @Autowired
