@@ -27,8 +27,10 @@ public class SysUserService extends CrudService<SysUserDao, SysUser> {
 
 	@Override
 	public int save(SysUser t) {
+		String salt = RandomStringUtils.randomAlphanumeric(20);
+		t.setSalt(salt);
 		//处理密码
-		t.setPassword(encryptPwd(t.getPassword(), null));
+		t.setPassword(encryptPwd(t.getPassword(), salt));
 		int cnt = super.save(t);
 		// 插入角色
 		this.saveUserRole(t.getRoleIds(), t.getId());
@@ -70,10 +72,7 @@ public class SysUserService extends CrudService<SysUserDao, SysUser> {
 	}
 	public String encryptPwd(String password,String salt) {
 		Assert.hasLength(password,"密码为空");
-		if (StringUtils.isEmpty(salt)) {
-			//sha256加密
-			salt = RandomStringUtils.randomAlphanumeric(20);
-		}
+		Assert.hasLength(salt,"盐为空");
 		return ShiroUtils.sha256(password, salt);
 	}
 	public boolean validatePwd(String password,String userId) {

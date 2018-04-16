@@ -42,7 +42,7 @@ public class UserRealm extends AuthorizingRealm {
 	private SysUserService sysUserService;
     
 	/**
-	 * 授权(验证权限时调用)
+	 * 授权(验证权限时调用) 配置了和会话时间相同的缓存
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
