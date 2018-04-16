@@ -6,7 +6,7 @@
 	<div class="wrapper">
 		<header class="main-header">
 			<a href="#" class="logo"> <span class="logo-mini"><b>上征</b></span>
-				<span class="logo-lg"><b>上征快速开发平台</b>V1.0</span>
+				<span class="logo-lg"><b>上征快速开发平台</b></span>
 			</a>
 			<nav class="navbar navbar-static-top" role="navigation">
 				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
@@ -17,12 +17,12 @@
 						<!-- User Account Menu -->
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
-								src="/img/default.jpg" class="user-image userImage"
+								src="/img/default.jpg" class="user-image user-photo"
 								alt="User Image"> <span class="hidden-xs" id="userName"></span>
 						</a>
 							<ul class="dropdown-menu">
 								<li class="user-header"><img src="/img/default.jpg"
-									class="img-circle userImage" alt="User Image">
+									class="img-circle user-photo" alt="User Image">
 									<p>
 										<span id="loginName"></span> <small>上次登录2017.12.1212:12</small>
 										<small>登录ip 127.0.0.1</small>
@@ -69,14 +69,15 @@
 							<div class="row">
 								<div class="col-md-3">
 									<p>
-										<img src="/img/default.jpg" class="img-circle"
+										<img src="" class="img-circle" way-data="photoFullUrl" way-default="/img/default.jpg"
 											alt="User Image" style="height: 100px; width: 100px;">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-red">100*100</small>
 									</p>
 									<p>
 										<input type="hidden" name="photo" way-data="photo">
 										&nbsp;&nbsp;&nbsp;<label for="userImageUpload"
 											class="btn btn-default"><i class="fa fa-cloud-upload"></i>
-											更换</label> <input type="file" name="files" id="userImageUpload"
+											更换</label> <input type="file" name="file" id="userImageUpload"
 											accept="image/*" style="display: none;">
 									</p>
 								</div>
@@ -173,6 +174,7 @@
 		<div class="control-sidebar-bg"></div>
 	</div>
 	@@include('common/common-js.html')
+	@@include('common/file.html')
 	<script src="/js/index.js"></script>
 </body>
 </html>

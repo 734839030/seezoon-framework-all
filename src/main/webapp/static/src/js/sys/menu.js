@@ -3,7 +3,7 @@ $(function() {
 		path : adminContextPath + "/sys/menu",
 		resetDataForm : function() {
 			$("#data-form-ml,#data-form-cd,#data-form-an").bootstrapValidator('resetForm', true);
-			$("#data-form-ml,#data-form-cd,#data-form-an")[0].reset();
+			$(".icon").attr("class","icon");
 			way.set("model.form.data",{
 				target:"main",
 				isShow:"1",
@@ -192,6 +192,9 @@ $(function() {
 		pagination:false,
 		queryParams:function(){
 			return {name:way.get("model.search.name")};
+		},
+		onDblClickRow:function(){
+			//do nothing
 		},
 		responseHandler : function(res) {
 			return {

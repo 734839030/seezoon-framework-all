@@ -1,5 +1,6 @@
 $(function(){
 	$.extend({
+		//有些控件无数把数据绑定到way中，如bootstarpdate icheck select，需要覆盖此方法
 		getSearchCondition : function() {
 			return way.get("model.search");
 		}
@@ -21,6 +22,8 @@ $(function(){
 		sidePagination : 'server',
 		idField : 'id',
 		uniqueId : 'id',
+		//sortName:'update_date', 默认顺序
+		//sortOrder:'desc',
 		singleSelect : true,
 		clickToSelect : true,
 		contentType : 'application/x-www-form-urlencoded',
@@ -40,10 +43,14 @@ $(function(){
 			$("#edit:visible").click();
 		},
 		responseHandler : function(res) {
-			return {
-				total : res.data.total,
-				rows : res.data.list
-			};
+			if (res.data) {
+				return {
+					total : res.data.total,
+					rows : res.data.list
+				};
+			} else {
+				return {};
+			}
 		},
 	});
 });

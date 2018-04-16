@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.seezoon.framework.common.context.beans.ResponeModel;
+import com.seezoon.framework.common.file.FileHandlerFactory;
 import com.seezoon.framework.common.utils.BtRemoteValidateResult;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.entity.SysRole;
@@ -46,6 +47,7 @@ public class SysUserController extends BaseController {
 	public ResponeModel get(@RequestParam Serializable id) {
 		SysUser sysUser = sysUserService.findById(id);
 		Assert.notNull(sysUser,"用户不存在");
+		sysUser.setPhotoFullUrl(FileHandlerFactory.getFullUrl(sysUser.getPhoto()));
 		//用户所拥有的角色
 		List<SysRole> roleList = sysRoleService.findByUserId(sysUser.getId());
 		List<String> roleIds = Lists.newArrayList();

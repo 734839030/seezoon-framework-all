@@ -7,7 +7,8 @@
 <label class="checkbox-inline">
 	<input type="checkbox" required name="roleIds" value="${id}">${name}
 </label>  
-</script></head>
+</script>
+</head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 		<div class="content-wrapper ml0">
@@ -21,7 +22,7 @@
 			<section class="content container-fluid">
 				<div class="box box-primary">
 					<div class="box-body">
-						<form class="form-inline" way-data="model.search">
+						<form class="form-inline" way-scope="model.search">
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="登录名"
 									name="loginName" way-data="loginName" maxlength="50">
@@ -32,10 +33,10 @@
 							</div>
 							<div class="form-group">
 								<select class="form-control" name="status" way-data="status">
-										<option value="">请选择状态</option>
-										<option value="1">正常</option>
-										<option value="0">禁用</option>
-									</select>
+									<option value="">请选择状态</option>
+									<option value="1">正常</option>
+									<option value="0">禁用</option>
+								</select>
 							</div>
 							<button type="button" class="btn btn-default" id="search">
 								<i class="fa fa-search"></i>
@@ -76,97 +77,113 @@
 				</div>
 				<form class="form-horizontal" way-scope="data" id="data-form">
 					<div class="modal-body">
-						<input type="hidden" way-data="id" name="id">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">上级部门<font
-								class="text-red">*</font></label>
-							<div class="col-sm-5">
-								<input type="hidden" way-data="deptId" name="deptId">
-								<input type="text" class="form-control" way-data="deptName" required
-									id="dept-input" name="deptName" readonly="readonly">
+						<div class="row">
+							<div class="col-md-9">
+								<input type="hidden" way-data="id" name="id">
+								<div class="form-group">
+									<label class="col-sm-3 control-label">上级部门<font
+										class="text-red">*</font></label>
+									<div class="col-sm-5">
+										<input type="hidden" way-data="deptId" name="deptId">
+										<input type="text" class="form-control" way-data="deptName"
+											required id="dept-input" name="deptName" readonly="readonly">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">姓名<font
+										class="text-red">*</font></label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="name"
+											maxlength="50" minlength="1" name="name" required
+											placeholder="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">登录名<font
+										class="text-red">*</font></label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="loginName"
+											maxlength="50" minlength="5" name="loginName" required
+											pattern="^[0-9a-zA-Z_]+$" placeholder="字母数字下划线">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">密码</label>
+									<div class="col-sm-5">
+										<input type="password" class="form-control"
+											way-data="password" maxlength="100" minlength="6"
+											name="password" placeholder="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">确认密码</label>
+									<div class="col-sm-5">
+										<input type="password" class="form-control"
+											way-data="conFirmPassword" maxlength="100" minlength="6"
+											name="conFirmPassword" placeholder="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">用户类型</label>
+									<div class="col-sm-5">
+										<select class="form-control sf-select" way-data="userType"
+											name="userType" data-sf-dict-type="sys_user_type">
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">手机号</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="mobile"
+											maxlength="50" name="mobile" placeholder="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">邮箱</label>
+									<div class="col-sm-5">
+										<input type="email" class="form-control" way-data="email"
+											maxlength="50" name="email" placeholder="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">状态<font
+										class="text-red">*</font></label>
+									<div class="col-sm-5">
+										<label class="radio-inline"> <input type="radio"
+											required way-data="status" name="status" value="1">正常
+										</label> <label class="radio-inline"> <input type="radio"
+											required way-data="status" name="status" value="0">禁用
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">角色</label>
+									<div class="col-sm-9" id="roles"></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">备注</label>
+									<div class="col-sm-9">
+										<textarea class="form-control" rows="3" way-data="remarks"
+											name="remarks" maxlength="255"></textarea>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">姓名<font
-								class="text-red">*</font></label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" way-data="name"
-									maxlength="50" minlength="1" name="name" required
-									placeholder="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">登录名<font
-								class="text-red">*</font></label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" way-data="loginName"
-									maxlength="50" minlength="5" name="loginName" required pattern="^[0-9a-zA-Z_]+$"
-									placeholder="字母数字下划线">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">密码</label>
-							<div class="col-sm-5">
-								<input type="password" class="form-control" way-data="password"
-									maxlength="100" minlength="6" name="password"
-									placeholder="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">确认密码</label>
-							<div class="col-sm-5">
-								<input type="password" class="form-control" way-data="conFirmPassword"
-									maxlength="100" minlength="6" name="conFirmPassword"  
-									placeholder="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">用户类型</label>
-							<div class="col-sm-5">
-									<select class="form-control sf-select" way-data="userType" name="userType" data-sf-dict-type="sys_user_type" >
-										<option value="">请选择</option>
-									</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">手机号</label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" way-data="mobile"
-									maxlength="50"  name="mobile" 
-									placeholder="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">邮箱</label>
-							<div class="col-sm-5">
-								<input type="email" class="form-control" way-data="email"
-									maxlength="50"  name="email"  
-									placeholder="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">状态<font
-								class="text-red">*</font></label>
-							<div class="col-sm-5">
-								<label class="radio-inline"> <input type="radio" required 
-									way-data="status" name="status" value="1">正常
-								</label>
-								<label class="radio-inline"> <input type="radio" required
-									way-data="status"  name="status" value="0">禁用
-								</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">角色<font
-								class="text-red">*</font></label>
-							<div class="col-sm-10" id="roles">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">备注</label>
-							<div class="col-sm-10">
-								<textarea class="form-control" rows="3" way-data="remarks"
-									name="remarks" maxlength="255"></textarea>
+							<div class="col-md-3">
+								<p>
+									<img src="" class="img-circle" way-data="photoFullUrl"
+										way-default="/img/default.jpg" alt="User Image"
+										style="height: 100px; width: 100px;">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small
+										class="text-red">100*100</small>
+								</p>
+								<p>
+									<input type="hidden" name="photo" way-data="photo">
+									&nbsp;&nbsp;&nbsp;<label for="userImageUpload"
+										class="btn btn-default"><i class="fa fa-cloud-upload"></i>
+										更换</label> <input type="file" name="file" id="userImageUpload"
+										accept="image/*" style="display: none;">
+								</p>
 							</div>
 						</div>
 					</div>
@@ -184,7 +201,7 @@
 		</div>
 	</div>
 	<!-- 添加与修改end -->
-	@@include('../common/common-js.html')
+	@@include('../common/common-js.html') @@include('../common/file.html')
 	<script src="/js/sys/user.js"></script>
 	<script src="/js/lib/sf-dept.js"></script>
 </body>

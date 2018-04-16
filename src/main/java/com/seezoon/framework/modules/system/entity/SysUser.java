@@ -85,7 +85,10 @@ public class SysUser extends BaseEntity<String> {
 	private List<SysMenu> menus;
 	public static final String STATUS_NORMAL = "1";
 	public static final String STATUS_STOP = "0";
-
+	/**
+	 * 图像完整路径
+	 */
+	private String photoFullUrl;
 
 	@Override
 	public boolean isNeedBak() {
@@ -194,6 +197,14 @@ public class SysUser extends BaseEntity<String> {
 
 	public void setMenus(List<SysMenu> menus) {
 		this.menus = menus;
+	}
+
+	public String getPhotoFullUrl() {
+		return photoFullUrl;
+	}
+
+	public void setPhotoFullUrl(String photoFullUrl) {
+		this.photoFullUrl = photoFullUrl;
 	}
 
 }

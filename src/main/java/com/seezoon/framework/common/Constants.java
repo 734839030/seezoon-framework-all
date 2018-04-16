@@ -11,4 +11,28 @@ public class Constants {
 	 * 系统超级管理员
 	 */
 	public static final String SUPER_ADMIN_ID = "1";
+	
+	 /**
+     * 文件存储介质
+     */
+    public enum FileStorage {
+        /**
+         * 本地
+         */
+        LOCAL("local"),
+        /**
+         * 阿里云
+         */
+        ALIYUN("aliyun");
+
+        private String value;
+
+        private FileStorage(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
 }

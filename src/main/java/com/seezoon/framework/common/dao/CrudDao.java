@@ -16,7 +16,7 @@ import com.seezoon.framework.common.entity.BaseEntity;
  * @param <T>
  *            entity
  */
-public interface CrudDao<T extends BaseEntity<String>> extends BaseDao {
+public interface CrudDao<T extends BaseEntity<?>> extends BaseDao {
 
 	public int insert(T t);
 	/**

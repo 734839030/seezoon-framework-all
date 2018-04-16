@@ -1,11 +1,14 @@
 package com.seezoon.framework.common.web;
 
 import java.beans.PropertyEditorSupport;
+import java.io.IOException;
 import java.util.Date;
 
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.WebDataBinder;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.context.exception.ExceptionCode;
@@ -31,6 +35,8 @@ public class AdviceController {
 	 * 日志对象
 	 */
 	private static Logger logger = LoggerFactory.getLogger(AdviceController.class);
+	@Value("${web.maxUploadSize}")
+	private Long maxUploadSize;
 	/**
 	 * 初始化数据绑定 1. 将所有传递进来的String进行HTML编码，防止XSS攻击 2. 将字段中Date类型转换为String类型
 	 */
@@ -75,7 +81,15 @@ public class AdviceController {
 		responeModel.setParams(new Object[] { e.getMessage() });
 		return responeModel;
 	}
-
+	
+	/**
+	 * @throws IOException 
+	 */
+	@ResponseBody
+	@ExceptionHandler({MaxUploadSizeExceededException.class,SizeLimitExceededException.class})
+	public ResponeModel maxUploadSizeExceededExceptionHandler() {
+		return ResponeModel.error("文件超过" + maxUploadSize/1024 + "KB");
+	}
 	/**
 	 * 可以细化异常，spring 从小异常抓，抓到就不往后走
 	 * 

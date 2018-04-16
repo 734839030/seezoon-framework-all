@@ -98,11 +98,11 @@ $(function() {
 	}).on("success.form.bv", function(e) {// 提交
 		e.preventDefault();
 		//请选择角色
-		if ($("input[name='roleIds']:checked").length == 0) {
-			layer.msg("请勾选角色");
-			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
-			return false;
-		}
+//		if ($("input[name='roleIds']:checked").length == 0) {
+//			layer.msg("请勾选角色");
+//			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
+//			return false;
+//		}
 		var id = model.getFormData().id;
 		var optUrl = model.path + "/save.do";
 		if (id) {
@@ -246,4 +246,29 @@ $(function() {
 				
 		}]
 	});
+	//图像上传
+	 $('#userImageUpload').fileupload({
+		 url:adminContextPath + "/file/uploadImage.do",
+		 type:'POST',
+		 formData:null,
+		 change: function (e, data) {
+			 var file = data.files[0];
+		    if (file.size > 2 * 1024 * 1024) {
+		    		layer.msg(file.name + " 文件大小超过2M,请重新选择");
+		    		return false;
+		    }
+		  // 开头为image/
+			var reg = /^image\//
+		    if (!reg.test(file.type)) {
+			    	layer.msg(file.name + " 不是图片格式");
+		    		return false;
+		    }
+		  },
+		 done: function (e, response) {//设置文件上传完毕事件的回调函数 
+			 if (response.result.responeCode == '0') {
+				 way.set("model.form.data.photo",response.result.data.relativePath);
+				 way.set("model.form.data.photoFullUrl",response.result.data.fullUrl);
+			 } 
+       }, 
+	 });
 });

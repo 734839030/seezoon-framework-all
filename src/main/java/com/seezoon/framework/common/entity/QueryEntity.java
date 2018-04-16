@@ -39,6 +39,9 @@ public class QueryEntity {
 	 * @return
 	 */
 	public Map<String, Object> addProperty(String key, Object value) {
+		if (null == value) {
+			return ext;
+		}
 		if (ext == null) {
 			ext = new HashMap<>(1);
 		}

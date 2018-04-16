@@ -58,7 +58,7 @@ $(function(){
 		/**
 		 * 节点，选中值
 		 */
-		checkBoxCheck($input,array){
+		checkBoxCheck:function($input,array){
 			if (array) {
 				$.each($input,function(i,v){
 					if (-1 != $.inArray($(v).val(),array)) {
@@ -116,6 +116,15 @@ $(function(){
 				}
 			});
 		}
-		$("#sf-select-temlate").tmpl(dictList).appendTo(this);
+	 $("#sf-select-temlate").tmpl(dictList).appendTo(this);
 	});
-})
+	//日期控件
+	 $(".date").attr("readonly","readonly");
+	 $(".date").datepicker({
+		    format: 'yyyy-mm-dd',
+		    language:'zh-CN',
+		    clearBtn:true,
+		    autoclose:true,
+		    todayHighlight:true
+		});
+});

@@ -43,12 +43,18 @@ $(function() {
 				callback(data);
 		    });
 		},
-		resetFormValidateStatus:function() {
+		resetForm:function() {
+			//false 表示不清除数据
 			$("#data-form,#passoword-form").bootstrapValidator('resetForm', false);
+			$("#passoword-form")[0].reset();
 		},
 		//设置个人中心数据
 		setFormData:function(data){
 			way.set("model.form.data",data);
+		},
+		getFormData : function() {
+			var data =  way.get("model.form.data");
+			return data?data:{};
 		},
 		userCenterLayerIndex:0,
 		init:function(){
@@ -65,10 +71,12 @@ $(function() {
 			//右上角
 			model.getUserInfo(function(data){
 				if (data) {
+					if (data.photoFullUrl) {
+						$(".user-photo").attr("src",data.photoFullUrl);
+					}
 					$("#userName").text(data.name);
 					$("#loginName").text(data.loginName + "[" + data.deptName + "]");
 				}
-				model.setFormData(data);
 			});
 		}
 	}
@@ -89,8 +97,11 @@ $(function() {
 	});
 	//个人中心
 	$("#user-center").click(function(){
-		model.resetFormValidateStatus();
+		model.resetForm();
 		$('#user-center-tabs a[href="#tab_info"]').tab('show');
+		model.getUserInfo(function(data){
+			model.setFormData(data);
+		});
 		//个人中心
 		model.userCenterLayerIndex = layer.open({
 		 	  title:'个人中心',
@@ -107,6 +118,12 @@ $(function() {
 		e.preventDefault();
 		$.post(model.path + "/updateInfo.do", $("#data-form").serialize(), function(respone) {
 			if (respone.responeCode == '0') {
+				var photoFullUrl = model.getFormData().photoFullUrl;
+				//如果图像存在
+				if (photoFullUrl) {
+					$(".user-photo").attr("src",photoFullUrl);
+				};
+				$("#userName").text(model.getFormData().name);
 				layer.msg("保存成功");
 				layer.close(model.userCenterLayerIndex);
 			}
@@ -149,8 +166,33 @@ $(function() {
 			if (respone.responeCode == '0') {
 				layer.msg("保存成功");
 				layer.close(model.userCenterLayerIndex);
-				$("#passoword-form")[0].reset();
 			}
 		});
 	});
+	//图像上传
+	 $('#userImageUpload').fileupload({
+		 url:adminContextPath + "/file/uploadImage.do",
+		 type:'POST',
+		 formData:null,
+		 change: function (e, data) {
+			 var file = data.files[0];
+		    if (file.size > 2 * 1024 * 1024) {
+		    		layer.msg(file.name + " 文件大小超过2M,请重新选择");
+		    		return false;
+		    }
+		  // 开头为image/
+			var reg = /^image\//
+		    if (!reg.test(file.type)) {
+			    	layer.msg(file.name + " 不是图片格式");
+		    		return false;
+		    }
+		  },
+		 done: function (e, response) {//设置文件上传完毕事件的回调函数 
+			 if (response.result.responeCode == '0') {
+				// layer.msg(response.result.data.originalFilename + " 上传成功");
+				 way.set("model.form.data.photo",response.result.data.relativePath);
+				 way.set("model.form.data.photoFullUrl",response.result.data.fullUrl);
+			 } 
+        }, 
+	 });
 });
