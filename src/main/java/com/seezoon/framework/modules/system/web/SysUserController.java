@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -37,12 +38,13 @@ public class SysUserController extends BaseController {
 	@Autowired
 	private SysRoleService sysRoleService;
 
+	@RequiresPermissions("sys:user:qry")
 	@PostMapping("/qryPage.do")
 	public ResponeModel qryPage(SysUser sysUser,HttpServletRequest request) {
 		PageInfo<SysUser> page = sysUserService.findByPage(sysUser, sysUser.getPage(), sysUser.getPageSize());
 		return ResponeModel.ok(page);
 	}
-
+	@RequiresPermissions("sys:user:qry")
 	@RequestMapping("/get.do")
 	public ResponeModel get(@RequestParam Serializable id) {
 		SysUser sysUser = sysUserService.findById(id);
@@ -57,13 +59,13 @@ public class SysUserController extends BaseController {
 		sysUser.setRoleIds(roleIds);
 		return ResponeModel.ok(sysUser);
 	}
-
+	@RequiresPermissions("sys:user:save")
 	@PostMapping("/save.do")
 	public ResponeModel save(@Validated SysUser sysUser, BindingResult bindingResult) {
 		int cnt = sysUserService.save(sysUser);
 		return ResponeModel.ok(cnt);
 	}
-
+	@RequiresPermissions("sys:user:update")
 	@PostMapping("/update.do")
 	public ResponeModel update(@Validated SysUser sysUser, BindingResult bindingResult) {
 		//密码为空则不更新
@@ -71,7 +73,7 @@ public class SysUserController extends BaseController {
 		int cnt = sysUserService.updateUserRoleSelective(sysUser);
 		return ResponeModel.ok(cnt);
 	}
-
+	@RequiresPermissions("sys:user:delete")
 	@PostMapping("/delete.do")
 	public ResponeModel delete(@RequestParam Serializable id) {
 		int cnt = sysUserService.deleteById(id);
@@ -87,7 +89,7 @@ public class SysUserController extends BaseController {
 			return BtRemoteValidateResult.valid(sysUser == null || sysUser.getId().equals(id));
 		}
 	}
-	
+	@RequiresPermissions("sys:user:update")
 	@PostMapping("/setStatus.do")
 	public ResponeModel setStatus(@RequestParam String id, @RequestParam String status) {
 		SysUser sysUser = new SysUser();

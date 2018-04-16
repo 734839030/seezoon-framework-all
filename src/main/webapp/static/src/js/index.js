@@ -57,6 +57,22 @@ $(function() {
 			return data?data:{};
 		},
 		userCenterLayerIndex:0,
+		//按钮权限初始化
+		bntPermissionData:function(data){
+			sessionStorage.clear();
+			if (data) {
+				$.each(data,function(i,v){
+					if (v.permission) {
+						var pers = $.trim(v.permission).split(",");
+						$.each(pers,function(i,v){
+							if (v) {
+								sessionStorage.setItem("model.permission." + v,"1");
+							}
+						});
+					}
+				});
+			}
+		},
 		init:function(){
 			//iframe的高度100%  父容器必须是实际高度
 			$("#main-content").height($("#main-content").height()-150);
@@ -64,6 +80,8 @@ $(function() {
 			$.post(model.path + "/getUserMenus.do",function(respone){
 				var menu = "";
 				var data = respone.data;
+				//按钮权限
+				model.bntPermissionData(data);
 				//处理菜单
 				$("#left-menu").empty().append(model.handLeftMenu(data,'0'));
 				$("#left-menu li:eq(0)").addClass("active");

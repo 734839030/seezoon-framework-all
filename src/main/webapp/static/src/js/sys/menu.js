@@ -202,9 +202,11 @@ $(function() {
 			};
 		},
 		onPostBody:function(){//渲染完后执行
+			
 			 $("#table").treegrid({
 				    treeColumn:1,
-					initialState:'collapsed',
+				    //expanded  collapsed
+					initialState:'expanded',
 					expanderExpandedClass: 'glyphicon glyphicon-chevron-down',
 			        expanderCollapsedClass: 'glyphicon glyphicon-chevron-right'
 				});

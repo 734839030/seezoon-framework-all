@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.seezoon.framework.modules.system.dao.SysFileDao" >
+  <resultMap id="BaseResultMap" type="com.seezoon.framework.modules.system.entity.SysFile" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="content_type" property="contentType" jdbcType="VARCHAR" />
+    <result column="file_size" property="fileSize" jdbcType="INTEGER" />
+    <result column="relative_path" property="relativePath" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, content_type, file_size, relative_path, create_by, create_date, update_by, 
+    update_date, remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_file
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.system.entity.SysFile" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_file
+    <where>
+    		<if test="name !=null and name!=''">
+    			and name like concat('%',#{name},'%')
+    		</if>
+    		<if test="ext!=null and ext.startDate!=null">
+				and update_date >= #{ext.startDate}
+		</if>
+		<if test="ext!=null and ext.endDate!=null">
+			<![CDATA[  
+				and update_date <= #{ext.endDate}
+			 ]]>
+		</if>
+    </where>
+    <!-- 有注入安全漏洞 后台系统忽略可以提高开发速度 -->
+		<if test="sortField != null and sortField != '' and direction != null and direction !=''">
+			order by ${sortField} ${direction}
+		</if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_file
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysFile" >
+    insert into sys_file (id, name, content_type, 
+      file_size, relative_path, create_by, 
+      create_date, update_by, update_date, 
+      remarks)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, 
+      #{fileSize,jdbcType=INTEGER}, #{relativePath,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seezoon.framework.modules.system.entity.SysFile" >
+    update sys_file
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null" >
+        content_type = #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        file_size = #{fileSize,jdbcType=INTEGER},
+      </if>
+      <if test="relativePath != null" >
+        relative_path = #{relativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.system.entity.SysFile" >
+    update sys_file
+    set name = #{name,jdbcType=VARCHAR},
+      content_type = #{contentType,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=INTEGER},
+      relative_path = #{relativePath,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
