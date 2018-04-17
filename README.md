@@ -1,13 +1,13 @@
-##项目介绍##
+## 项目介绍 ##
 基于spring,mybatis,shiro面向接口开发的的一套后台管理系统，方便快速开发；采用常用的技术栈，降低学习成本，项目完全前后端分离，后端定义统一的接口格式，统一权限控制，异常拦截，全局错误码等，让后续开发只需关注业务代码。
 
 项目定位于快速开发，所以不需要复杂的分布式，分模块的的开发方式，方便快速部署升级，项目支持按钮级别权限控制，自动控制按钮隐藏显示，按钮支持父子权限，支持本地和云存储。
 
 前端采用最简单jquery + wayjs(双向数据绑定)，wayjs 只做数据绑定这一件事，所以入门非常快，几分钟就可以熟练使用，这也是没有采用Vue的原因，这里引入nodejs工具gulp 打包工具，方便编译出前端文件。
 
-##常用框架##
+## 常用框架 ##
 
-####后端####
+#### 后端 ####
 
 技术 | 名称 | 文档地址
 ----|----- |-----
@@ -21,7 +21,7 @@ PageHelper|分页|[https://github.com/pagehelper/Mybatis-PageHelper](https://git
 Druid |连接池|[https://github.com/alibaba/druid](https://github.com/alibaba/druid)
 AliOSS|云存储|[https://help.aliyun.com/document_detail/32008.html?spm=a2c4g.11186623.6.670.9vnD4m](https://help.aliyun.com/document_detail/32008.html?spm=a2c4g.11186623.6.670.9vnD4m)
 
-####前端####
+#### 前端 ####
 技术 | 名称 | 文档地址
 ----|----- |-----
 Bootstrap |CSS/HTML框架|[https://v3.bootcss.com/](https://v3.bootcss.com/)
@@ -39,7 +39,7 @@ JQuery-File-Upload|异步上传插件|[https://github.com/blueimp/jQuery-File-Up
 Node js|工具|[https://nodejs.org/zh-cn/](https://nodejs.org/zh-cn/)
 Gulp |构建工具|[https://www.gulpjs.com.cn/](https://www.gulpjs.com.cn/)
 
-##本地运行##
+## 本地运行 ##
 1. 本工程为maven项目，导入eclipse
 2. 建立数据库seezoon-framework，运行/src/main/resources/db/seezoon-framework.sql
 3. 配置/src/main/resources/redis/redis.properties
@@ -53,7 +53,7 @@ static/src 为前端源文件，这边简单用了gulp的include 功能，后续
 打开浏览器输入http://127.0.0.1:8888/pages/index.html,自动拦截回到登录页。
 ![登录页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/login.png?raw=true)
 后续整理完善后，部署阿里云演示版本。
-##后续逐步开源如下功能##
+## 后续逐步开源如下功能 ##
 * 数据权限控制
 * 安全日志
 * 定时任务
@@ -61,26 +61,26 @@ static/src 为前端源文件，这边简单用了gulp的include 功能，后续
 * 微信公众号，小程序通用模块
 * 文档编写
 
-##部分项目截图##
-####首页####
+## 部分项目截图 ##
+#### 首页####
 ![首页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/index.png?raw=true)
-####用户管理####
+#### 用户管理####
 ![用户管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/user.png?raw=true)
-####部门管理####
+#### 部门管理####
 ![部门管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/dept.png?raw=true)
-####字典管理####
+#### 字典管理####
 ![地点管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/dict.png?raw=true)
-####文件管理####
+#### 文件管理####
 ![文件管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/file.png?raw=true)
-####角色管理####
+#### 角色管理####
 ![角色管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/role.png?raw=true)
-####菜单管理####
+#### 菜单管理####
 ![菜单管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/menuindex.png?raw=true)
 
 ![菜单管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/menu2.png?raw=true)
 ![菜单管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/menu3.png?raw=true)
 ![图片选择](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/icon.png?raw=true)
-####个人信息####
+#### 个人信息####
 ![用户中心](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/usercenter.png?raw=true)
 
 下面为分布式版本线上案列，小型项目还是一体比较方便。
