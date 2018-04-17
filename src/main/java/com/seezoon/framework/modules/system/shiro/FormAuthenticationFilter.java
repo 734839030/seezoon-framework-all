@@ -23,15 +23,11 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-		System.out.println(SecurityUtils.getSubject().isAuthenticated() );
-		System.out.println(SecurityUtils.getSubject().getPrincipal() != null);
-		System.out.println(JSON.toJSONString(SecurityUtils.getSubject().getPrincipal() ));
 		//检查是否登录
 		if (ShiroUtils.isLogin()) {
 			super.onAccessDenied(request, response);
 			return true;
 		} else {
-			//String userId = ShiroUtils.getUserId();
 			HttpServletResponse res = (HttpServletResponse)response;
 			HttpServletRequest req = (HttpServletRequest)request;
 			String method = req.getMethod();

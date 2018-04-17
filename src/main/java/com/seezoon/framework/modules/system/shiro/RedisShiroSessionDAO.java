@@ -23,7 +23,7 @@ public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
 
     @Value("${admin.session.key.preffix}")
     private String redisSessionKeyPreffix;
-    @Value("${admin.session.timeout}")
+    @Value("${admin.session.globalSessionTimeout}")
     private Integer sessionTimeout;
     //创建session
     @Override

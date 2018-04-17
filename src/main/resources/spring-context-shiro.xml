@@ -52,17 +52,17 @@
 	</bean>
 	<bean id="redisSessionDAO" class="org.crazycake.shiro.RedisSessionDAO">
 		<property name="redisManager" ref="redisManager" />
-		<property name="expire" value="${admin.session.timeout}" />
+		<property name="expire" value="${admin.session.redis.timeout}" />
 		<property name="keyPrefix" value="${admin.session.key.preffix}" />
 	</bean>
 	<bean id="cacheManager" class="org.crazycake.shiro.RedisCacheManager">
 		<property name="redisManager" ref="redisManager" />
-		<property name="expire" value="${admin.session.timeout}" />
+		<property name="expire" value="${admin.session.redis.timeout}" />
 		<property name="keyPrefix" value="${admin.session.key.preffix}" />
 	</bean>
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<property name="globalSessionTimeout" value="${admin.session.timeout}"></property>
+		<property name="globalSessionTimeout" value="${admin.session.globalSessionTimeout}"></property>
 		<property name="sessionValidationSchedulerEnabled" value="true"></property>
 		<property name="sessionIdUrlRewritingEnabled" value="false"></property>
 		<property name="sessionIdCookie" ref="sessionIdCookie"></property>
@@ -75,6 +75,7 @@
 	</bean>
 	<bean id="userRealm" class="com.seezoon.framework.modules.system.shiro.UserRealm">
 		<!-- 开启权限数据缓存  -->
+	   <property name="cachingEnabled" value="true"></property>
 		<property name="authorizationCachingEnabled" value="true"></property>
 		<property name="authorizationCacheName" value="authorizationCache"></property>
 	</bean>
