@@ -28,6 +28,7 @@ import com.seezoon.framework.modules.system.entity.SysRole;
 import com.seezoon.framework.modules.system.entity.SysUser;
 import com.seezoon.framework.modules.system.service.SysRoleService;
 import com.seezoon.framework.modules.system.service.SysUserService;
+import com.seezoon.framework.modules.system.shiro.ShiroUtils;
 
 @RestController
 @RequestMapping("${admin.path}/sys/user")
@@ -75,7 +76,10 @@ public class SysUserController extends BaseController {
 	}
 	@RequiresPermissions("sys:user:delete")
 	@PostMapping("/delete.do")
-	public ResponeModel delete(@RequestParam Serializable id) {
+	public ResponeModel delete(@RequestParam String id) {
+		if (ShiroUtils.isSuperAdmin(id)) {
+			return ResponeModel.error("超级管理员不允许删除");
+		}
 		int cnt = sysUserService.deleteById(id);
 		return ResponeModel.ok(cnt);
 	}
@@ -92,6 +96,9 @@ public class SysUserController extends BaseController {
 	@RequiresPermissions("sys:user:update")
 	@PostMapping("/setStatus.do")
 	public ResponeModel setStatus(@RequestParam String id, @RequestParam String status) {
+		if (ShiroUtils.isSuperAdmin(id)) {
+			return ResponeModel.error("超级管理员不允许修改");
+		}
 		SysUser sysUser = new SysUser();
 		sysUser.setId(id);
 		sysUser.setStatus(status);

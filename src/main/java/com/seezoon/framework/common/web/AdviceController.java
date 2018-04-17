@@ -4,8 +4,11 @@ import java.beans.PropertyEditorSupport;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -83,12 +86,23 @@ public class AdviceController {
 	}
 	
 	/**
-	 * @throws IOException 
+	 * @throws IOException  测试无法拦截
 	 */
 	@ResponseBody
 	@ExceptionHandler({MaxUploadSizeExceededException.class,SizeLimitExceededException.class})
 	public ResponeModel maxUploadSizeExceededExceptionHandler() {
 		return ResponeModel.error("文件超过" + maxUploadSize/1024 + "KB");
+	}
+	/**
+	 * 未授权,权限不足
+	 * 
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@ExceptionHandler(UnauthorizedException.class)
+	public ResponeModel exceptionHandler(HttpServletResponse response) {
+		response.setStatus(HttpStatus.NEED_PERMISSION.getValue());
+		return ResponeModel.error(ExceptionCode.PERMISSION_DENIED, "权限不足，请联系管理员");
 	}
 	/**
 	 * 可以细化异常，spring 从小异常抓，抓到就不往后走

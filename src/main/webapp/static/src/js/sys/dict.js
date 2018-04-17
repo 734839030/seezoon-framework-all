@@ -3,7 +3,6 @@ $(function() {
 		path : adminContextPath + "/sys/dict",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
-			$("#data-form")[0].reset();
 			way.set("model.form.data",{
 				status:'1',
 				sort:10,

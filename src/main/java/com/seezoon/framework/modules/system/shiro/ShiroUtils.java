@@ -56,7 +56,10 @@ public class ShiroUtils {
 	}
 
 	public static boolean isSuperAdmin() {
-		return Constants.SUPER_ADMIN_ID.equals(getUserId());
+		return isSuperAdmin(getUserId());
+	}
+	public static boolean isSuperAdmin(String userId) {
+		return Constants.SUPER_ADMIN_ID.equals(userId);
 	}
 
 }

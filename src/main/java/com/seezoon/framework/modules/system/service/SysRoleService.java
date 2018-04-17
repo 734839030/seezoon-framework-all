@@ -1,5 +1,6 @@
 package com.seezoon.framework.modules.system.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +21,14 @@ public class SysRoleService extends CrudService<SysRoleDao, SysRole> {
 		this.saveRoleMenus(t.getId(), t.getMenuIds());
 		return cnt;
 	}
-
+	@Override
+	public int deleteById(Serializable id) {
+		//删除role_menu
+		this.d.deleteRoleMenuByRoleId(id);
+		//删除user_role
+		this.d.deleteUserRoleByRoleId(id);
+		return super.deleteById(id);
+	}
 	@Override
 	public int updateSelective(SysRole t) {
 		this.d.deleteRoleMenuByRoleId(t.getId());

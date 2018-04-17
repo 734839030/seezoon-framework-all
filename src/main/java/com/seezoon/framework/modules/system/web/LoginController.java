@@ -35,8 +35,8 @@ public class LoginController extends BaseController{
 			//账户密码错误
 			return ResponeModel.error("账户密码错误");
 		}catch (LockedAccountException e) {
-			//
-			return ResponeModel.error("账户密码错误");
+			//账号已被锁定
+			return ResponeModel.error("账号已被锁定");
 		}catch (AuthenticationException e) {
 			//账户密码错误
 			return ResponeModel.error("账户密码错误");

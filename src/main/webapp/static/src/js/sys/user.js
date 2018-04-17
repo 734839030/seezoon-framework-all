@@ -3,7 +3,6 @@ $(function() {
 		path : adminContextPath + "/sys/user",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
-			$("#data-form")[0].reset();
 			way.set("model.form.data",{
 				status:'1',
 			});
@@ -189,6 +188,9 @@ $(function() {
 	// 列表
 	$('#table').bootstrapTable({
 		url : model.path + '/qryPage.do',
+		onPostBody:function(){//渲染完后执行
+			$.bntPermissionHandler();
+		},
 		columns : [ {
 			checkbox : true
 		}, {
@@ -237,13 +239,12 @@ $(function() {
 			formatter : function(value, row, index) {
 				var oper;
 				if (row.status == '0') {//禁用状态
-					oper = "<a  href='#' class='text-success setStatus' data-id='" + row.id  + "' data-status='1'>启用</a>";
+					oper = "<a  href='#' class='text-success sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='1'>启用</a>";
 				} else {//正常状态
-					oper = "<a  href='#' class='text-danger setStatus' data-id='" + row.id  + "' data-status='0'>禁用</a>";
+					oper = "<a  href='#' class='text-danger sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='0'>禁用</a>";
 				}
 				return oper;
 			}
-				
 		}]
 	});
 	//图像上传

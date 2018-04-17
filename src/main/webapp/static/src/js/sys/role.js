@@ -3,7 +3,6 @@ $(function() {
 		path : adminContextPath + "/sys/role",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
-			$("#data-form")[0].reset();
 			way.set("model.form.data",null);
 			model.menuTree.checkAllNodes(false);
 

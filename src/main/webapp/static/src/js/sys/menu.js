@@ -202,7 +202,6 @@ $(function() {
 			};
 		},
 		onPostBody:function(){//渲染完后执行
-			
 			 $("#table").treegrid({
 				    treeColumn:1,
 				    //expanded  collapsed
@@ -314,7 +313,7 @@ $(function() {
 			field : 'oper',
 			title : '操作',
 			formatter : function(value, row, index) {
-				var oper =  "<a  href='#' class='text-success addMenu'  data-id='" + row.id+ "' >添加下级</a>";
+				var oper =  "<a  href='#' class='text-success  addMenu'  data-id='" + row.id+ "' >添加下级</a>";
 				return oper;
 			}
 		}]

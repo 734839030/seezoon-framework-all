@@ -1,4 +1,4 @@
-package com.seezoon.framework.modules.system.shiro;
+package com.seezoon.framework.common.web;
 
 /**
  * 自定义HTTP 状态码

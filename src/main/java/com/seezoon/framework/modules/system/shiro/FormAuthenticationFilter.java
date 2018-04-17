@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSON;
+import com.seezoon.framework.common.web.HttpStatus;
 
 /**
  * 自定义shiro 登录filter 适合ajax 登录

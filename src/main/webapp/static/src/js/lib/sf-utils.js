@@ -75,87 +75,98 @@ $(function() {
 					}
 				})
 			}
-		}
-	});
-	/**
-	 * <div class="col-sm-5"> <label class="radio-inline"> <input type="radio"
-	 * required way-data="status" name="status" value="1">有效 </label> <label
-	 * class="radio-inline"> <input type="radio" required way-data="status"
-	 * name="status" value="0">无效 </label> </div>
-	 * 
-	 * <div class="col-sm-5"> <label class="checkbox-inline"> <input
-	 * type="radio" required way-data="status" name="status" value="1">有效
-	 * </label> <label class="checkbox-inline"> <input type="radio" required
-	 * way-data="status" name="status" value="0">无效 </label> </div>
-	 * 
-	 */
-	// 字典渲染
-	$(".sf-radio,.sf-checkbox").each(function(i, v) {
-		var inputName = $(this).data("sf-input-name");
-		var dictType = $(this).data("sf-dict-type");
-		var required = $(this).data("sf-required");
+		},
+		dictInputhandler:function(){
+			/**
+			 * <div class="col-sm-5"> <label class="radio-inline"> <input type="radio"
+			 * required way-data="status" name="status" value="1">有效 </label> <label
+			 * class="radio-inline"> <input type="radio" required way-data="status"
+			 * name="status" value="0">无效 </label> </div>
+			 * 
+			 * <div class="col-sm-5"> <label class="checkbox-inline"> <input
+			 * type="radio" required way-data="status" name="status" value="1">有效
+			 * </label> <label class="checkbox-inline"> <input type="radio" required
+			 * way-data="status" name="status" value="0">无效 </label> </div>
+			 * 
+			 */
+			// 字典渲染
+			$(".sf-radio,.sf-checkbox").each(function(i, v) {
+				var inputName = $(this).data("sf-input-name");
+				var dictType = $(this).data("sf-dict-type");
+				var required = $(this).data("sf-required");
 
-		var dictList = $.getDictList(dictType);
-		if (dictList) {
-			$.each(dictList, function(j, k) {
-				k.inputName = inputName;
-				if (required) {
-					k.required = required
+				var dictList = $.getDictList(dictType);
+				if (dictList) {
+					$.each(dictList, function(j, k) {
+						k.inputName = inputName;
+						if (required) {
+							k.required = required
+						}
+						// 禁用
+						if (k.status == '0') {
+							k.disabled = "disabled";
+						}
+					});
 				}
-				// 禁用
-				if (k.status == '0') {
-					k.disabled = "disabled";
-				}
-			});
-		}
-		if ($(this).hasClass("sf-radio")) {
-			$("#sf-radio-temlate").tmpl(dictList).appendTo(this);
-		} else {
-			$("#sf-checkbox-temlate").tmpl(dictList).appendTo(this);
-		}
-	});
-	$(".sf-select").each(function(i, v) {
-		var dictType = $(this).data("sf-dict-type");
-		var dictList = $.getDictList(dictType);
-		if (dictList) {
-			$.each(dictList, function(j, k) {
-				// 禁用
-				if (k.status == '0') {
-					k.disabled = "disabled";
+				if ($(this).hasClass("sf-radio")) {
+					$("#sf-radio-temlate").tmpl(dictList).appendTo(this);
+				} else {
+					$("#sf-checkbox-temlate").tmpl(dictList).appendTo(this);
 				}
 			});
-		}
-		$("#sf-select-temlate").tmpl(dictList).appendTo(this);
-	});
-	// 日期控件
-	$(".date").attr("readonly", "readonly");
-	$(".date").datepicker({
-		format : 'yyyy-mm-dd',
-		language : 'zh-CN',
-		clearBtn : true,
-		autoclose : true,
-		todayHighlight : true
-	});
-	// 按钮权限处理
-	$(".sf-permission-ctl").each(function(i, v) {
-		// 按钮权限控制
-		var permission = $(v).data("sf-permission");
-		// 支持父子权限判断
-		if (permission) {
-			var p = permission.split(":");
-			var hp = [];
-			for (var i = 0; i < p.length; i++) {
-				hp.push(handlePermission(i, p));
-			}
-			for (var i = 0; i < hp.length; i++) {
-				var value = sessionStorage.getItem("model.permission." + hp[i]);
-				if ('1' == value) {
-					$(this).show();
-					break;
+			$(".sf-select").each(function(i, v) {
+				var dictType = $(this).data("sf-dict-type");
+				var dictList = $.getDictList(dictType);
+				if (dictList) {
+					$.each(dictList, function(j, k) {
+						// 禁用
+						if (k.status == '0') {
+							k.disabled = "disabled";
+						}
+					});
 				}
-			}
-		}
+				$("#sf-select-temlate").tmpl(dictList).appendTo(this);
+			});
+		},
+		//日期控件
+		inputDateHandler:function(){
+			// 日期控件
+			$(".date").attr("readonly", "readonly");
+			$(".date").datepicker({
+				format : 'yyyy-mm-dd',
+				language : 'zh-CN',
+				clearBtn : true,
+				autoclose : true,
+				todayHighlight : true
+			});
+		},
+		//按钮权限控制
+		bntPermissionHandler:function(){
+			// 按钮权限处理
+			$(".sf-permission-ctl").each(function(i, v) {
+				// 按钮权限控制
+				var permission = $(v).data("sf-permission");
+				// 支持父子权限判断
+				if (permission) {
+					var p = permission.split(":");
+					var hp = [];
+					for (var i = 0; i < p.length; i++) {
+						hp.push(handlePermission(i, p));
+					}
+					for (var i = 0; i < hp.length; i++) {
+						var value = sessionStorage.getItem("model.permission." + hp[i]);
+						if ('1' == value) {
+							$(this).show();
+							break;
+						}
+					}
+				}
+			});
+		},
 	});
+	$.dictInputhandler();
+	$.inputDateHandler();
+	$.bntPermissionHandler();
 });
 // 处理权限递归,以冒号拆分，父子权限
 function handlePermission(i, p) {
