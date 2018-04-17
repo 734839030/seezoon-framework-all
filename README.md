@@ -17,7 +17,7 @@ Spring Framework |依赖管理 |[https://docs.spring.io/spring/docs/5.0.6.BUILD-
 Spring MVC | MVC|[https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html)
 Mybatis | ORM |[http://www.mybatis.org/mybatis-3/zh/index.html](http://www.mybatis.org/mybatis-3/zh/index.html)
 Shiro | 权限、认证|[http://shiro.apache.org/documentation.html#apache-shiro-reference-and-api](http://shiro.apache.org/documentation.html#apache-shiro-reference-and-api)
-Shiro Redis|shiro 缓存|[https://github.com/alexxiyang/shiro-redis] (https://github.com/alexxiyang/shiro-redis)
+Shiro Redis|shiro 缓存|[https://github.com/alexxiyang/shiro-redis](https://github.com/alexxiyang/shiro-redis)
 Spring session（C端）|分布式会话|[https://docs.spring.io/spring-session/docs/2.0.3.BUILD-SNAPSHOT/reference/html5/](https://docs.spring.io/spring-session/docs/2.0.3.BUILD-SNAPSHOT/reference/html5/)
 PageHelper|分页|[https://github.com/pagehelper/Mybatis-PageHelper](https://github.com/pagehelper/Mybatis-PageHelper)
 Druid |连接池|[https://github.com/alibaba/druid](https://github.com/alibaba/druid)
