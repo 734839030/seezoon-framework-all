@@ -48,7 +48,9 @@ public class ShiroUtils {
 	}
 
 	public static boolean isLogin() {
-		return SecurityUtils.getSubject().isAuthenticated() && SecurityUtils.getSubject().getPrincipal() != null;
+		System.out.println("isAuthenticated:" + getSubject().isAuthenticated()) ;
+		System.out.println("isRemembered:" + getSubject().isRemembered()) ;
+		return  SecurityUtils.getSubject().isAuthenticated() && SecurityUtils.getSubject().getPrincipal() != null;
 	}
 
 	public static void logout() {

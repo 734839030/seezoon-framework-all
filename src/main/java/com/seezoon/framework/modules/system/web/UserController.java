@@ -21,61 +21,65 @@ import com.seezoon.framework.modules.system.shiro.ShiroUtils;
 
 /**
  * 综合用户信息处理
- * @author hdf
- * 2018年4月14日
+ * 
+ * @author hdf 2018年4月14日
  */
 @RestController
 @RequestMapping("${admin.path}/user")
-public class UserController extends BaseController{
-	
+public class UserController extends BaseController {
+
 	@Autowired
 	private SysUserService sysUserService;
 	@Autowired
 	private SysMenuService sysMenuService;
-	
+
 	@PostMapping("/getUserMenus.do")
-	public ResponeModel getUserMenus(){
+	public ResponeModel getUserMenus() {
 		String userId = ShiroUtils.getUserId();
 		List<SysMenu> menus = null;
-		//系统管理员，拥有最高权限
-		if(ShiroUtils.isSuperAdmin()){
+		// 系统管理员，拥有最高权限
+		if (ShiroUtils.isSuperAdmin()) {
 			menus = sysMenuService.findShowMenuAll();
-		}else{
+		} else {
 			menus = sysMenuService.findShowMenuByUserId(userId);
 		}
 		return ResponeModel.ok(menus);
 	}
+
 	@PostMapping("/logout.do")
 	public ResponeModel logout() {
 		ShiroUtils.logout();
 		return ResponeModel.ok();
 	}
-	
+
 	@PostMapping("/getUserInfo.do")
 	public ResponeModel getUserInfo() {
 		SysUser user = sysUserService.findById(ShiroUtils.getUserId());
-		Assert.notNull(user,"用户存在");
+		Assert.notNull(user, "用户存在");
 		user.setPhotoFullUrl(FileHandlerFactory.getFullUrl(user.getPhoto()));
 		return ResponeModel.ok(user);
 	}
+
 	@PostMapping("/updateInfo.do")
 	public ResponeModel updateInfo(SysUser user) {
-		Assert.hasLength(user.getName(),"姓名为空");
+		Assert.hasLength(user.getName(), "姓名为空");
 		SysUser sysUser = new SysUser();
 		sysUser.setPhoto(user.getPhoto());
 		sysUser.setName(user.getName());
-		sysUser.setEmail(user.getEmail());	
+		sysUser.setEmail(user.getEmail());
 		sysUser.setMobile(user.getMobile());
 		sysUser.setId(ShiroUtils.getUserId());
 		int cnt = sysUserService.updateSelective(sysUser);
 		return ResponeModel.ok(cnt);
 	}
+
 	@PostMapping("/checkPassword.do")
 	public BtRemoteValidateResult checkPassword(@RequestParam String oldPassword) {
 		return BtRemoteValidateResult.valid(sysUserService.validatePwd(oldPassword, ShiroUtils.getUserId()));
 	}
+
 	@PostMapping("/updatePwd.do")
-	public ResponeModel updatePwd(@RequestParam String password,@RequestParam String oldPassword) {
+	public ResponeModel updatePwd(@RequestParam String password, @RequestParam String oldPassword) {
 		String userId = ShiroUtils.getUserId();
 		if (!sysUserService.validatePwd(oldPassword, userId)) {
 			return ResponeModel.error("原密码错误");
@@ -86,5 +90,5 @@ public class UserController extends BaseController{
 		int cnt = sysUserService.updateSelective(sysUser);
 		return ResponeModel.ok(cnt);
 	}
-	
+
 }

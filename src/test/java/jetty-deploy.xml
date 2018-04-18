@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+<!-- =============================================================== -->
+<!-- Add a ContextProvider to the deployment manager                 -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- This scans the webapps directory for war files and directories  -->
+<!-- to deploy.                                                      -->
+<!-- This configuration must be used with jetty-deploy.xml, which    -->
+<!-- creates the deployment manager instance                         -->
+<!-- =============================================================== -->
+<Configure id="Server" class="org.eclipse.jetty.webapp.WebAppContext">
+    <Call name="setAttribute">
+        <Arg>org.eclipse.jetty.server.webapp.WebInfIncludeJarPattern</Arg>
+        <Arg>.*/mwa-web-.*\.jar$</Arg>
+        <!--<Arg>.*/.*jsp-api-[^/]\.jar$|./.*jsp-[^/]\.jar$|./.*taglibs[^/]*\.jar$</Arg>-->
+    </Call>
+</Configure>

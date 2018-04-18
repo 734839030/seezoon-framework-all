@@ -19,7 +19,7 @@ import com.seezoon.framework.modules.system.shiro.ShiroUtils;
 import com.seezoon.framework.modules.system.web.form.LoginForm;
 
 @RestController
-@RequestMapping("/public/")
+@RequestMapping("${admin.path}")
 public class LoginController extends BaseController{
 
 

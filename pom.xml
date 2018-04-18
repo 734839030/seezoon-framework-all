@@ -2,21 +2,21 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.seezoon</groupId>
-	<description>上征科技快速开发平台</description>
+	<description>上征快速开发平台</description>
 	<developers>
 		<developer>
-			<name>huangdengfeng</name>
+			<name>huangdf</name>
 		</developer>
 	</developers>
 	<artifactId>seezoon-framework-all</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>seezoon-framework-all</name>
-	<url>http://www.seezoon.com</url>
+	<url></url>
 	<properties>
 		<project.version>1.0.41.RELEASE</project.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<javassist.version>3.12.1.GA</javassist.version>
 		<!-- spring -->
 		<spring.version>4.3.8.RELEASE</spring.version>
@@ -378,5 +378,96 @@
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.0.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.5.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.10</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>9.2.10.v20150310</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<!-- Compiler 插件, 设定JDK版本 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<showWarnings>true</showWarnings>
+				</configuration>
+			</plugin>
+			<!-- 跳过测试的 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<httpConnector>
+      					<port>8081</port>
+					</httpConnector>
+					<!-- 启动快 -->
+					<contextXml>src/test/java/jetty-deploy.xml</contextXml>
+					<stopKey>shutdown</stopKey>
+					<!-- jetty:stop jetty:run -Dorg.eclipse.jetty.annotations.maxWait=120 (参数是为了解决：Timeout scanning annotations) -->
+					<stopPort>8006</stopPort>
+					<!-- <scanIntervalSeconds>2</scanIntervalSeconds> -->
+					<!-- 默认值为 automatic，它与大于 0 的 scanIntervalSeconds 节点一起作用，实现自动热部署的工作。设为 
+						manual 的好处是，当你改变文件 内容并保存时，不会马上触发自动扫描和重部署的动作，你还可以继续的修改，直至你在 Console 或命令行中敲回车键（Enter）的时候才触发重新加载的动作。这样可以更加的方便调试修改。 -->
+					<reload>manual</reload>
+					<webApp>
+						<contextPath>/${project.artifactId}</contextPath>
+					</webApp>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

@@ -40,7 +40,7 @@ $(function() {
 			});
 			return false;
 		}
-		$.post(publicContextPath + "/login.do", {
+		$.post(adminContextPath + "/login.do", {
 			loginName : loginName,
 			password : password,
 			rememberMe : $("input[name='rememberMe']").val()
