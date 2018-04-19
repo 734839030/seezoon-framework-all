@@ -13,7 +13,9 @@ import com.alibaba.fastjson.JSON;
 import com.seezoon.framework.common.web.HttpStatus;
 
 /**
- * 自定义shiro 登录filter 适合ajax 登录
+ * 自定义shiro 登录filter 
+ * 账密未认证过会触发这个拦截器
+ * 适合ajax 登录
  * 
  * 自定义HTTP 请求头，310 未登录
  * @author hdf
@@ -39,4 +41,5 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 			return false;
 		//}
 	}
+	
 }

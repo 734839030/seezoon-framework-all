@@ -1,49 +1,49 @@
 package com.seezoon.framework.common.file;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+
+import com.seezoon.framework.common.context.utils.PropertyUtil;
 
 /**
  * 文件模块配置信息
  * 
  * @author hdf 2018年4月15日
  */
-@Component
 public class FileConfig {
 
 	/**
 	 * 存储介质 local= 本地，aliyun=阿里云
 	 */
-	@Value("${file.storage}")
-	private String fileStorage;
+	//@Value("${file.storage}")
+	private String fileStorage = PropertyUtil.getString("file.storage");
 	/**
 	 * 本地公网访问前缀
 	 */
-	@Value("${file.local.urlPrefix}")
-	private String localUrlPrefix;
+	//@Value("${file.local.urlPrefix}")
+	private String localUrlPrefix = PropertyUtil.getString("file.local.urlPrefix");
 	/**
 	 * 本地存储路径
 	 */
-	@Value("${file.local.storePath}")
-	private String localStorePath;
+	//@Value("${file.local.storePath}")
+	private String localStorePath = PropertyUtil.getString("file.local.storePath");
 
 	/**
 	 * 阿里云公网访问前缀
 	 */
-	@Value("${file.aliyun.urlPrefix}")
-	private String aliyunUrlPrefix;
+	//@Value("${file.aliyun.urlPrefix}")
+	private String aliyunUrlPrefix = PropertyUtil.getString("file.aliyun.urlPrefix");
 	/**
 	 * 阿里云bucket 即存储路径
 	 */
-	@Value("${file.aliyun.bucket}")
-	private String aliyunBucket;
+	//@Value("${file.aliyun.bucket}")
+	private String aliyunBucket = PropertyUtil.getString("file.aliyun.bucket");
 
-	@Value("${file.aliyun.endpoint}")
-	private String aliyunEndpoint;
-	@Value("${file.aliyun.accessKeyId}")
-	private String aliyunAccessKeyId;
+	//@Value("${file.aliyun.endpoint}")
+	private String aliyunEndpoint = PropertyUtil.getString("file.aliyun.endpoint");
+	//@Value("${file.aliyun.accessKeyId}")
+	private String aliyunAccessKeyId = PropertyUtil.getString("file.aliyun.accessKeyId");
 	@Value("${file.aliyun.accessKeySecret}")
-	private String aliyunAccessKeySecret;
+	private String aliyunAccessKeySecret = PropertyUtil.getString("file.aliyun.accessKeySecret");
 
 	public String getFileStorage() {
 		return fileStorage;

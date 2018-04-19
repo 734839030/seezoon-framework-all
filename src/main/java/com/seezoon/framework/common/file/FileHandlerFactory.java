@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.seezoon.framework.common.Constants;
-import com.seezoon.framework.common.context.support.SpringContextHolder;
 import com.seezoon.framework.common.file.handler.AliFileFileHandler;
 import com.seezoon.framework.common.file.handler.FileHandler;
 import com.seezoon.framework.common.file.handler.LocalFileHandler;
@@ -17,7 +16,7 @@ public class FileHandlerFactory {
 	private static FileHandler fileHandler = null;
 
 	// 文件配置
-	private static FileConfig fileConfig = SpringContextHolder.getBean(FileConfig.class);
+	private static FileConfig fileConfig = new FileConfig();
 
 	public static FileHandler getHandler() {
 		if (null != fileHandler) {
