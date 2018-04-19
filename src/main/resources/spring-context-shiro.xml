@@ -23,8 +23,8 @@
 				/static/** = anon
 				/public/** = anon
 				/${admin.path}/login.do = anon
-				<!-- 密码验证才可以进 -->
-				/${admin.path}/sys/** = authc
+				<!-- 密码验证才可以进 暂时关闭-->
+				<!-- /${admin.path}/sys/** = authc -->
 				<!-- 密码验证或者rememberMe 进入 -->
 				/${admin.path}/** = user
 			</value>

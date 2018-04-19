@@ -1,9 +1,7 @@
 package com.seezoon.framework.modules.system.web;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 

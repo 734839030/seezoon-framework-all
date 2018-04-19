@@ -1,10 +1,7 @@
 package com.seezoon.framework.common.file;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSON;
 import com.seezoon.framework.common.Constants;
 import com.seezoon.framework.common.file.handler.AliFileFileHandler;
 import com.seezoon.framework.common.file.handler.FileHandler;
@@ -12,7 +9,6 @@ import com.seezoon.framework.common.file.handler.LocalFileHandler;
 
 public class FileHandlerFactory {
 
-	private static Logger logger = LoggerFactory.getLogger(FileHandlerFactory.class);
 	private static FileHandler fileHandler = null;
 
 	// 文件配置
@@ -22,7 +18,6 @@ public class FileHandlerFactory {
 		if (null != fileHandler) {
 			return fileHandler;
 		}
-		logger.info(JSON.toJSONString(fileConfig));
 		String fileStorage = fileConfig.getFileStorage();
 		if (Constants.FileStorage.LOCAL.getValue().equals(fileStorage)) {// 本地
 			fileHandler = new LocalFileHandler(fileConfig.getLocalStorePath());

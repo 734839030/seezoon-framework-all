@@ -139,10 +139,12 @@ $(function() {
 			 $("#table").treegrid({
 				    treeColumn:1,
 					initialState:'expanded',
+					saveState:true,
 					expanderExpandedClass: 'glyphicon glyphicon-chevron-down',
 			        expanderCollapsedClass: 'glyphicon glyphicon-chevron-right'
 				});
 			 $('#table').treegrid('render');
+			 $.bntPermissionHandler();
 		},
 		rowStyle:function(row,index){//整合treegrid
 			var classes = "treegrid-" + row.id
@@ -170,7 +172,7 @@ $(function() {
 			field : 'oper',
 			title : '操作',
 			formatter : function(value, row, index) {
-				var oper =  "<a  href='#' class='text-success addDept'  data-id='" + row.id+ "' >添加下级部门</a>";
+				var oper =  "<a  href='#' class='text-success addDept sf-permission-ctl'  data-id='" + row.id+ "' data-sf-permission='sys:dept:save'>添加下级部门</a>";
 				return oper;
 			}
 		}]

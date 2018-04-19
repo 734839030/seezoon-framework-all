@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -35,13 +36,13 @@ public class SysDeptController extends BaseController {
 		//数据机构调整
 		return ResponeModel.ok(treeHelper.treeGridList(list));
 	}
-
+	@RequiresPermissions("sys:dept:qry")
 	@RequestMapping("/get.do")
 	public ResponeModel get(@RequestParam Serializable id) {
 		SysDept sysDept = sysDeptService.findById(id);
 		return ResponeModel.ok(sysDept);
 	}
-
+	@RequiresPermissions("sys:dept:save")
 	@PostMapping("/save.do")
 	public ResponeModel save(@Validated SysDept sysDept, BindingResult bindingResult) {
 		SysDept parent = null;
@@ -52,7 +53,7 @@ public class SysDeptController extends BaseController {
 		int cnt = sysDeptService.save(sysDept);
 		return ResponeModel.ok(cnt);
 	}
-
+	@RequiresPermissions("sys:dept:update")
 	@PostMapping("/update.do")
 	public ResponeModel update(@Validated SysDept sysDept, BindingResult bindingResult) {
 		SysDept parent = null;
@@ -64,6 +65,7 @@ public class SysDeptController extends BaseController {
 		return ResponeModel.ok(cnt);
 	}
 
+	@RequiresPermissions("sys:dept:delete")
 	@PostMapping("/delete.do")
 	public ResponeModel delete(@RequestParam Serializable id) {
 		int cnt = sysDeptService.deleteById(id);

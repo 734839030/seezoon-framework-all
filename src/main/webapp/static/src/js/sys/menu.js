@@ -135,6 +135,17 @@ $(function() {
 		$('#myTabs a[href="#tab_cd"]').tab('show');
 		$("#form-panel").modal('toggle');
 	});
+	//修改菜单
+	$("body").on("click", ".editMenu", function(){
+		$('#table').bootstrapTable('checkBy', {field:"id", values:[$(this).data("id")]});
+		$("#edit").click();
+	});
+	//删除菜单
+	$("body").on("click", ".deleteMenu", function(){
+		$('#table').bootstrapTable('checkBy', {field:"id", values:[$(this).data("id")]});
+		$("#delete").click();
+	});
+	
 	// 编辑
 	$("#edit").click(function() {
 		var rows = $('#table').bootstrapTable("getSelections");
@@ -205,11 +216,13 @@ $(function() {
 			 $("#table").treegrid({
 				    treeColumn:1,
 				    //expanded  collapsed
-					initialState:'expanded',
+					initialState:'collapsed',
+					saveState:true,
 					expanderExpandedClass: 'glyphicon glyphicon-chevron-down',
 			        expanderCollapsedClass: 'glyphicon glyphicon-chevron-right'
 				});
 			 $('#table').treegrid('render');
+			 $.bntPermissionHandler();
 		},
 		rowStyle:function(row,index){//整合treegrid
 			var classes = "treegrid-" + row.id
@@ -313,7 +326,9 @@ $(function() {
 			field : 'oper',
 			title : '操作',
 			formatter : function(value, row, index) {
-				var oper =  "<a  href='#' class='text-success  addMenu'  data-id='" + row.id+ "' >添加下级</a>";
+				var oper =  "<a  href='#' class='text-success  addMenu sf-permission-ctl' data-sf-permission='sys:menu:save' data-id='" + row.id+ "' >添加下级</a> | " +
+						"<a  href='#' class='text-success  editMenu sf-permission-ctl' data-sf-permission='sys:menu:update' data-id='" + row.id+ "' >修改</a> | " +
+								"<a  href='#' class='text-danger  deleteMenu sf-permission-ctl' data-sf-permission='sys:menu:delete' data-id='" + row.id+ "' >删除</a>";
 				return oper;
 			}
 		}]

@@ -3,6 +3,7 @@ package com.seezoon.framework.modules.system.web;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,8 @@ public class SysFileController extends BaseController {
 
 	@Autowired
 	private SysFileService sysFileService;
-
+	
+	@RequiresPermissions("sys:file:qry")
 	@PostMapping("/qryPage.do")
 	public ResponeModel qryPage(SysFile sysFile,@RequestParam(required=false) Date startDate,@RequestParam(required=false) Date endDate) {
 		sysFile.addProperty("startDate", startDate);
@@ -33,6 +35,8 @@ public class SysFileController extends BaseController {
 		}
 		return ResponeModel.ok(page);
 	}
+	
+	@RequiresPermissions("sys:file:delete")
 	@PostMapping("/delete.do")
 	public ResponeModel delete(@RequestParam Serializable id) {
 		int cnt = sysFileService.deleteById(id);

@@ -115,6 +115,9 @@ $(function() {
 	// 列表
 	$('#table').bootstrapTable({
 		url : model.path + '/qryPage.do',
+		onPostBody:function(){//渲染完后执行
+			$.bntPermissionHandler();
+		},
 		columns : [ {
 			checkbox : true
 		}, {
@@ -159,7 +162,7 @@ $(function() {
 			field : 'oper',
 			title : '操作',
 			formatter : function(value, row, index) {
-				var oper =  "<a  href='#' class='text-success addDict'  data-type='" + row.type+ "' >添加同类字典</a>";
+				var oper =  "<a  href='#' class='text-success addDict sf-permission-ctl' data-sf-permission='sys:dict:save' data-type='" + row.type+ "' >添加同类字典</a>";
 				return oper;
 			}
 		}]

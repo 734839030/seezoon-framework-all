@@ -31,13 +31,13 @@
 									class="form-control date" placeholder=">=" name="endDate"  way-data="endDate"
 									maxlength="100">
 							</div>
-							<button type="button" class="btn btn-default" id="search">
+							<button type="button" class="btn btn-default sf-permission-ctl" id="search" data-sf-permission="sys:file:qry">
 								<i class="fa fa-search"></i>
 							</button>
 							<div class="btn-group pull-right">
-								<label for="fileUpload" class="btn btn-default"><i class="fa fa-cloud-upload"></i> 上传</label>
+								<label for="fileUpload" class="btn btn-default sf-permission-ctl" data-sf-permission="sys:file:upload"><i class="fa fa-cloud-upload"></i> 上传</label>
 								<input type="file" name="file" id="fileUpload" style="display: none;" >
-								<button type="button" class="btn btn-danger" id="delete">
+								<button type="button" class="btn btn-danger sf-permission-ctl" id="delete" data-sf-permission="sys:file:delete">
 									<i class="fa fa-trash-o"></i>
 								</button>
 							</div>
