@@ -36,6 +36,9 @@ public class AliFileFileHandler implements FileHandler {
 	@Override
 	public void upload(String relativePath, InputStream in) throws IOException {
 		ossClient.putObject(bucketName, handleRelativePath(relativePath), in);
+		if (null != in) {
+			in.close();
+		}
 	}
 
 	@Override
