@@ -18,8 +18,10 @@ public class DefaultHttpPoolClientTest {
 		params.put("grant_type", "client_credential");
 		params.put("appid", "APPID");
 		params.put("secret", "APPSECRET");
-	//	String doGet = HttpRequestUtils.doPost("https://api.weixin.qq.com/cgi-bin/token", params);
-	//	System.out.println(doGet);
+		for (int i = 0;i<100;i ++ ) {
+			String doGet = HttpRequestUtils.doPost("https://api.weixin.qq.com/cgi-bin/token", params);
+			System.out.println(doGet);
+		}
 		System.in.read();
 		}
 }

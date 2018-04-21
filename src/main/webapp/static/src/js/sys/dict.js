@@ -39,6 +39,7 @@ $(function() {
 					});
 				});
 				$("#sf-select-temlate").tmpl(data).appendTo($("#search-type"));
+				$('#search-type').selectpicker('refresh');
 			})
 		}
 	};

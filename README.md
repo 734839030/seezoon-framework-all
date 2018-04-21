@@ -30,6 +30,7 @@ Bootstrap |CSS/HTML框架|[https://v3.bootcss.com/](https://v3.bootcss.com/)
 Jquery|JavaScript 库|[http://api.jquery.com/](http://api.jquery.com/)
 Bootstrap table|数据表格|[http://bootstrap-table.wenzhixin.net.cn/documentation/#table-options](http://bootstrap-table.wenzhixin.net.cn/documentation/#table-options)
 Bootstrap Table Editable|可编辑表格|http://vitalets.github.io/x-editable/docs.html#editable
+Bootstrap Select|下拉组件|http://silviomoreto.github.io/bootstrap-select/
 AdminLte |后台模板|[https://adminlte.io/themes/AdminLTE/index2.html](https://adminlte.io/themes/AdminLTE/index2.html)
 Layer|弹出层|[http://www.layui.com/doc/modules/layer.html#type](http://www.layui.com/doc/modules/layer.html#type)
 Bootstrap DateTimePicker |时间选择器|[http://www.bootcss.com/p/bootstrap-datetimepicker/](http://www.bootcss.com/p/bootstrap-datetimepicker/)

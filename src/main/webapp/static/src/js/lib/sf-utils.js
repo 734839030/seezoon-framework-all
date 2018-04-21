@@ -126,6 +126,8 @@ $(function() {
 					});
 				}
 				$("#sf-select-temlate").tmpl(dictList).appendTo(this);
+				//重新渲染
+				$('.sf-select').selectpicker('refresh');
 			});
 		},
 		//日期控件
