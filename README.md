@@ -22,6 +22,8 @@ Spring session（C端）|分布式会话|[https://docs.spring.io/spring-session/
 PageHelper|分页|[https://github.com/pagehelper/Mybatis-PageHelper](https://github.com/pagehelper/Mybatis-PageHelper)
 Druid |连接池|[https://github.com/alibaba/druid](https://github.com/alibaba/druid)
 AliOSS|云存储|[https://help.aliyun.com/document_detail/32008.html?spm=a2c4g.11186623.6.670.9vnD4m](https://help.aliyun.com/document_detail/32008.html?spm=a2c4g.11186623.6.670.9vnD4m)
+Zxing|二维码|[https://github.com/zxing/zxing](https://github.com/zxing/zxing)
+POI|excel|[https://poi.apache.org/spreadsheet/quick-guide.html](https://poi.apache.org/spreadsheet/quick-guide.html)
 
 #### 前端 ####
 技术 | 名称 | 文档地址
