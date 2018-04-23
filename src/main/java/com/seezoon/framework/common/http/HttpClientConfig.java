@@ -21,12 +21,12 @@ public class HttpClientConfig {
 	private int validateAfterInactivity = 2 * 1000;
 	// 重试次数 0 不重试
 	private int retyTimes = 3;
-	// 空闲时间多久销毁s
+	// 空闲时间多久销毁ms
 	private int idleTimeToDead = 60 * 1000;
-	// 连接最多存活多久s
+	// 连接最多存活多久ms
 	private int connTimeToLive = 60 * 1000;
 	//清理空闲线程
-	private int idleScanTime = 5 * 100;
+	private int idleScanTime = 5 * 1000;
 	//默认请求头
 	private String userAgent  = "seezoon-framework "  + "(" + 
             System.getProperty("os.name") + "/" + System.getProperty("os.version") + "/" +

@@ -36,22 +36,22 @@ import com.seezoon.framework.common.context.exception.ClientException;
  *         http://hc.apache.org/httpcomponents-client-4.5.x/tutorial/pdf/httpclient-tutorial.pdf
  *         http://hc.apache.org/httpcomponents-client-4.5.x/examples.html
  */
-public class DefaultHttpPoolClient {
+public class HttpPoolClient {
 
 	/**
 	 * 日志对象
 	 */
-	private static Logger logger = LoggerFactory.getLogger(DefaultHttpPoolClient.class);
+	private static Logger logger = LoggerFactory.getLogger(HttpPoolClient.class);
 
 	private HttpClientConfig httpClientConfig;
 	private HttpClientConnectionManager httpClientConnectionManager;
 	private CloseableHttpClient httpClient;
 
-	public DefaultHttpPoolClient() {
+	public HttpPoolClient() {
 		this(new HttpClientConfig());
 	}
 
-	public DefaultHttpPoolClient(HttpClientConfig httpClientConfig) {
+	public HttpPoolClient(HttpClientConfig httpClientConfig) {
 		this.httpClientConfig = httpClientConfig;
 		httpClientConnectionManager = createHttpClientConnectionManager();
 		httpClient = createHttpClient(httpClientConnectionManager);

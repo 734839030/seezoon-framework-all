@@ -18,6 +18,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -28,6 +29,11 @@ import org.springframework.util.Assert;
 import com.alibaba.fastjson.JSON;
 import com.seezoon.framework.common.context.exception.ClientException;
 
+/**
+ * 对性能和参数要求敏感，需要自行利用 HttpPoolClient 对象自行构造
+ * 
+ * @author hdf 2018年4月23日
+ */
 public class HttpRequestUtils {
 
 	/**
@@ -37,7 +43,7 @@ public class HttpRequestUtils {
 
 	private static String DEFAULT_CHARSET = "UTF-8";
 
-	private static DefaultHttpPoolClient defaultHttpPoolClient = new DefaultHttpPoolClient();
+	private static HttpPoolClient defaultHttpPoolClient = new HttpPoolClient();
 
 	public static <T> T doGet(String url, Map<String, String> params, Class<T> clazz) {
 		return JSON.parseObject(doGet(url, params), clazz);
@@ -53,12 +59,7 @@ public class HttpRequestUtils {
 
 	public static String postJson(String url, Map<String, String> params) {
 		HttpPost httpPost = new HttpPost(url);
-		httpPost.addHeader("Content-Type", "application/json");
-		try {
-			httpPost.setEntity(new StringEntity(JSON.toJSONString(params)));
-		} catch (UnsupportedEncodingException e) {
-			throw new ClientException(e);
-		}
+		httpPost.setEntity(new StringEntity(JSON.toJSONString(params), ContentType.APPLICATION_JSON));
 		return execute(httpPost);
 	}
 
@@ -85,6 +86,7 @@ public class HttpRequestUtils {
 	}
 
 	public static String doPost(String url, Map<String, String> params) {
+		logger.debug("test log");
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(getUrlEncodedFormEntity(params));
 		return execute(httpPost);
