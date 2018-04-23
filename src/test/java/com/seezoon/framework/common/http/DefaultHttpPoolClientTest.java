@@ -20,7 +20,12 @@ public class DefaultHttpPoolClientTest {
 		params.put("secret", "APPSECRET");
 		for (int i = 0;i<100;i ++ ) {
 			String doGet = HttpRequestUtils.doPost("https://api.weixin.qq.com/cgi-bin/token", params);
+			String login = HttpRequestUtils.doPost("http://admin-b.cnmmt.com/sys/user/login", params);
+
 			System.out.println(doGet);
+			System.out.println(login);
+
+			
 		}
 		System.in.read();
 		}
