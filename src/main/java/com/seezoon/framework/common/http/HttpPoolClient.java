@@ -27,7 +27,7 @@ import org.apache.http.ssl.TrustStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.seezoon.framework.common.context.exception.ClientException;
+import com.seezoon.framework.common.context.exception.ServiceException;
 
 /**
  * 带连接池的http client 请勿频繁实例化
@@ -116,7 +116,7 @@ public class HttpPoolClient {
 			return httpClient.execute(request);
 		} catch (IOException e) {
 			request.abort();
-			throw new ClientException(e);
+			throw new ServiceException(e);
 		}
 	}
 

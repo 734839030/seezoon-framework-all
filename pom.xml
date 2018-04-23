@@ -59,7 +59,7 @@
 		<thumbnailator.version>0.4.8</thumbnailator.version>
 		<!-- 二维码 -->
 		<zxing.version>3.3.2</zxing.version>
-		
+		<poi.version>3.17</poi.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -387,6 +387,21 @@
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
 			<version>${zxing.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>${poi.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

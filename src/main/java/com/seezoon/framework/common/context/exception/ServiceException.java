@@ -5,29 +5,29 @@ package com.seezoon.framework.common.context.exception;
  * 
  * @author hdf 2018年4月20日
  */
-public class ClientException extends RuntimeException {
+public class ServiceException extends RuntimeException {
 
-	public ClientException() {
+	public ServiceException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ClientException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public ServiceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ClientException(String message, Throwable cause) {
+	public ServiceException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ClientException(String message) {
+	public ServiceException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ClientException(Throwable cause) {
+	public ServiceException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}

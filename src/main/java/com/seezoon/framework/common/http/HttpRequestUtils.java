@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSON;
-import com.seezoon.framework.common.context.exception.ClientException;
+import com.seezoon.framework.common.context.exception.ServiceException;
 
 /**
  * 对性能和参数要求敏感，需要自行利用 HttpPoolClient 对象自行构造
@@ -78,7 +78,7 @@ public class HttpRequestUtils {
 					httpGet.setURI(URI.create(url + "?" + paramStr));
 				}
 			} catch (Exception e) {
-				throw new ClientException(e);
+				throw new ServiceException(e);
 			}
 		}
 		String result = execute(httpGet);
@@ -104,13 +104,13 @@ public class HttpRequestUtils {
 					EntityUtils.consume(entity);
 					return result;
 				} else {
-					throw new ClientException("请求无数据返回");
+					throw new ServiceException("请求无数据返回");
 				}
 			} else {
-				throw new ClientException("请求状态异常失败");
+				throw new ServiceException("请求状态异常失败");
 			}
 		} catch (Exception e) {
-			throw new ClientException(request.getURI().toString() + "请求失败", e);
+			throw new ServiceException(request.getURI().toString() + "请求失败", e);
 		} finally {
 			if (null != response) {
 				try {

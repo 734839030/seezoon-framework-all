@@ -26,7 +26,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.seezoon.framework.common.context.exception.ClientException;
+import com.seezoon.framework.common.context.exception.ServiceException;
 
 /**
  * 二维码工具类
@@ -36,22 +36,6 @@ import com.seezoon.framework.common.context.exception.ClientException;
 public class ZxingHelper {
 
 	private static final String CHARSET = "utf-8";
-
-	public int getImageSize() {
-		return imageSize;
-	}
-
-	public void setImageSize(int imageSize) {
-		this.imageSize = imageSize;
-	}
-
-	public int getLogoSize() {
-		return logoSize;
-	}
-
-	public void setLogoSize(int logoSize) {
-		this.logoSize = logoSize;
-	}
 
 	private static final String FORMAT_NAME = "JPG";
 	/**
@@ -85,7 +69,7 @@ public class ZxingHelper {
 				logo.close();
 			}
 		} catch (Exception e) {
-			throw new ClientException(e);
+			throw new ServiceException(e);
 		}
 	}
 
@@ -184,5 +168,21 @@ public class ZxingHelper {
 		graph.setStroke(new BasicStroke(3f));
 		graph.draw(shape);
 		graph.dispose();
+	}
+
+	public int getImageSize() {
+		return imageSize;
+	}
+
+	public void setImageSize(int imageSize) {
+		this.imageSize = imageSize;
+	}
+
+	public int getLogoSize() {
+		return logoSize;
+	}
+
+	public void setLogoSize(int logoSize) {
+		this.logoSize = logoSize;
 	}
 }
