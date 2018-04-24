@@ -57,6 +57,34 @@
          <bean class="com.seezoon.framework.common.context.filter.TraceWebFilter"></bean>    
     </mvc:interceptor>
     </mvc:interceptors>
-    <!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->  
+    <!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<!-- 是否有边框 可选yes 或者 no -->
+						<prop key="kaptcha.border">yes</prop>
+						<!-- 边框颜色 -->
+						<prop key="kaptcha.border.color">105,179,90</prop>
+						<!-- 验证码文本字符颜色 -->
+						<prop key="kaptcha.textproducer.font.color">blue</prop>
+						<!-- 验证码文本字符大小 -->
+						<prop key="kaptcha.textproducer.font.size">45</prop>
+						<!-- 验证码图片的宽度 默认200 -->
+						<prop key="kaptcha.image.width">125</prop>
+						<!-- 验证码图片的高度 默认50 -->
+						<prop key="kaptcha.image.height">45</prop>
+						<!-- 验证码文本字符长度 默认为5 -->
+						<prop key="kaptcha.textproducer.char.length">4</prop>
+						<!-- 验证码文本字体样式 默认为new Font("Arial", 1, fontSize), new Font("Courier", 
+							1, fontSize) -->
+						<prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
+					</props>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+     
 	<import resource="classpath:message/spring-message.xml"/>
 </beans>

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -58,7 +59,8 @@ public class ExcelUtils {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	public static <T> List<T> doParse(InputStream in, Class<T> clazz, String[] columns, boolean is03Format) throws Exception {
+	public static <T> List<T> doParse(InputStream in, Class<T> clazz, String[] columns, boolean is03Format)
+			throws Exception {
 		List<T> result = new ArrayList<>();
 		Workbook workbook = null;
 		if (is03Format) {
@@ -115,14 +117,12 @@ public class ExcelUtils {
 							break;
 						}
 					}
-					Field filed = ReflectionUtils.findField(clazz, columns[k]);
-					if (null == filed) {
+					Field field = ReflectionUtils.findField(clazz, columns[k]);
+					if (null == field) {
 						throw new ServiceException(columns[k] + " 配置错误");
 					}
-					if (!filed.isAccessible()) {
-						filed.setAccessible(true);
-					}
-					ReflectionUtils.setField(filed, rowData, cellValue);
+					ReflectionUtils.makeAccessible(field);
+					ReflectionUtils.setField(field, rowData, cellValue);
 				}
 				result.add(rowData);
 			}
@@ -148,7 +148,7 @@ public class ExcelUtils {
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
-	public static <T> OutputStream doExport(String templatePath, String[] columns, Class<T> clazz, List<T> data,
+	public static <T> void doExport(String templatePath, String[] columns, Class<T> clazz, List<T> data,
 			OutputStream out, int startRow) throws IOException, IllegalArgumentException, IllegalAccessException {
 		ClassPathResource classPathResource = new ClassPathResource(templatePath);
 		InputStream inputStream = classPathResource.getInputStream();
@@ -164,9 +164,7 @@ public class ExcelUtils {
 				if (null == field) {
 					throw new ServiceException(columns[j] + " 配置错误");
 				}
-				if (!field.isAccessible()) {
-					field.setAccessible(true);
-				}
+				ReflectionUtils.makeAccessible(field);
 				Object obj = data.get(i - startRow);
 				if (field.getType().getSimpleName().equalsIgnoreCase("double")) {
 					cell.setCellValue((Double) field.get(obj));
@@ -182,6 +180,5 @@ public class ExcelUtils {
 		}
 		workbook.write(out);
 		workbook.close();
-		return out;
 	}
 }
