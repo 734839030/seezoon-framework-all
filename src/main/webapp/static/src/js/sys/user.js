@@ -161,6 +161,17 @@ $(function() {
 			model.tableRefresh();
 		});
 	});
+	//查看图像
+	$("body").on("click", ".viewImages", function() {
+		var url = $(this).data("url");
+		layer.photos({
+		    photos: {
+		    	title: "图像", //相册标题
+		    	data:[{src:url}]
+		    },
+		    anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+		  });
+	});
 	// 删除
 	$("#delete").click(function() {
 		var rows = $('#table').bootstrapTable("getSelections");
@@ -185,6 +196,7 @@ $(function() {
 			});
 		}
 	});
+	
 	// 列表
 	$('#table').bootstrapTable({
 		url : model.path + '/qryPage.do',
@@ -196,7 +208,22 @@ $(function() {
 		}, {
 			field : 'loginName',
 			title : '用户名',
-		}, 
+		},{
+			field : 'photoFullUrl',
+			title : '图像',
+			cellStyle:function cellStyle(value, row, index, field) {
+				  return {
+					    css: {"width": "50px", "padding": "3px","text-align":"center","cursor":'pointer'}
+					  };
+					},
+			formatter : function(value, row, index) {
+				if (value) {
+					return "<image src='" + value  + "' class='viewImages' style='width:40px;height:40px;' data-url='" + value + "'/>";
+				} else {
+					return value;
+				}
+			}
+		},
 		{
 			field : 'name',
 			title : '姓名',

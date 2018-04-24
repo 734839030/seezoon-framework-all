@@ -41,6 +41,9 @@ public class SysUserController extends BaseController {
 	@PostMapping("/qryPage.do")
 	public ResponeModel qryPage(SysUser sysUser,HttpServletRequest request) {
 		PageInfo<SysUser> page = sysUserService.findByPage(sysUser, sysUser.getPage(), sysUser.getPageSize());
+		for (SysUser user: page.getList()) {
+			user.setPhotoFullUrl(FileHandlerFactory.getFullUrl(user.getPhoto()));
+		}
 		return ResponeModel.ok(page);
 	}
 	@RequiresPermissions("sys:user:qry")

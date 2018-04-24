@@ -12,6 +12,7 @@ import org.apache.log4j.NDC;
 public class NDCUtils {
 
 	public static void push() {
+		clear();
 		NDC.push(randomThreadId());
 	}
 
