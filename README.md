@@ -67,6 +67,8 @@ static/src 为前端源文件，static/dist 为编译后的静态资源，这边
 * 文档编写
 
 ## 部分项目截图 ##
+#### 代码生成 还未完全开发完成，请使用分支版本 ####
+![代码生成](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/gen.png?raw=true)
 #### 首页 ####
 ![首页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/index.png?raw=true)
 #### 用户管理 ####
