@@ -29,17 +29,4 @@
 <![endif]-->
 <!-- <link rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">  -->
-
-<script id="sf-radio-temlate" type="text/x-jquery-tmpl">
-<label class="radio-inline"> 
-	<input type="radio" way-data="${inputName}" name="${inputName}" value="${code}" ${required} ${disabled}>${name}
-</label>
-</script>
-<script id="sf-checkbox-temlate" type="text/x-jquery-tmpl">
-<label class="checkbox-inline">
-	<input type="checkbox" way-data="${inputName}" ${required} ${disabled}  name="${inputName}" value="${code}">${name}
-</label>  
-</script>
-<script id="sf-select-temlate" type="text/x-jquery-tmpl">
-<option value="${code}" ${disabled}>${name}</option>
-</script>
+@@include('template.html')

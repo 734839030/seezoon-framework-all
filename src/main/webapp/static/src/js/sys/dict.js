@@ -38,7 +38,7 @@ $(function() {
 						name:v
 					});
 				});
-				$("#sf-select-temlate").tmpl(data).appendTo($("#search-type"));
+				$("#sf-select-template").tmpl(data).appendTo($("#search-type"));
 				$('#search-type').selectpicker('refresh');
 			})
 		}

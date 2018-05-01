@@ -49,7 +49,7 @@ $(function() {
 						chkboxType: { "Y": "ps", "N": "ps" }
 					}
 				},respone.data);
-				model.menuTree.expandAll(true);
+				//model.menuTree.expandAll(true);
 			});
 		}
 	};

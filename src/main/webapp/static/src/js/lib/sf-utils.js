@@ -109,9 +109,9 @@ $(function() {
 					});
 				}
 				if ($(this).hasClass("sf-radio")) {
-					$("#sf-radio-temlate").tmpl(dictList).appendTo(this);
+					$("#sf-radio-template").tmpl(dictList).appendTo(this);
 				} else {
-					$("#sf-checkbox-temlate").tmpl(dictList).appendTo(this);
+					$("#sf-checkbox-template").tmpl(dictList).appendTo(this);
 				}
 			});
 			$(".sf-select").each(function(i, v) {
@@ -125,7 +125,7 @@ $(function() {
 						}
 					});
 				}
-				$("#sf-select-temlate").tmpl(dictList).appendTo(this);
+				$("#sf-select-template").tmpl(dictList).appendTo(this);
 				//重新渲染
 				$('.sf-select').selectpicker('refresh');
 			});
