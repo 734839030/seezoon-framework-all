@@ -2,6 +2,10 @@ package com.seezoon.framework.modules.system.entity;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.seezoon.framework.common.entity.BaseEntity;
 import com.seezoon.framework.modules.system.dto.GenColumnInfo;
@@ -16,26 +20,36 @@ public class SysGen extends BaseEntity<String>{
 	/**
 	 * 表名
 	 */
+	@NotNull
+	@Length(min=1,max=32)
 	private String tableName;
 
 	/**
 	 * 菜单名
 	 */
+	@NotNull
+	@Length(min=1,max=50)
 	private String menuName;
 
 	/**
 	 * 模块名
 	 */
+	@NotNull
+	@Length(min=1,max=10)
 	private String moduleName;
 
 	/**
 	 * 生成模板
 	 */
+	@NotNull
+	@Length(min=1,max=1)
 	private String template;
 
 	/**
 	 * 类名
 	 */
+	@NotNull
+	@Length(min=1,max=50)
 	private String className;
 
 	/**
@@ -47,6 +61,7 @@ public class SysGen extends BaseEntity<String>{
 	/**
 	 * 生成列信息
 	 */
+	@NotNull
 	private List<GenColumnInfo> columnInfo;
 	public String getTableName() {
 		return tableName;

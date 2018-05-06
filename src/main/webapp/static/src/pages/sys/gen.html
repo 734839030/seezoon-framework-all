@@ -25,11 +25,11 @@ ${dbColumnName}
     </select>
 </td>
 <td><input type="text"  class="form-control" name="columnInfo[][javaFieldName]" value="${javaFieldName}" maxlength="20" required style="width:100px;"/></td>
-<td><input type="checkbox" name="columnInfo[][nullable]" value="1" {{if nullable == '1'}}checked{{/if}} /></td>
+<td><input type="checkbox" name="columnInfo[][nullable]" value="1" {{if typeof(nullable)!='undefined' && nullable == '1'}}checked{{/if}} /></td>
 <td><input type="checkbox" name="columnInfo[][insert]" value="1" {{if typeof(insert)!='undefined' && insert == '1'}}checked{{/if}} /></td>
 <td><input type="checkbox" name="columnInfo[][update]" value="1" {{if typeof(update)!='undefined' && update == '1'}}checked{{/if}} /></td>
 <td>
-	<input type="checkbox" name="columnInfo[][list]" value="1" {{if typeof(list)!='undefined' && list == '1'}}checked{{/if}} />|
+	<input type="checkbox" name="columnInfo[][list]" value="1" {{if typeof(list)!='undefined' && list == '1'}}checked{{/if}} />&nbsp;|
 	<input type="checkbox" name="columnInfo[][sortable]" value="1" {{if typeof(sortable)!='undefined' && sortable == '1'}}checked{{/if}} />
 </td>
 <td><input type="checkbox" name="columnInfo[][search]" value="1" {{if typeof(search)!='undefined' && search == '1'}}checked{{/if}} /></td>
@@ -61,7 +61,7 @@ ${dbColumnName}
     </select>
 </td>
 <td><input type="text" class="form-control"  name="columnInfo[][dictType]" value="${dictType}" maxlength="20" style="width:80px;" /></td>
-<td><input type="number"  class="form-control"  name="columnInfo[][sort]" value="${sort}" maxlength="3" required style="width:60px;"/></td>
+<td><input type="number"  class="form-control"  name="columnInfo[][sort]" value="${sort}" maxlength="3" required style="width:70px;"/></td>
 </tr>
 </script>
 </head>
@@ -113,14 +113,14 @@ ${dbColumnName}
 			</section>
 		</div>
 	</div>
-	<div id="form-panel" class="row mg5">
+	<div id="form-panel" class="row mg5 undisplay">
 		<form class="form-horizontal" way-scope="model.form.data" id="data-form">
 			<input type="hidden" way-data="id" name="id">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">表名<font
 					class="text-red">*</font></label>
 				<div class="col-sm-5">
-					<select class="form-control selectpicker"  data-live-search="true" name="tableName" way-data="tableName" id="table-select">
+					<select class="form-control selectpicker"  data-live-search="true" name="tableName" way-data="tableName" id="table-select" required="required">
 						<option value="">请选择表</option>
 					</select>
 				</div>

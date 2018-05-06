@@ -106,12 +106,6 @@
       <if test="className != null" >
         class_name = #{className,jdbcType=VARCHAR},
       </if>
-      <if test="createBy != null" >
-        create_by = #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="updateBy != null" >
         update_by = #{updateBy,jdbcType=VARCHAR},
       </if>
@@ -134,8 +128,6 @@
       module_name = #{moduleName,jdbcType=VARCHAR},
       template = #{template,jdbcType=VARCHAR},
       class_name = #{className,jdbcType=VARCHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       remarks = #{remarks,jdbcType=VARCHAR},
@@ -149,8 +141,6 @@
       module_name = #{moduleName,jdbcType=VARCHAR},
       template = #{template,jdbcType=VARCHAR},
       class_name = #{className,jdbcType=VARCHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       remarks = #{remarks,jdbcType=VARCHAR}

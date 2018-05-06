@@ -3,6 +3,8 @@ $(function() {
 		path : adminContextPath + "/sys/gen",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
+			$("#table-body").empty();
+			$('#table-select').selectpicker('refresh'); 
 			way.set("model.form.data",null);
 		},
 		getFormData : function() {
@@ -15,9 +17,9 @@ $(function() {
 		setFormData:function(data){
 			model.resetDataForm();
 			way.set("model.form.data",data);
+			$('#table-select').selectpicker('refresh'); 
 			//渲染字段
-			$("#table-column-tr-template").tmpl(data.columnInfo).appendTo($("#table-body").empty());
-			model.bootstrapValidator();
+			$("#table-column-tr-template").tmpl(data.columnInfo).appendTo($("#table-body"));
 		},
 		tableRefresh : function() {
 			$('#table').bootstrapTable("refresh");
@@ -50,27 +52,8 @@ $(function() {
 				  maxmin:true,
 				  content:  $("#form-panel") 
 				});
-		},
-		bootstrapValidator:function(){
-			// 校验
-			$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
-				e.preventDefault();
-				var id = model.getFormData().id;
-				var optUrl = model.path + "/save.do";
-				if (id) {
-					optUrl = model.path + "/update.do";
-				}
-				$.post(optUrl, $("#data-form").serialize(), function(respone) {
-					if (respone.responeCode == '0') {
-						layer.msg("保存成功");
-						model.tableRefresh();
-						$("#form-panel").modal('toggle');
-					}
-				});
-			});
 		}
 	};
-	model.openModal("添加");
 	model.init();
 	//新增场景
 	$("#table-select").change(function(){
@@ -80,10 +63,31 @@ $(function() {
 				model.setFormData(respone.data);
 			});
 		} else {//清空
-			
+			model.resetDataForm();
 		}
 	});
-	
+	// 校验
+	$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
+		e.preventDefault();
+		var id = model.getFormData().id;
+		var optUrl = model.path + "/save.do";
+		if (id) {
+			optUrl = model.path + "/update.do";
+		}
+		
+		$.ajax({
+			url:optUrl,
+			contentType : "application/json;charset=UTF-8",
+			data:JSON.stringify($('#data-form').serializeJSON()),
+			success:function(respone){
+				if (respone.responeCode == "0") {
+					layer.msg("保存成功");
+					model.tableRefresh();
+					layer.closeAll('page');
+				}
+			}
+		});
+	});
 	// 查询
 	$("#search").click(function() {
 		model.tableRefresh();
@@ -91,8 +95,7 @@ $(function() {
 	// 添加
 	$("#add").click(function() {
 		model.resetDataForm();
-		model.setFormTitle("<i class='fa fa-plus'>添加</i>");
-		$("#form-panel").modal('toggle');
+		model.openModal("<i class='fa fa-plus'>添加</i>");
 	});
 	// 编辑
 	$("#edit").click(function() {
@@ -100,10 +103,12 @@ $(function() {
 		if (rows.length == 0) {
 			layer.msg("请选择一行");
 		} else {
-			model.resetDataForm();
-			model.setFormDataById(rows[0].id);
-			model.setFormTitle("<i class='fa fa-edit'>编辑</i>");
-			$("#form-panel").modal('toggle');
+			$.get(model.path  + "/get.do",{id:rows[0].id},function(respone){
+				if (respone.responeCode == "0") {
+					model.openModal("<i class='fa fa-edit'>编辑</i>");
+					model.setFormData(respone.data);
+				}
+			});
 		}
 	});
 	// 删除
@@ -150,10 +155,16 @@ $(function() {
 		}, {
 			field : 'template',
 			title : '生成模板',
-		} , {
-			field : 'template',
-			title : '生成模板',
-		} ,{
+			formatter : function(value, row, index) {
+				if (value == '1'){//基本增删改查
+					value = "<span class='label label-success'>增删改查</span>";
+				} else if (value == '2') {//树形结构
+					value = "<span class='label label-danger'>树结构</span>"
+				} 
+				return value;
+			}
+			
+		}  ,{
 			field : 'updateDate',
 			title : '更新时间',
 			sortName : 'update_date',
