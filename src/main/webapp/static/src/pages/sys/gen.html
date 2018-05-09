@@ -4,16 +4,19 @@
 <script id="table-column-tr-template" type="text/x-jquery-tmpl">
 <tr>
 <td>
-<input type="hidden" name="columnInfo[][dbColumnName]" value="${dbColumnName}"/>
-<input type="hidden" name="columnInfo[][columnType]" value="${columnType}"/>
-<input type="hidden" name="columnInfo[][dataType]" value="${dataType}"/>
-<input type="hidden" name="columnInfo[][maxLength]" value="${maxLength}"/>
+<input type="hidden" name="columnInfos[][dbColumnName]" value="${dbColumnName}"/>
+<input type="hidden" name="columnInfos[][columnType]" value="${columnType}"/>
+<input type="hidden" name="columnInfos[][columnKey]" value="${columnKey}"/>
+<input type="hidden" name="columnInfos[][extra]" value="${extra}"/>
+<input type="hidden" name="columnInfos[][dataType]" value="${dataType}"/>
+<input type="hidden" name="columnInfos[][jdbcType]" value="${jdbcType}"/>
+<input type="hidden" name="columnInfos[][maxLength]" value="${maxLength}"/>
 ${dbColumnName}
 </td>
-<td><input type="text"  class="form-control"  name="columnInfo[][columnComment]" value="${columnComment}" maxlength="10" style="width:100px;"/></td>
+<td><input type="text"  class="form-control"  name="columnInfos[][columnComment]" value="${columnComment}" maxlength="10" style="width:100px;"/></td>
 <td>${columnType}</td>
 <td>
-	<select class="form-control" name="columnInfo[][javaType]">
+	<select class="form-control" name="columnInfos[][javaType]">
 		<option value="String" {{if javaType == 'String'}}selected="selected"{{/if}} >String</option>
 		<option value="Short" {{if javaType == 'Short'}}selected="selected"{{/if}}>Short</option>
 		<option value="Integer" {{if javaType == 'Integer'}}selected="selected"{{/if}}>Integer</option>
@@ -24,17 +27,17 @@ ${dbColumnName}
 		<option value="Long" {{if javaType == 'Long'}}selected="selected"{{/if}}>Long</option>
     </select>
 </td>
-<td><input type="text"  class="form-control" name="columnInfo[][javaFieldName]" value="${javaFieldName}" maxlength="20" required style="width:100px;"/></td>
-<td><input type="checkbox" name="columnInfo[][nullable]" value="1" {{if typeof(nullable)!='undefined' && nullable == '1'}}checked{{/if}} /></td>
-<td><input type="checkbox" name="columnInfo[][insert]" value="1" {{if typeof(insert)!='undefined' && insert == '1'}}checked{{/if}} /></td>
-<td><input type="checkbox" name="columnInfo[][update]" value="1" {{if typeof(update)!='undefined' && update == '1'}}checked{{/if}} /></td>
+<td><input type="text"  class="form-control" name="columnInfos[][javaFieldName]" value="${javaFieldName}" maxlength="20" required style="width:100px;"/></td>
+<td><input type="checkbox" name="columnInfos[][nullable]" value="1" {{if typeof(nullable)!='undefined' && nullable == '1'}}checked{{/if}} /></td>
+<td><input type="checkbox" name="columnInfos[][insert]" value="1" {{if typeof(insert)!='undefined' && insert == '1'}}checked{{/if}} /></td>
+<td><input type="checkbox" name="columnInfos[][update]" value="1" {{if typeof(update)!='undefined' && update == '1'}}checked{{/if}} /></td>
 <td>
-	<input type="checkbox" name="columnInfo[][list]" value="1" {{if typeof(list)!='undefined' && list == '1'}}checked{{/if}} />&nbsp;|
-	<input type="checkbox" name="columnInfo[][sortable]" value="1" {{if typeof(sortable)!='undefined' && sortable == '1'}}checked{{/if}} />
+	<input type="checkbox" name="columnInfos[][list]" value="1" {{if typeof(list)!='undefined' && list == '1'}}checked{{/if}} />&nbsp;|
+	<input type="checkbox" name="columnInfos[][sortable]" value="1" {{if typeof(sortable)!='undefined' && sortable == '1'}}checked{{/if}} />
 </td>
-<td><input type="checkbox" name="columnInfo[][search]" value="1" {{if typeof(search)!='undefined' && search == '1'}}checked{{/if}} /></td>
+<td><input type="checkbox" name="columnInfos[][search]" value="1" {{if typeof(search)!='undefined' && search == '1'}}checked{{/if}} /></td>
 <td>
-	<select class="form-control" name="columnInfo[][queryType]">
+	<select class="form-control" name="columnInfos[][queryType]">
 		<option value="">请选择</option>
 		<option value="=" {{if typeof(queryType)!='undefined' && queryType == '='}}selected="selected"{{/if}}>=</option>
 		<option value="!=" {{if typeof(queryType)!='undefined' && queryType == "!="}}selected="selected"{{/if}}>!=</option>
@@ -49,7 +52,7 @@ ${dbColumnName}
     </select>
 </td>
 <td>
-	<select class="form-control" name="columnInfo[][inputType]">
+	<select class="form-control" name="columnInfos[][inputType]">
 		<option value="text" {{if typeof(inputType)!='undefined' && inputType == 'text'}}selected="selected"{{/if}}>文本框</option>
 	    <option value="select" {{if typeof(inputType)!='undefined' && inputType == 'select'}}selected="selected"{{/if}}>下拉框</option>
 		<option value="hidden" {{if typeof(inputType)!='undefined' && inputType == 'hidden'}}selected="selected"{{/if}}>隐藏框</option>
@@ -60,8 +63,8 @@ ${dbColumnName}
 		<option value="richtext" {{if typeof(inputType)!='undefined' && inputType == 'richtext'}}selected="selected"{{/if}}>富文本</option>
     </select>
 </td>
-<td><input type="text" class="form-control"  name="columnInfo[][dictType]" value="${dictType}" maxlength="20" style="width:80px;" /></td>
-<td><input type="number"  class="form-control"  name="columnInfo[][sort]" value="${sort}" maxlength="3" required style="width:70px;"/></td>
+<td><input type="text" class="form-control"  name="columnInfos[][dictType]" value="${dictType}" maxlength="20" style="width:80px;" /></td>
+<td><input type="number"  class="form-control"  name="columnInfos[][sort]" value="${sort}" maxlength="3" required style="width:70px;"/></td>
 </tr>
 </script>
 </head>
@@ -116,16 +119,17 @@ ${dbColumnName}
 	<div id="form-panel" class="row mg5 undisplay">
 		<form class="form-horizontal" way-scope="model.form.data" id="data-form">
 			<input type="hidden" way-data="id" name="id">
+			<input type="hidden" way-data="pkType" name="pkType">
 			<div class="form-group">
-				<label class="col-sm-2 control-label">表名<font
-					class="text-red">*</font></label>
-				<div class="col-sm-5">
-					<select class="form-control selectpicker"  data-live-search="true" name="tableName" way-data="tableName" id="table-select" required="required">
-						<option value="">请选择表</option>
-					</select>
+				<div class="group">
+					<label class="col-sm-2 control-label">表名<font
+						class="text-red">*</font></label>
+					<div class="col-sm-3">
+						<select class="form-control selectpicker"  data-live-search="true" name="tableName" way-data="tableName" id="table-select" required="required" data-bv-group=".group">
+							<option value="">请选择表</option>
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class="form-group">
 				<div class="group">
 					<label class="col-sm-2 control-label">菜单名<font
 						class="text-red">*</font></label>
@@ -134,12 +138,22 @@ ${dbColumnName}
 							maxlength="50" name="menuName" required placeholder="如：用户管理" data-bv-group=".group">
 					</div>
 				</div>
+			</div>
+			<div class="form-group">
 				<div class="group">	
 					<label class="col-sm-2 control-label">模块名<font
 						class="text-red">*</font></label>
 					<div class="col-sm-3">
 						<input type="text" class="form-control" way-data="moduleName"
 							maxlength="10"  name="moduleName" required placeholder="如:sys" data-bv-group=".group">
+					</div>
+				</div>
+				<div class="group">
+					<label class="col-sm-2 control-label">功能模块<font
+						class="text-red">*</font></label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" way-data="functionName"
+							maxlength="20" name="functionName" required placeholder="如：param" data-bv-group=".group">
 					</div>
 				</div>
 			</div>
@@ -190,7 +204,7 @@ ${dbColumnName}
 			</div>
 
 			<div class="row">
-				<button type="button" class="btn btn-default col-md-offset-1">
+				<button type="button" class="btn btn-default col-md-offset-1" id="form-panel-close">
 					<i class="fa fa-times"></i> 取消
 				</button>
 				<button type="submit" class="btn btn-primary col-md-offset-8">

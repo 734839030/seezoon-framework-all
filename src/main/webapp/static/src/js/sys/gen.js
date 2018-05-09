@@ -19,7 +19,7 @@ $(function() {
 			way.set("model.form.data",data);
 			$('#table-select').selectpicker('refresh'); 
 			//渲染字段
-			$("#table-column-tr-template").tmpl(data.columnInfo).appendTo($("#table-body"));
+			$("#table-column-tr-template").tmpl(data.columnInfos).appendTo($("#table-body"));
 		},
 		tableRefresh : function() {
 			$('#table').bootstrapTable("refresh");
@@ -66,6 +66,10 @@ $(function() {
 			model.resetDataForm();
 		}
 	});
+	//代码生成
+	$("body").on("click",".code-gen",function(){
+		
+	})
 	// 校验
 	$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
 		e.preventDefault();
@@ -111,6 +115,10 @@ $(function() {
 			});
 		}
 	});
+	//取消
+	$("#form-panel-close").click(function(){
+		layer.closeAll('page');
+	});
 	// 删除
 	$("#delete").click(function() {
 		var rows = $('#table').bootstrapTable("getSelections");
@@ -138,6 +146,9 @@ $(function() {
 	// 列表
 	$('#table').bootstrapTable({
 		url : model.path + '/qryPage.do',
+		onPostBody:function(){//渲染完后执行
+			$.bntPermissionHandler();
+		},
 		columns : [ {
 			checkbox : true
 		}, {
@@ -170,6 +181,13 @@ $(function() {
 			sortName : 'update_date',
 			sortable : true,
 			order : 'desc'
-		}  ]
+		},{
+			field : 'oper',
+			title : '操作',
+			formatter : function(value, row, index) {
+				var oper = "<a  href='#' class='text-success sf-permission-ctl code-gen' data-sf-permission='sys:gen:qry' data-id='" + row.id  + "'>生成</a>";
+				return oper;
+			}
+		} ]
 	});
 });

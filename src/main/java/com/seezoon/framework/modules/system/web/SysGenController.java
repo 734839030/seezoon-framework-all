@@ -1,6 +1,8 @@
 package com.seezoon.framework.modules.system.web;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Collections2;
 import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.dto.GenColumnInfo;
@@ -39,15 +42,15 @@ public class SysGenController extends BaseController {
 	@RequestMapping("/get.do")
 	public ResponeModel get(@RequestParam Serializable id) {
 		SysGen sysGen = sysGenService.findById(id);
-		Assert.notNull(sysGen,"生成方案不存在");
-		sysGen.setColumnInfo(JSON.parseArray(sysGen.getColumns(), GenColumnInfo.class));
 		return ResponeModel.ok(sysGen);
 	}
 
 	@RequiresPermissions("sys:gen:save")
 	@PostMapping("/save.do")
 	public ResponeModel save(@Validated @RequestBody SysGen sysGen, BindingResult bindingResult) {
-		sysGen.setColumns(JSON.toJSONString(sysGen.getColumnInfo()));
+		List<GenColumnInfo> columnInfos = sysGen.getColumnInfos();
+		Collections.sort(columnInfos);
+		sysGen.setColumns(JSON.toJSONString(columnInfos));
 		int cnt = sysGenService.save(sysGen);
 		return ResponeModel.ok(cnt);
 	}
@@ -55,7 +58,9 @@ public class SysGenController extends BaseController {
 	@RequiresPermissions("sys:gen:update")
 	@PostMapping("/update.do")
 	public ResponeModel update(@Validated @RequestBody SysGen sysGen, BindingResult bindingResult) {
-		sysGen.setColumns(JSON.toJSONString(sysGen.getColumnInfo()));
+		List<GenColumnInfo> columnInfos = sysGen.getColumnInfos();
+		Collections.sort(columnInfos);
+		sysGen.setColumns(JSON.toJSONString(columnInfos));
 		int cnt = sysGenService.updateSelective(sysGen);
 		return ResponeModel.ok(cnt);
 	}

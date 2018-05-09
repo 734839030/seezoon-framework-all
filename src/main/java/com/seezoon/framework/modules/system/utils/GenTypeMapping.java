@@ -73,7 +73,9 @@ public class GenTypeMapping {
 	 */
 	public static String getDbMybatisMapping(String dbType) {
 		Assert.hasLength(dbType, "dbType 为空");
-		return dbMybatisTypeMapping.get(dbType.toLowerCase());
+		String mapping = dbMybatisTypeMapping.get(dbType.toLowerCase());
+		Assert.notNull(mapping, dbType + "无对应mybatis 映射，请补全");
+		return mapping;
 	}
 
 	/**
@@ -84,6 +86,8 @@ public class GenTypeMapping {
 	 */
 	public static String getDbJavaMapping(String dbType) {
 		Assert.hasLength(dbType, "dbType 为空");
-		return dbJavaTypeMapping.get(dbType.toLowerCase());
+		String mapping = dbJavaTypeMapping.get(dbType.toLowerCase());
+		Assert.notNull(mapping, dbType + "无对应mybatis 映射，请补全");
+		return mapping;
 	}
 }

@@ -4,8 +4,10 @@
   <resultMap id="BaseResultMap" type="com.seezoon.framework.modules.system.entity.SysGen" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="pk_type" property="pkType" jdbcType="VARCHAR" />
     <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
     <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+    <result column="function_name" property="functionName" jdbcType="VARCHAR" />
     <result column="template" property="template" jdbcType="VARCHAR" />
     <result column="class_name" property="className" jdbcType="VARCHAR" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
@@ -18,7 +20,7 @@
     <result column="columns" property="columns" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, table_name, menu_name, module_name, template, class_name, create_by, create_date, 
+    id, table_name,pk_type, menu_name, module_name,function_name, template, class_name, create_by, create_date, 
     update_by, update_date, remarks
   </sql>
   <sql id="Blob_Column_List" >
@@ -57,6 +59,14 @@
 		</where>
 		order by create_time desc
   </select>
+  <select id="findPkType" parameterType="String" resultType="String">
+  select
+	t.data_type dataType
+	from
+	information_schema.`columns` t 
+	where table_name = upper(#{tableName}) and t.table_schema = (select database()) and t.column_key = 'PRI'
+	order by t.ordinal_position asc limit 0,1
+  </select>
   <select id="findColumnByTableName" parameterType="String" resultType="com.seezoon.framework.modules.system.dto.DbTableColumn">
 	select
 	t.column_name name,
@@ -65,7 +75,9 @@
 	t.column_comment comment ,
 	t.data_type dataType ,
 	t.character_maximum_length maxLength,
-	t.column_type columnType
+	t.column_type columnType,
+	t.column_key columnKey,
+	t.extra extra
 	from
 	information_schema.`columns` t 
 	where table_name = upper(#{tableName}) and t.table_schema = (select database())
@@ -77,13 +89,13 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysGen" >
-    insert into sys_gen (id, table_name, menu_name, 
-      module_name, template, class_name, 
+    insert into sys_gen (id, table_name,pk_type, menu_name, 
+      module_name,function_name, template, class_name, 
       create_by, create_date, update_by, 
       update_date, remarks, columns
       )
-    values (#{id,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, 
-      #{moduleName,jdbcType=VARCHAR}, #{template,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, #{pkType,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, 
+      #{moduleName,jdbcType=VARCHAR},#{functionName},#{template,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
       #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{columns,jdbcType=LONGVARCHAR}
       )
@@ -94,11 +106,17 @@
       <if test="tableName != null" >
         table_name = #{tableName,jdbcType=VARCHAR},
       </if>
+      <if test="pkType != null" >
+        pk_type = #{pkType,jdbcType=VARCHAR},
+      </if>
       <if test="menuName != null" >
         menu_name = #{menuName,jdbcType=VARCHAR},
       </if>
       <if test="moduleName != null" >
         module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null" >
+        function_name = #{functionName,jdbcType=VARCHAR},
       </if>
       <if test="template != null" >
         template = #{template,jdbcType=VARCHAR},
@@ -119,31 +137,6 @@
         columns = #{columns,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.seezoon.framework.modules.system.entity.SysGen" >
-    update sys_gen
-    set table_name = #{tableName,jdbcType=VARCHAR},
-      menu_name = #{menuName,jdbcType=VARCHAR},
-      module_name = #{moduleName,jdbcType=VARCHAR},
-      template = #{template,jdbcType=VARCHAR},
-      class_name = #{className,jdbcType=VARCHAR},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      remarks = #{remarks,jdbcType=VARCHAR},
-      columns = #{columns,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.system.entity.SysGen" >
-    update sys_gen
-    set table_name = #{tableName,jdbcType=VARCHAR},
-      menu_name = #{menuName,jdbcType=VARCHAR},
-      module_name = #{moduleName,jdbcType=VARCHAR},
-      template = #{template,jdbcType=VARCHAR},
-      class_name = #{className,jdbcType=VARCHAR},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      remarks = #{remarks,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -9,7 +9,9 @@ public class DbTableColumn {
 	private String dataType;
 	private Long maxlength;
 	private String columnType;
-	
+	private String columnKey;
+	private String extra;
+
 	public String getName() {
 		return name;
 	}
@@ -64,6 +66,22 @@ public class DbTableColumn {
 
 	public void setColumnType(String columnType) {
 		this.columnType = columnType;
+	}
+
+	public String getColumnKey() {
+		return columnKey;
+	}
+
+	public void setColumnKey(String columnKey) {
+		this.columnKey = columnKey;
+	}
+
+	public String getExtra() {
+		return extra;
+	}
+
+	public void setExtra(String extra) {
+		this.extra = extra;
 	}
 
 }

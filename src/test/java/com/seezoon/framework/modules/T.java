@@ -4,9 +4,13 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 public class T {
@@ -37,7 +41,13 @@ public class T {
 	}
 	@Test
 	public void t4() {
-		char c = '1';
-		
+		System.out.println(StringEscapeUtils.escapeHtml4("https://mmt4ossbucket1.oss-cn-hangzhou.aliyuncs.com"));
 	}
+	@Test
+	public void t5() throws IOException {
+		FileWriter fw = new FileWriter("/Users/hdf/Documents/temp/x1.txt");
+		fw.write("sss");
+		fw.close();
+	}
+	
 }

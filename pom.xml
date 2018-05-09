@@ -59,7 +59,11 @@
 		<thumbnailator.version>0.4.8</thumbnailator.version>
 		<!-- 二维码 -->
 		<zxing.version>3.3.2</zxing.version>
+		<!-- excel 导入导出 -->
 		<poi.version>3.17</poi.version>
+		<!-- 模板 -->
+		<freemarker.version>2.3.28</freemarker.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -402,6 +406,11 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml-schemas</artifactId>
 			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
