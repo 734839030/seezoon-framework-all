@@ -13,7 +13,7 @@ public class FreeMarkerUtilsTest {
 	public void t1() {
 		Map<String,Object> map = new HashMap<>();
 		map.put("a", "PRI");
-		map.put("search", "=");
+		map.put("search", null);
 		map.put("map", map);
 
 		List<Map<String,Object>> l = new ArrayList();

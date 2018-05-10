@@ -56,6 +56,7 @@ ${dbColumnName}
 		<option value="text" {{if typeof(inputType)!='undefined' && inputType == 'text'}}selected="selected"{{/if}}>文本框</option>
 	    <option value="select" {{if typeof(inputType)!='undefined' && inputType == 'select'}}selected="selected"{{/if}}>下拉框</option>
 		<option value="hidden" {{if typeof(inputType)!='undefined' && inputType == 'hidden'}}selected="selected"{{/if}}>隐藏框</option>
+		<option value="number" {{if typeof(inputType)!='undefined' && inputType == 'number'}}selected="selected"{{/if}}>数值框</option>
 		<option value="checkbox" {{if typeof(inputType)!='undefined' && inputType == 'checkbox'}}selected="selected"{{/if}}>复选框</option>
 		<option value="radio" {{if typeof(inputType)!='undefined' && inputType == 'radio'}}selected="selected"{{/if}}>单选框</option>
 		<option value="date" {{if typeof(inputType)!='undefined' && inputType == 'date'}}selected="selected"{{/if}}>日期选择</option>
@@ -189,7 +190,7 @@ ${dbColumnName}
 							<th>字段名称</th>
 							<th>可空</th>
 							<th>插入</th>
-							<th>编辑</th>
+							<th>更新</th>
 							<th>列表|排序</th>
 							<th>查询</th>
 							<th>查询方式</th>

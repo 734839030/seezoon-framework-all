@@ -84,8 +84,8 @@ $(function() {
 			 * name="status" value="0">无效 </label> </div>
 			 * 
 			 * <div class="col-sm-5"> <label class="checkbox-inline"> <input
-			 * type="radio" required way-data="status" name="status" value="1">有效
-			 * </label> <label class="checkbox-inline"> <input type="radio" required
+			 * type="checkbox" required way-data="status" name="status" value="1">有效
+			 * </label> <label class="checkbox-inline"> <input type="checkbox" required
 			 * way-data="status" name="status" value="0">无效 </label> </div>
 			 * 
 			 */

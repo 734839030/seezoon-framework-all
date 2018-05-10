@@ -3,12 +3,17 @@ package com.seezoon.framework.modules;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -49,5 +54,12 @@ public class T {
 		fw.write("sss");
 		fw.close();
 	}
-	
+	@Test
+	public void t6() throws Exception {
+		ZipOutputStream zos  = new ZipOutputStream(new FileOutputStream("/Users/hdf/Documents/temp/x1.zip"));
+		zos.putNextEntry(new ZipEntry("/Users/hdf/Documents/temp/x1.txt"));
+		IOUtils.write("xx", zos);
+		zos.closeEntry();
+		zos.close();
+	}
 }

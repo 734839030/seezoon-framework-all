@@ -69,6 +69,11 @@ public class SysGenService extends CrudService<SysGenDao, SysGen> {
 		return sysGen;
 	}
 	
-	
+	public byte[] codeGen(String id) {
+		Assert.hasLength(id, "方案Id 为空");
+		SysGen sysGen = this.findById(id);
+		Assert.notNull(sysGen,"方案为空");
+		return this.generatorService.codeGen(sysGen);
+	}
 	
 }

@@ -25,7 +25,7 @@ public class GenEnum {
 			this.value = value;
 		}
 
-		public String getValue() {
+		public String value() {
 			return value;
 		}
 	}
@@ -45,6 +45,10 @@ public class GenEnum {
 		 * 隐藏域
 		 */
 		HIDDEN("hidden"),
+		/**
+		 * 数值框
+		 */
+		NUMBER("number"),
 		/**
 		 * 复选框
 		 */
@@ -72,7 +76,7 @@ public class GenEnum {
 			this.value = value;
 		}
 
-		public String getValue() {
+		public String value() {
 			return value;
 		}
 	}

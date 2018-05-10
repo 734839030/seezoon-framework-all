@@ -1,9 +1,8 @@
 package com.seezoon.framework.modules.system.service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -14,18 +13,20 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import com.seezoon.framework.common.Constants;
+import com.seezoon.framework.common.context.exception.ServiceException;
+import com.seezoon.framework.common.service.BaseService;
 import com.seezoon.framework.common.utils.FreeMarkerUtils;
 import com.seezoon.framework.modules.system.dto.DbTable;
 import com.seezoon.framework.modules.system.dto.DbTableColumn;
 import com.seezoon.framework.modules.system.dto.GenColumnInfo;
 import com.seezoon.framework.modules.system.entity.SysGen;
+import com.seezoon.framework.modules.system.utils.GenEnum;
 import com.seezoon.framework.modules.system.utils.GenTypeMapping;
 
 @Service
-public class GeneratorService {
+public class GeneratorService extends BaseService{
 
 	/**
 	 * 编辑默认不勾选
@@ -44,7 +45,13 @@ public class GeneratorService {
 	/**
 	 * 待生成模板
 	 */
-	private static final String[] ftls = {"mapper.xml.ftl","entity.java.ftl","dao.java.ftl","service.java.ftl","controller.java.ftl"};
+	private static final String[] ftls = {"gen/mapper.xml.ftl","gen/entity.java.ftl","gen/dao.java.ftl","gen/service.java.ftl","gen/controller.java.ftl","gen/page.html.ftl","gen/javascript.js.ftl"};
+	
+	private static final String javaFolder = "src/main/java/com/seezoon/framework/modules/";
+	private static final String mapperFolder = "src/main/resources/datasource/mappings/";
+	private static final String staticFolder = "/src/main/webapp/static/src/";
+
+
 	/**
 	 * 第一次从表结构获取的默认生成方案
 	 * 
@@ -82,12 +89,21 @@ public class GeneratorService {
 			genColumnInfo.setJdbcType(GenTypeMapping.getDbMybatisMapping(column.getDataType()));
 			genColumnInfo.setJavaFieldName(columnToJava(column.getName()));
 			genColumnInfo.setNullable(column.getNullable());
-			genColumnInfo.setInsert(Constants.YES);
+			//自增默认不插入
+			if (!"auto_increment".equals(column.getExtra())) {
+				genColumnInfo.setInsert(Constants.YES);
+			}
 			if (!ArrayUtils.contains(defaultNotUpdates, column.getName())) {
 				genColumnInfo.setUpdate(Constants.YES);
 			}
 			if (!ArrayUtils.contains(defaultNotLists, column.getName())) {
 				genColumnInfo.setList(Constants.YES);
+			}
+			if ("id".equals(column.getName())) {//默认是隐藏
+				genColumnInfo.setInputType(GenEnum.InputType.HIDDEN.value());
+			}
+			if ("remarks".equals(column.getName())) {//默认文本域
+				genColumnInfo.setInputType(GenEnum.InputType.TEXTAREA.value());
 			}
 			genColumnInfo.setSort(column.getSort());
 			genColumnInfos.add(genColumnInfo);
@@ -96,7 +112,7 @@ public class GeneratorService {
 		return sysGen;
 	}
 
-	public void codeGen(SysGen sysGen) throws IOException {
+	public byte[] codeGen(SysGen sysGen) {
 		Assert.notNull(sysGen, "生成方案为空");
 		Assert.notNull(sysGen.getColumnInfos(), "生成方案为空");
 		List<GenColumnInfo> columnInfos = sysGen.getColumnInfos();
@@ -113,20 +129,58 @@ public class GeneratorService {
 					sysGen.setHasSearch(true);
 				}
 			}
-			//打字单
+			//大字段
 			if (column.getJdbcType().equals("LONGVARCHAR")) {
 				sysGen.setHasBlob(true);
 			}
 		}
-		ZipOutputStream zos = new ZipOutputStream(new ByteArrayOutputStream());
-		String entity = FreeMarkerUtils.renderTemplate("gen/entity.java.ftl", sysGen);
-		zos.putNextEntry(new ZipEntry("src/main/java/com/seezoon/framework/modules/system"));
-		IOUtils.write(entity,zos);
-		String renderTemplate1 = FreeMarkerUtils.renderTemplate("gen/mapper.xml.ftl", sysGen);
-		System.out.println(renderTemplate1);
+		try {
+			return this.zipCode(sysGen);
+		} catch (IOException e) {
+			throw new ServiceException(e);
+		}
 	}
 
-	/**
+	private byte[] zipCode(SysGen sysGen) throws IOException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ZipOutputStream zos = new ZipOutputStream(bos);
+		for (String ftl : ftls) {
+			String content = FreeMarkerUtils.renderTemplate(ftl, sysGen);
+			logger.info("ftl {}:\r\n{}",ftl,content);
+			zos.putNextEntry(new ZipEntry(this.getZipEntryName(ftl,sysGen)));
+			IOUtils.write(content, zos);
+			zos.closeEntry();
+		}
+		//这个地方有点反人类，按道理应该在取到byte[] 后关闭，测试，zos.flush 也无效，顾提前关闭，将流都刷入到数组中。
+		zos.close();
+		byte[] byteArray = bos.toByteArray();
+		return byteArray;
+	}
+	private String getZipEntryName(String ftl,SysGen sysGen) {
+		String name = null;
+		String moduleName = sysGen.getModuleName();
+		String className = sysGen.getClassName();
+		String functionName = sysGen.getFunctionName();
+
+		if (ftl.contains("entity.java")) {
+			name = javaFolder + moduleName + "/entity/" + className + ".java";
+		} else if (ftl.contains("dao.java")) {
+			name = javaFolder + moduleName + "/dao/" + className + "Dao.java";
+		} else if (ftl.contains("service.java")) {
+			name = javaFolder + moduleName + "/service/" + className + "Service.java";
+		} else if (ftl.contains("controller.java")) {
+			name = javaFolder + moduleName + "/web/" + className + "Controller.java";
+		} else if (ftl.contains("mapper.xml")) {
+			name = mapperFolder + moduleName + "/" + className + "Mapper.xml";
+		} else if (ftl.contains("page.html")) {
+			name = staticFolder + "pages/" + moduleName + "/" + functionName + ".html";
+		} else if (ftl.contains("javascript.js")) {
+			name = staticFolder + "js/" + moduleName + "/" + functionName + ".js";
+		}
+		Assert.hasLength(name, "zipEntryName 为空");
+		return name;
+	}
+ 	/**
 	 * 列名转换成Java属性名
 	 */
 	public static String columnToJava(String columnName) {

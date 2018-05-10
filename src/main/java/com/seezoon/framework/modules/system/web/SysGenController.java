@@ -1,9 +1,16 @@
 package com.seezoon.framework.modules.system.web;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -19,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Collections2;
 import com.seezoon.framework.common.context.beans.ResponeModel;
+import com.seezoon.framework.common.utils.CodecUtils;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.dto.GenColumnInfo;
 import com.seezoon.framework.modules.system.entity.SysGen;
@@ -81,5 +89,16 @@ public class SysGenController extends BaseController {
 	@PostMapping("/qryTableInfo.do")
 	public ResponeModel qryTableInfo(@RequestParam String tableName) {
 		return ResponeModel.ok(sysGenService.getDefaultGenInfoByTableName(tableName));
+	}
+	@RequiresPermissions("sys:gen:qry")
+	@RequestMapping("/codeGen.do")
+	public void codeGen(@RequestParam String id,HttpServletResponse response) throws IOException {
+		byte[] codeGen = this.sysGenService.codeGen(id);
+		response.setContentType("application/zip");
+		response.setHeader("Content-Disposition", "attachment;filename="+ CodecUtils.urlEncode("代码生成.zip")); 
+		response.setContentLength(codeGen.length);
+		ServletOutputStream output = response.getOutputStream();
+		IOUtils.write(codeGen, output);
+		IOUtils.closeQuietly(output);
 	}
 }

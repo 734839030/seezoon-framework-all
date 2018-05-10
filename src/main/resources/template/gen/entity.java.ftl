@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * ${menuName}
  * Copyright &copy; 2018 powered by huangdf, All rights reserved.
- * @author hdf 2018年4月1日
+ * @author hdf ${.now}
  */
 public class ${className} extends BaseEntity<${pkType}> {
 <#list columnInfos as columnInfo>

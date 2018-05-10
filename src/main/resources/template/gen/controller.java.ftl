@@ -17,8 +17,13 @@ import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.${moduleName}.entity.${className};
 import com.seezoon.framework.modules.${moduleName}.service.${className}Service;
 
+/**
+ * ${menuName}controller
+ * Copyright &copy; 2018 powered by huangdf, All rights reserved.
+ * @author hdf ${.now}
+ */
 @RestController
-@RequestMapping("${admin.path}/${moduleName}/${functionName}")
+@RequestMapping("${r'${admin.path}'}/${moduleName}/${functionName}")
 public class ${className}Controller extends BaseController {
 
 	@Autowired

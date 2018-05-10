@@ -68,7 +68,8 @@ $(function() {
 	});
 	//代码生成
 	$("body").on("click",".code-gen",function(){
-		
+		var id = $(this).data("id");
+		window.location.href= model.path + "/codeGen.do?id=" + id;
 	})
 	// 校验
 	$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
