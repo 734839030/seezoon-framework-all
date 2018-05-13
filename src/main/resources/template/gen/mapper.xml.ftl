@@ -1,4 +1,3 @@
-<!-- Copyright &copy; 2018 powered by huangdf, All rights reserved. -->
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.seezoon.framework.modules.${moduleName}.dao.${className}Dao" >
@@ -9,11 +8,13 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-  <#list columnInfos as columnInfo><#if columnInfo.jdbcType !='LONGVARCHAR'>${columnInfo.dbColumnName}${columnInfo?has_next ?string(",","")}</#if></#list>
+  <#assign notFirst = false>
+  <#list columnInfos as columnInfo><#if columnInfo.jdbcType !='LONGVARCHAR'><#if notFirst>,</#if>${columnInfo.dbColumnName}<#assign notFirst = true></#if></#list>
   </sql>
   <#if hasBlob>
   <sql id="Blob_Column_List" >
-  <#list columnInfos as columnInfo><#if columnInfo.jdbcType =='LONGVARCHAR'>${columnInfo.dbColumnName}${columnInfo?has_next ?string(",","")}</#if></#list>
+  <#assign notFirst = false>
+  <#list columnInfos as columnInfo><#if columnInfo.jdbcType =='LONGVARCHAR'><#if notFirst>,</#if>${columnInfo.dbColumnName}<#assign notFirst = true></#if></#list>
   </sql>
   </#if>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="${pkType}" >
@@ -62,17 +63,24 @@
 </#list>
     </where>
 </#if>
-    <if test="sortField != null and sortField != '' and direction != null and direction !=''">
+	<choose>
+    <when test="sortField != null and sortField != '' and direction != null and direction !=''">
     order by ${r'${sortField} ${direction}'}
-    </if>
+    </when>
+    <otherwise>
+   <!-- 默认排序设置 -->
+    </otherwise>
+    </choose>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="${pkType}" >
     delete from ${tableName}
     where id = ${r'#{id}'}
   </delete>
+  <#assign notFirst = false>
   <insert id="insert" parameterType="com.seezoon.framework.modules.${moduleName}.entity.${className}" >
-    insert into sys_param (<#list columnInfos as columnInfo><#if columnInfo.insert! ="1">${columnInfo.dbColumnName}${columnInfo?has_next ?string(",","")}</#if></#list>)
-    values (<#list columnInfos as columnInfo><#if columnInfo.insert! ="1">${"#"}{${columnInfo.javaFieldName}}${columnInfo?has_next ?string(",","")}</#if></#list>)
+    insert into sys_param (<#list columnInfos as columnInfo><#if columnInfo.insert! ="1"><#if notFirst>,</#if>${columnInfo.dbColumnName}<#assign notFirst = true></#if></#list>)
+    <#assign notFirst = false>
+    values (<#list columnInfos as columnInfo><#if columnInfo.insert! ="1"><#if notFirst>,</#if>${"#"}{${columnInfo.javaFieldName}}<#assign notFirst = true></#if></#list>)
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.seezoon.framework.modules.${moduleName}.entity.${className}" >
     update ${tableName}
@@ -90,9 +98,10 @@
   <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.${moduleName}.entity.${className}" >
     update ${tableName}
     set 
+    	<#assign notFirst = false>
       <#list columnInfos as columnInfo>
       <#if columnInfo.update! ="1">
-        ${columnInfo.dbColumnName} = ${"#"}{${columnInfo.javaFieldName}}${columnInfo?has_next ?string(",","")}
+        <#if notFirst>,</#if>${columnInfo.dbColumnName} = ${"#"}{${columnInfo.javaFieldName}}<#assign notFirst = true>
       </#if>
       </#list>
     where id = ${r'#{id}'}

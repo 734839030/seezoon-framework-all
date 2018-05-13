@@ -21,9 +21,9 @@
 								<#if columnInfo.search! == "1">
 									<#if columnInfo.inputType! == "text">
 										<div class="form-group">
-										<input type="text" class="form-control" placeholder="${columnInfo.columnComment}" name="${columnInfo.javaFieldName}" way-data="${columnInfo.javaFieldName}" <#if columnInfo.maxLength?? && columnInfo.maxLength!="" >maxlength="${columnInfo.maxLength}"</#if>  >
+										<input type="text" class="form-control" placeholder="${columnInfo.columnComment}" name="${columnInfo.javaFieldName}" way-data="${columnInfo.javaFieldName}" <#if columnInfo.maxLength?? >maxlength="${columnInfo.maxLength?c}"</#if>  >
 										</div>
-									<#/if>
+									</#if>
 									<#if columnInfo.inputType! == "select">
 									<div class="form-group">
 										<#if columnInfo.dictType?? && columnInfo.dictType!="">
@@ -39,7 +39,7 @@
 										</select>
 										</#if>
 									</div>
-									<#/if>
+									</#if>
 									<#if columnInfo.inputType! == "number">
 									<div class="form-group">
 										<input type="number" class="form-control" placeholder="${columnInfo.columnComment}" name="${columnInfo.javaFieldName}" way-data="${columnInfo.javaFieldName}">
@@ -67,7 +67,7 @@
 									</#if>
 									<#if columnInfo.inputType! == "date">
 									<div class="form-group">
-										<label>${columnInfo.columnComment}</label> <input type="text" class="form-control date" placeholder="${columnInfo.columnComment}" name="{columnInfo.javaFieldName}"  way-data="{columnInfo.javaFieldName}">
+										<label>${columnInfo.columnComment}</label> <input type="text" class="form-control date" placeholder="${columnInfo.columnComment}" name="${columnInfo.javaFieldName}"  way-data="${columnInfo.javaFieldName}">
 									</div>
 									</#if>
 								</#if>
@@ -118,11 +118,12 @@
 							</#if>
 						</#list>
 						<#list columnInfos as columnInfo>
+							<#if  columnInfo.javaFieldName != "createBy" && columnInfo.javaFieldName != "createDate" && columnInfo.javaFieldName != "updateBy" && columnInfo.javaFieldName != "updateDate">
 							<#if columnInfo.inputType! == "text">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-5">
-										<input type="text" class="form-control" way-data="${columnInfo.javaFieldName}" <#if columnInfo.maxLength?? && columnInfo.maxLength!="" >maxlength="${columnInfo.maxLength}"</#if>
+										<input type="text" class="form-control" way-data="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>
 											name="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1"> minlength="1" required</#if> >
 									</div>
 								</div>
@@ -140,17 +141,25 @@
 										<select class="form-control" way-data="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1">required</#if>
 											name="${columnInfo.javaFieldName}">
 											<option value="">请选择</option>
-											<option value="">待手工修改</option>
 										</select>
 										</#if>
 									</div>
 								</div>
 							</#if>
-							<#if columnInfo.inputType! == "number">
+							<#if columnInfo.inputType! == "zhengshu">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-5">
-										<input type="text" class="form-control" way-data="${columnInfo.javaFieldName}" 
+										<input type="number" class="form-control" way-data="${columnInfo.javaFieldName}" 
+											name="${columnInfo.javaFieldName}"  <#if columnInfo.nullable! !="1"> required</#if> >
+									</div>
+								</div>
+							</#if>
+							<#if columnInfo.inputType! == "xiaoshu">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="${columnInfo.javaFieldName}" pattern="^-{0,1}\d+(\.\d{0,2})?$" data-bv-regexp-message="请按提示格式输入"
 											name="${columnInfo.javaFieldName}"  <#if columnInfo.nullable! !="1"> required</#if> >
 									</div>
 								</div>
@@ -194,9 +203,10 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-10">
-										<textarea class="form-control" rows="3" way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" <#if columnInfo.maxLength?? && columnInfo.maxLength!="" >maxlength="${columnInfo.maxLength}"</#if>  <#if columnInfo.nullable! !="1"> minlength="1" required</#if> ></textarea>
+										<textarea class="form-control" rows="3" way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>  <#if columnInfo.nullable! !="1"> minlength="1" required</#if> ></textarea>
 									</div>
 								</div>
+							</#if>
 							</#if>
 						</#list>
 					</div>
@@ -230,7 +240,7 @@
 					<form class="form-horizontal">
 						<div class="form-group">
 							<#list columnInfos as columnInfo>
-								<#if columnInfo.inputType! != "hidden">
+								<#if columnInfo.inputType! != "hidden" && columnInfo.javaFieldName != "createBy" && columnInfo.javaFieldName != "updateBy">
 								<label class="col-sm-2 control-label">${columnInfo.columnComment}:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="${columnInfo.javaFieldName}"></p>

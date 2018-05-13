@@ -116,16 +116,21 @@ $(function() {
 			<#if columnInfo.sortable! =="1">
 			sortName : '${columnInfo.dbColumnName}',
 			sortable : true,
-			order : 'desc'
+			order : 'desc',
 			</#if>
 			<#if listIndex == 0>
 			formatter : function(value, row, index) {
-			    return "<a href='#' class='view' data-id='" + row.id + "'>" + value + "</a>"
+			    return "<a href='#' class='view' data-id='" + row.id + "'>" + ${(columnInfo.dictType?? && columnInfo.dictType!= "")?string("$.getDictName('${columnInfo.dictType}',value)","value")} + "</a>"
+			 }
+			 </#if>
+			 <#if columnInfo.dictType?? && columnInfo.dictType!= "" && listIndex != 0>
+			 formatter : function(value, row, index) {
+			    return $.getDictName('${columnInfo.dictType}',value);
 			 }
 			 </#if>
 			},
 			</#if>
-		<#/list>
+		</#list>
 		 ]
 	});
 });

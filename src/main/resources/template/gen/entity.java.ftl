@@ -23,11 +23,11 @@ public class ${className} extends BaseEntity<${pkType}> {
     <#if columnInfo.nullable! != "1">
     @NotNull
     <#if columnInfo.javaType == "String">
-    @Length(min = 1, max = ${columnInfo.maxLength!255})
+    @Length(min = 1, max = ${columnInfo.maxLength?c!255})
     </#if>
     <#else>
     <#if columnInfo.javaType == "String">
-    @Length(max = ${columnInfo.maxLength!255})
+    @Length(max = ${columnInfo.maxLength?c!255})
     </#if>
     </#if>
     private ${columnInfo.javaType} ${columnInfo.javaFieldName};

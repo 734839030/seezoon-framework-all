@@ -56,7 +56,8 @@ ${dbColumnName}
 		<option value="text" {{if typeof(inputType)!='undefined' && inputType == 'text'}}selected="selected"{{/if}}>文本框</option>
 	    <option value="select" {{if typeof(inputType)!='undefined' && inputType == 'select'}}selected="selected"{{/if}}>下拉框</option>
 		<option value="hidden" {{if typeof(inputType)!='undefined' && inputType == 'hidden'}}selected="selected"{{/if}}>隐藏框</option>
-		<option value="number" {{if typeof(inputType)!='undefined' && inputType == 'number'}}selected="selected"{{/if}}>数值框</option>
+		<option value="number" {{if typeof(inputType)!='undefined' && inputType == 'zhengshu'}}selected="selected"{{/if}}>整数框</option>
+		<option value="text" {{if typeof(inputType)!='undefined' && inputType == 'xiaoshu'}}selected="selected"{{/if}}>小数框</option>
 		<option value="checkbox" {{if typeof(inputType)!='undefined' && inputType == 'checkbox'}}selected="selected"{{/if}}>复选框</option>
 		<option value="radio" {{if typeof(inputType)!='undefined' && inputType == 'radio'}}selected="selected"{{/if}}>单选框</option>
 		<option value="date" {{if typeof(inputType)!='undefined' && inputType == 'date'}}selected="selected"{{/if}}>日期选择</option>
@@ -86,6 +87,10 @@ ${dbColumnName}
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="菜单名称"
 									name="menuName" way-data="menuName" maxlength="50">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="模块"
+									name="moduleName" way-data="moduleName" maxlength="50">
 							</div>
 							<button type="button" class="btn btn-default sf-permission-ctl"
 								id="search" data-sf-permission="sys:gen:qry">

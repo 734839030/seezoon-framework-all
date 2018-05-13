@@ -42,6 +42,9 @@
     		<if test="menuName !=null and menuName!=''">
     			menu_name = #{menuName,jdbcType=VARCHAR}
     		</if>
+    		<if test="moduleName !=null and moduleName!=''">
+    			module_name = #{moduleName,jdbcType=VARCHAR}
+    		</if>
     </where>
     <!-- 有注入安全漏洞 后台系统忽略可以提高开发速度 -->
 	<if test="sortField != null and sortField != '' and direction != null and direction !=''">

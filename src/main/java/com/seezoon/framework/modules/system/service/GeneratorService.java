@@ -45,11 +45,11 @@ public class GeneratorService extends BaseService{
 	/**
 	 * 待生成模板
 	 */
-	private static final String[] ftls = {"gen/mapper.xml.ftl","gen/entity.java.ftl","gen/dao.java.ftl","gen/service.java.ftl","gen/controller.java.ftl","gen/page.html.ftl","gen/javascript.js.ftl"};
+	private static final String[] ftls = {"gen/mapper.xml.ftl","gen/entity.java.ftl","gen/dao.java.ftl","gen/service.java.ftl","gen/controller.java.ftl","gen/page.html.ftl","gen/javascript.js.ftl","gen/menu.sql.ftl"};
 	
-	private static final String javaFolder = "src/main/java/com/seezoon/framework/modules/";
-	private static final String mapperFolder = "src/main/resources/datasource/mappings/";
-	private static final String staticFolder = "/src/main/webapp/static/src/";
+	private static final String javaFolder = "/seezoon-code/src/main/java/com/seezoon/framework/modules/";
+	private static final String resourcesFolder = "/seezoon-code/src/main/resources/";
+	private static final String staticFolder = "/seezoon-code/src/main/webapp/static/src/";
 
 
 	/**
@@ -104,6 +104,15 @@ public class GeneratorService extends BaseService{
 			}
 			if ("remarks".equals(column.getName())) {//默认文本域
 				genColumnInfo.setInputType(GenEnum.InputType.TEXTAREA.value());
+			}
+			if ("Date".equals(genColumnInfo.getJavaType())) {//时间框
+				genColumnInfo.setInputType(GenEnum.InputType.DATE.value());
+			}
+			if ("Integer".equals(genColumnInfo.getJavaType()) || "Long".equals(genColumnInfo.getJavaType())) {//整数框
+				genColumnInfo.setInputType(GenEnum.InputType.ZHENGSHU.value());
+			}
+			if ("Float".equals(genColumnInfo.getJavaType()) || "Double".equals(genColumnInfo.getJavaType()) || "BigDecimal".equals(genColumnInfo.getJavaType()) ) {//小数框
+				genColumnInfo.setInputType(GenEnum.InputType.XIAOSHU.value());
 			}
 			genColumnInfo.setSort(column.getSort());
 			genColumnInfos.add(genColumnInfo);
@@ -171,11 +180,13 @@ public class GeneratorService extends BaseService{
 		} else if (ftl.contains("controller.java")) {
 			name = javaFolder + moduleName + "/web/" + className + "Controller.java";
 		} else if (ftl.contains("mapper.xml")) {
-			name = mapperFolder + moduleName + "/" + className + "Mapper.xml";
+			name = resourcesFolder + "datasource/mappings/" + moduleName + "/" + className + "Mapper.xml";
 		} else if (ftl.contains("page.html")) {
 			name = staticFolder + "pages/" + moduleName + "/" + functionName + ".html";
 		} else if (ftl.contains("javascript.js")) {
 			name = staticFolder + "js/" + moduleName + "/" + functionName + ".js";
+		} else if (ftl.contains("menu.sql")) {
+			name = resourcesFolder + "db/" + "sys_menu.sql";
 		}
 		Assert.hasLength(name, "zipEntryName 为空");
 		return name;

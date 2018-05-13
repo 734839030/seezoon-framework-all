@@ -46,9 +46,13 @@ public class GenEnum {
 		 */
 		HIDDEN("hidden"),
 		/**
-		 * 数值框
+		 * 整数
 		 */
-		NUMBER("number"),
+		ZHENGSHU("zhengshu"),
+		/**
+		 * 小数
+		 */
+		XIAOSHU("xiaoshu"),
 		/**
 		 * 复选框
 		 */
