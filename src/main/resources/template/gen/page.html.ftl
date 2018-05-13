@@ -47,21 +47,21 @@
 									<#if columnInfo.inputType! == "checkbox">
 										<#if columnInfo.dictType?? && columnInfo.dictType!="">
 										<div class="form-group sf-checkbox" data-sf-input-name="${columnInfo.javaFieldName}" data-sf-dict-type="${columnInfo.dictType}">
-										<div>
+										</div>
 										<#else>
 										<div class="form-group">
 											<label class="checkbox-inline"> <input type="checkbox" required way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" value="">${columnInfo.columnComment}</label>
-										<div>
+										</div>
 										</#if>
 									</#if>
 									<#if columnInfo.inputType! == "radio">
 										<#if columnInfo.dictType?? && columnInfo.dictType!="">
 										<div class="form-group sf-radio" data-sf-input-name="${columnInfo.javaFieldName}" data-sf-dict-type="${columnInfo.dictType}">
-										<div>
+										</div>
 										<#else>
 										<div class="form-group">
 											<label class="radio-inline"> <input type="radio" required way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" value="">${columnInfo.columnComment}</label>
-										<div>
+										</div>
 										</#if>
 									</#if>
 									<#if columnInfo.inputType! == "date">
@@ -117,7 +117,7 @@
 							</#if>
 						</#list>
 						<#list columnInfos as columnInfo>
-							<#if  columnInfo.javaFieldName != "createBy" && columnInfo.javaFieldName != "createDate" && columnInfo.javaFieldName != "updateBy" && columnInfo.javaFieldName != "updateDate">
+							<#if columnInfo.inputType! != "hidden" &&  columnInfo.javaFieldName != "createBy" && columnInfo.javaFieldName != "createDate" && columnInfo.javaFieldName != "updateBy" && columnInfo.javaFieldName != "updateDate">
 							<#if columnInfo.inputType! == "text">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
