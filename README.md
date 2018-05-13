@@ -39,6 +39,7 @@ Bootstrap DateTimePicker |时间选择器|[http://www.bootcss.com/p/bootstrap-da
 Wayjs |双向数据绑定|[https://github.com/gwendall/way.js/blob/master/docs/zh-CN.md](https://github.com/gwendall/way.js/blob/master/docs/zh-CN.md)
 Ztree|树组件|[http://www.treejs.cn/v3/api.php](http://www.treejs.cn/v3/api.php)
 Bootstrapvalidator|表单验证|[https://github.com/nghuuphuoc/bootstrapvalidator](https://github.com/nghuuphuoc/bootstrapvalidator)
+JSON serialize|JSON serialize|[https://github.com/marioizquierdo/jquery.serializeJSON](https://github.com/marioizquierdo/jquery.serializeJSON)
 Jquery-treegrid|树形表格|[jquery-treegrid](jquery-treegrid)
 JQuery-File-Upload|异步上传插件|[https://github.com/blueimp/jQuery-File-Upload/wiki/Basic-plugin](https://github.com/blueimp/jQuery-File-Upload/wiki/Basic-plugin)
 Node js|工具|[https://nodejs.org/zh-cn/](https://nodejs.org/zh-cn/)

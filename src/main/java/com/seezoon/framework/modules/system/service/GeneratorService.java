@@ -108,6 +108,10 @@ public class GeneratorService extends BaseService{
 			if ("Date".equals(genColumnInfo.getJavaType())) {//时间框
 				genColumnInfo.setInputType(GenEnum.InputType.DATE.value());
 			}
+			if ("LONGVARCHAR".equals(genColumnInfo.getJdbcType())) {//大文本
+				genColumnInfo.setInputType(GenEnum.InputType.TEXTAREA.value());
+				genColumnInfo.setList(Constants.NO);
+			}
 			if ("Integer".equals(genColumnInfo.getJavaType()) || "Long".equals(genColumnInfo.getJavaType())) {//整数框
 				genColumnInfo.setInputType(GenEnum.InputType.ZHENGSHU.value());
 			}

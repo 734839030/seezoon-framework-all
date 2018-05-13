@@ -47,21 +47,21 @@
 									<#if columnInfo.inputType! == "checkbox">
 										<#if columnInfo.dictType?? && columnInfo.dictType!="">
 										<div class="form-group sf-checkbox" data-sf-input-name="${columnInfo.javaFieldName}" data-sf-dict-type="${columnInfo.dictType}">
-										<div>
+										</div>
 										<#else>
 										<div class="form-group">
 											<label class="checkbox-inline"> <input type="checkbox" required way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" value="">${columnInfo.columnComment}</label>
-										<div>
+										</div>
 										</#if>
 									</#if>
 									<#if columnInfo.inputType! == "radio">
 										<#if columnInfo.dictType?? && columnInfo.dictType!="">
 										<div class="form-group sf-radio" data-sf-input-name="${columnInfo.javaFieldName}" data-sf-dict-type="${columnInfo.dictType}">
-										<div>
+										</div>
 										<#else>
 										<div class="form-group">
 											<label class="radio-inline"> <input type="radio" required way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" value="">${columnInfo.columnComment}</label>
-										<div>
+										</div>
 										</#if>
 									</#if>
 									<#if columnInfo.inputType! == "date">
@@ -117,7 +117,7 @@
 							</#if>
 						</#list>
 						<#list columnInfos as columnInfo>
-							<#if  columnInfo.javaFieldName != "createBy" && columnInfo.javaFieldName != "createDate" && columnInfo.javaFieldName != "updateBy" && columnInfo.javaFieldName != "updateDate">
+							<#if columnInfo.inputType! != "hidden" &&  columnInfo.javaFieldName != "createBy" && columnInfo.javaFieldName != "createDate" && columnInfo.javaFieldName != "updateBy" && columnInfo.javaFieldName != "updateDate">
 							<#if columnInfo.inputType! == "text">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
@@ -193,7 +193,7 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-5">
-										<input type="text" class="form-control date search" way-data="${columnInfo.javaFieldName}" 
+										<input type="text" class="form-control date" way-data="${columnInfo.javaFieldName}" 
 											name="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1">required</#if> >
 									</div>
 								</div>
@@ -203,14 +203,6 @@
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-10">
 										<textarea class="form-control" rows="3" way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>  <#if columnInfo.nullable! !="1">required</#if> ></textarea>
-									</div>
-								</div>
-							<#else>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
-									<div class="col-sm-5">
-										<input type="text" class="form-control" way-data="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>
-											name="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1"> required</#if> >
 									</div>
 								</div>
 							</#if>

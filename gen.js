@@ -1,6 +1,6 @@
 $(function() {
 	var model = {
-		path : adminContextPath + "/${moduleName}/${functionName}",
+		path : adminContextPath + "/demo/gen",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
 			//表单默认值可以在这里设置
@@ -100,37 +100,90 @@ $(function() {
 			});
 		}
 	});
-	<#assign listIndex=0>
 	// 列表
 	$('#table').bootstrapTable({
 		url : model.path + '/qryPage.do',
 		columns : [ {
 			checkbox : true
 		}, 
-		<#list columnInfos as columnInfo>
-			<#if columnInfo.list! == "1">
-			<#assign listIndex=listIndex + 1>
 			{
-			field : '${columnInfo.javaFieldName}',
-			title : '${columnInfo.columnComment}',
-			<#if columnInfo.sortable! =="1">
-			sortName : '${columnInfo.dbColumnName}',
+			field : 'inputText',
+			title : '文本',
+			sortName : 'input_text',
 			sortable : true,
 			order : 'desc',
-			</#if>
-			<#if listIndex == 0>
-            formatter : function(value, row, index) {
-			    return "<a href='#' class='view' data-id='" + row.id + "'>" + ${(columnInfo.dictType?? && columnInfo.dictType!= "")?string("$.getDictName('${columnInfo.dictType}',value)","value")} + "</a>"
-			 }
-			 </#if>
-			 <#if columnInfo.dictType?? && columnInfo.dictType!= "" && listIndex != 0>
-			formatter : function(value, row, index) {
-			    return $.getDictName('${columnInfo.dictType}',value);
-			 }
-			 </#if>
 			},
-			</#if>
-		</#list>
+			{
+			field : 'inputSelect',
+			title : '下拉',
+			sortName : 'input_select',
+			sortable : true,
+			order : 'desc',
+			 formatter : function(value, row, index) {
+			    return $.getDictName('yes_no',value);
+			 }
+			},
+			{
+			field : 'inputRadio',
+			title : '单选',
+			sortName : 'input_radio',
+			sortable : true,
+			order : 'desc',
+			 formatter : function(value, row, index) {
+			    return $.getDictName('yes_no',value);
+			 }
+			},
+			{
+			field : 'inputCheckbox',
+			title : '复选',
+			sortName : 'input_checkbox',
+			sortable : true,
+			order : 'desc',
+			 formatter : function(value, row, index) {
+			    return $.getDictName('yes_no',value);
+			 }
+			},
+			{
+			field : 'inputTextarea',
+			title : '文本域',
+			},
+			{
+			field : 'inputDate',
+			title : '日期',
+			sortName : 'input_date',
+			sortable : true,
+			order : 'desc',
+			},
+			{
+			field : 'inputZhengshu',
+			title : '整数',
+			sortName : 'input_zhengshu',
+			sortable : true,
+			order : 'desc',
+			},
+			{
+			field : 'inputXiaoshu',
+			title : '小数',
+			sortName : 'input_xiaoshu',
+			sortable : true,
+			order : 'desc',
+			},
+			{
+			field : 'richText',
+			title : '富文本',
+			},
+			{
+			field : 'image',
+			title : '图片',
+			},
+			{
+			field : 'file',
+			title : '文件',
+			},
+			{
+			field : 'updateDate',
+			title : '更新时间',
+			},
 		 ]
 	});
 });

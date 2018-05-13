@@ -50,9 +50,9 @@
     		<#elseif columnInfo.queryType! == "between">
     and ${columnInfo.dbColumnName} between ${"#"}{${columnInfo.javaFieldName}} and ${"#"}{${columnInfo.javaFieldName}}
     		<#elseif columnInfo.queryType! == "like">
-    and ${columnInfo.dbColumnName} like concat(${"#"}{"%",${columnInfo.javaFieldName}},"%")
+    and ${columnInfo.dbColumnName} like concat("%",${"#"}{${columnInfo.javaFieldName}},"%")
     		<#elseif columnInfo.queryType! == "left like">
-    and ${columnInfo.dbColumnName} like concat(${"#"}{"%",${columnInfo.javaFieldName}})
+    and ${columnInfo.dbColumnName} like concat("%",${"#"}{${columnInfo.javaFieldName}})
     		<#elseif columnInfo.queryType! == "right like">
     and ${columnInfo.dbColumnName} like concat(${"#"}{${columnInfo.javaFieldName}},"%")
     		<#else>
@@ -78,7 +78,7 @@
   </delete>
   <#assign notFirst = false>
   <insert id="insert" parameterType="com.seezoon.framework.modules.${moduleName}.entity.${className}" >
-    insert into sys_param (<#list columnInfos as columnInfo><#if columnInfo.insert! ="1"><#if notFirst>,</#if>${columnInfo.dbColumnName}<#assign notFirst = true></#if></#list>)
+    insert into ${tableName} (<#list columnInfos as columnInfo><#if columnInfo.insert! ="1"><#if notFirst>,</#if>${columnInfo.dbColumnName}<#assign notFirst = true></#if></#list>)
     <#assign notFirst = false>
     values (<#list columnInfos as columnInfo><#if columnInfo.insert! ="1"><#if notFirst>,</#if>${"#"}{${columnInfo.javaFieldName}}<#assign notFirst = true></#if></#list>)
   </insert>

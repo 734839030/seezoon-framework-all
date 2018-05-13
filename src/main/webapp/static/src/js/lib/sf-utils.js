@@ -114,6 +114,18 @@ $(function() {
 					$("#sf-checkbox-template").tmpl(dictList).appendTo(this);
 				}
 			});
+			/**
+			 * eg:
+			 * <div class="form-group">
+				<label class="col-sm-3 control-label">用户类型</label>
+				<div class="col-sm-5">
+					<select class="form-control sf-select" way-data="userType"
+						name="userType" data-sf-dict-type="sys_user_type">
+						<option value="">请选择</option>
+					</select>
+				</div>
+			</div>
+			 */
 			$(".sf-select").each(function(i, v) {
 				var dictType = $(this).data("sf-dict-type");
 				var dictList = $.getDictList(dictType);
@@ -127,7 +139,7 @@ $(function() {
 				}
 				$("#sf-select-template").tmpl(dictList).appendTo(this);
 				//重新渲染
-				$('.sf-select').selectpicker('refresh');
+				$('.selectpicker').selectpicker('refresh');
 			});
 		},
 		//日期控件
@@ -141,7 +153,7 @@ $(function() {
 				$(this).datepicker({
 					format : 'yyyy-mm-dd',
 					language : 'zh-CN',
-					clearBtn : dateClear,
+					clearBtn : typeof(dateClear)!='undefined'? dateClear : true,
 					autoclose : true,
 					todayHighlight : true
 				});
