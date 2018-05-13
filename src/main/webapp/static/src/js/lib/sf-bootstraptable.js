@@ -2,6 +2,9 @@ $(function(){
 	$.extend({
 		//有些控件无数把数据绑定到way中，如bootstarpdate icheck select，需要覆盖此方法
 		getSearchCondition : function() {
+			$(".search").each(function(){
+				way.set("model.search."+$(this).attr("way-data"),$(this).val());
+			});
 			return way.get("model.search");
 		}
 	});

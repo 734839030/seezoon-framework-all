@@ -8,7 +8,7 @@
 			<section class="content-header">
 				<h1>${menuName}</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i>模块名称(手动修改)</a></li>
+					<li><a href="#"><i class="fa fa-dashboard"></i>模块名称</a></li>
 					<li class="active">${menuName}</li>
 				</ol>
 			</section>
@@ -35,7 +35,6 @@
 										<select class="form-control" way-data="${columnInfo.javaFieldName}"
 											name="${columnInfo.javaFieldName}">
 											<option value="">请选择</option>
-											<option value="">待手工修改</option>
 										</select>
 										</#if>
 									</div>
@@ -124,7 +123,7 @@
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-5">
 										<input type="text" class="form-control" way-data="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>
-											name="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1"> minlength="1" required</#if> >
+											name="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1"> required</#if> >
 									</div>
 								</div>
 							</#if>
@@ -194,7 +193,7 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-5">
-										<input type="text" class="form-control date" way-data="${columnInfo.javaFieldName}" 
+										<input type="text" class="form-control date search" way-data="${columnInfo.javaFieldName}" 
 											name="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1">required</#if> >
 									</div>
 								</div>
@@ -203,7 +202,15 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-10">
-										<textarea class="form-control" rows="3" way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>  <#if columnInfo.nullable! !="1"> minlength="1" required</#if> ></textarea>
+										<textarea class="form-control" rows="3" way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>  <#if columnInfo.nullable! !="1">required</#if> ></textarea>
+									</div>
+								</div>
+							<#else>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>
+											name="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1"> required</#if> >
 									</div>
 								</div>
 							</#if>

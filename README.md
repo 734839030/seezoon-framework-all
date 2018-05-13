@@ -51,7 +51,7 @@ Gulp |构建工具|[https://www.gulpjs.com.cn/](https://www.gulpjs.com.cn/)
 4. 运行到tomcat
 5. 运行前端需要先配置/src/main/webapp/static/gulpfile.js
 中dev=后端接口地址上下文，gulp 是node插件，所以先安装node环境，
-安装完成后命令行执行npm install gulp gulp-file-include del express gulp-replace -g 安装相关插件，然后再命令行到gulpfile.js 所在目录运行gulp 如图：
+安装完成后命令行执行npm install 安装相关插件，然后再命令行到gulpfile.js 所在目录运行gulp 如图：
 ![gulp运行图](https://raw.githubusercontent.com/734839030/seezoon-framework-all/master/screenshots/gulprun.jpeg)
 static/src 为前端源文件，static/dist 为编译后的静态资源，这边简单用了gulp的include 功能，后续会使用压缩合并等功能。
 

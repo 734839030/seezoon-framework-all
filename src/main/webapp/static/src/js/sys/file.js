@@ -1,11 +1,4 @@
 $(function() {
-	$.extend({
-		getSearchCondition:function(){
-			way.set("model.search.startDate",$.trim($("input[name='startDate']").val()));
-			way.set("model.search.endDate",$.trim($("input[name='endDate']").val()));
-			return way.get("model.search");
-		}
-	});
 	var model = {
 		path : adminContextPath + "/sys/file",
 		resetDataForm : function() {

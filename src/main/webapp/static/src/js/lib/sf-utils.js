@@ -134,12 +134,22 @@ $(function() {
 		inputDateHandler:function(){
 			// 日期控件
 			$(".date").attr("readonly", "readonly");
-			$(".date").datepicker({
-				format : 'yyyy-mm-dd',
-				language : 'zh-CN',
-				clearBtn : true,
-				autoclose : true,
-				todayHighlight : true
+			$(".date").each(function(){
+				//默认时间 0  是当天，-1 是前一天，1 后一天
+				var defaultDay = $(this).data("default-day");
+				var dateClear = $(this).data("date-clear");
+				$(this).datepicker({
+					format : 'yyyy-mm-dd',
+					language : 'zh-CN',
+					clearBtn : dateClear,
+					autoclose : true,
+					todayHighlight : true
+				});
+				if (typeof(defaultDay)!='undefined') {
+					var date = new Date();
+				    date.setDate(date.getDate() + defaultDay);
+					$(this).datepicker("setDate",date);
+				}
 			});
 		},
 		//按钮权限控制
