@@ -142,9 +142,14 @@ public class GeneratorService extends BaseService{
 					sysGen.setHasSearch(true);
 				}
 			}
+			
 			//大字段
-			if (column.getJdbcType().equals("LONGVARCHAR")) {
+			if ("LONGVARCHAR".equals(column.getJdbcType())) {
 				sysGen.setHasBlob(true);
+			}
+			//富文本
+			if ("richtext".equals(column.getInputType())) {
+				sysGen.setHasRichText(true);
 			}
 		}
 		try {

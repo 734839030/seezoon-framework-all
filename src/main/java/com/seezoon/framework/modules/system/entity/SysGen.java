@@ -92,6 +92,11 @@ public class SysGen extends BaseEntity<String> {
 	 */
 	private boolean hasSearch;
 
+	/**
+	 * 是否富文本
+	 */
+	private boolean hasRichText;
+
 	public String getTableName() {
 		return tableName;
 	}
@@ -194,6 +199,14 @@ public class SysGen extends BaseEntity<String> {
 
 	public void setFunctionName(String functionName) {
 		this.functionName = functionName;
+	}
+
+	public boolean isHasRichText() {
+		return hasRichText;
+	}
+
+	public void setHasRichText(boolean hasRichText) {
+		this.hasRichText = hasRichText;
 	}
 
 }

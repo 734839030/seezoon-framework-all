@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>@@include('../common/header.html',{"title":"${menuName}"})
+<#if hasRichText>
+@@include('../common/editor.html')
+</#if>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -167,7 +170,7 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 										<#if columnInfo.dictType?? && columnInfo.dictType!="">
-										<div class="col-sm-5 sf-checkbox" data-sf-input-name="${columnInfo.javaFieldName}" data-sf-dict-type="${columnInfo.dictType}"  <#if columnInfo.nullable! !="1"> required</#if> >
+										<div class="col-sm-5 sf-checkbox" data-sf-input-name="${columnInfo.javaFieldName}" data-sf-dict-type="${columnInfo.dictType}"  <#if columnInfo.nullable! !="1"> data-sf-required="required"</#if> >
 										</div>
 										<#else>
 										<div class="col-sm-5">
@@ -180,7 +183,7 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 										<#if columnInfo.dictType?? && columnInfo.dictType!="">
-										<div class="col-sm-5 sf-radio" data-sf-input-name="${columnInfo.javaFieldName}" data-sf-dict-type="${columnInfo.dictType}"  <#if columnInfo.nullable! !="1"> required</#if> >
+										<div class="col-sm-5 sf-radio" data-sf-input-name="${columnInfo.javaFieldName}" data-sf-dict-type="${columnInfo.dictType}"  <#if columnInfo.nullable! !="1"> data-sf-required="required"</#if> >
 										</div>
 										<#else>
 										<div class="col-sm-5">
@@ -194,7 +197,7 @@
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-5">
 										<input type="text" class="form-control date" way-data="${columnInfo.javaFieldName}" 
-											name="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1">required</#if> >
+											name="${columnInfo.javaFieldName}" <#if columnInfo.nullable! !="1">id="${columnInfo.javaFieldName}"</#if> >
 									</div>
 								</div>
 							</#if>
@@ -203,6 +206,14 @@
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-10">
 										<textarea class="form-control" rows="3" way-data="${columnInfo.javaFieldName}" name="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>  <#if columnInfo.nullable! !="1">required</#if> ></textarea>
+									</div>
+								</div>
+							</#if>
+							<#if columnInfo.inputType! == "richtext">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="3" way-data="${columnInfo.javaFieldName}" style="width:100%;height:400px;visibility:hidden;" name="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>  <#if columnInfo.nullable! !="1">required</#if> ></textarea>
 									</div>
 								</div>
 							</#if>

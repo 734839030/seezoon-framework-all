@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
 import com.seezoon.framework.common.context.beans.ResponeModel;
-import com.seezoon.framework.common.file.FileHandlerFactory;
+import com.seezoon.framework.common.file.FileConfig;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.entity.SysFile;
 import com.seezoon.framework.modules.system.service.SysFileService;
@@ -31,7 +31,7 @@ public class SysFileController extends BaseController {
 		sysFile.addProperty("endDate", endDate);
 		PageInfo<SysFile> page = sysFileService.findByPage(sysFile, sysFile.getPage(), sysFile.getPageSize());
 		for (SysFile file: page.getList()) {
-			file.setFullUrl(FileHandlerFactory.getFullUrl(file.getRelativePath()));
+			file.setFullUrl(FileConfig.getFullUrl(file.getRelativePath()));
 		}
 		return ResponeModel.ok(page);
 	}

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.seezoon.framework.common.file.FileConfig;
 import com.seezoon.framework.common.file.FileHandlerFactory;
 import com.seezoon.framework.common.file.beans.FileInfo;
 import com.seezoon.framework.common.file.handler.FileHandler;
@@ -50,7 +51,7 @@ public class FileService extends BaseService implements DisposableBean{
 		sysFile.setFileSize(size);
 		sysFile.setRelativePath(relativePath);
 		sysFileService.save(sysFile);
-		fileInfo.setFullUrl(FileHandlerFactory.getFullUrl(relativePath));
+		fileInfo.setFullUrl(FileConfig.getFullUrl(relativePath));
 		fileInfo.setOriginalFilename(originalFilename);
 		fileInfo.setRelativePath(relativePath);
 		return fileInfo;

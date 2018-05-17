@@ -1,8 +1,10 @@
 package com.seezoon.framework.modules.${moduleName}.web;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+<#if hasRichText>
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+</#if>
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -39,6 +41,16 @@ public class ${className}Controller extends BaseController {
 	@RequestMapping("/get.do")
 	public ResponeModel get(@RequestParam Serializable id) {
 		${className} ${className?uncap_first} = ${className?uncap_first}Service.findById(id);
+		//富文本处理
+		<#list columnInfos as columnInfo>
+		<#if columnInfo.inputType! == "richtext">
+        if (null != ${className?uncap_first}) {
+		    if (StringUtils.isNotEmpty(${className?uncap_first}.get${columnInfo.javaFieldName?cap_first}())) {
+				${className?uncap_first}.set${columnInfo.javaFieldName?cap_first}(StringEscapeUtils.unescapeHtml4(${className?uncap_first}.get${columnInfo.javaFieldName?cap_first}()));
+			}
+		}
+        </#if>
+   		</#list>
 		return ResponeModel.ok(${className?uncap_first});
 	}
 	@RequiresPermissions("${moduleName}:${functionName}:save")

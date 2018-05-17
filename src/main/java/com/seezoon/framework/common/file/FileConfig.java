@@ -44,7 +44,16 @@ public class FileConfig {
 	private String aliyunAccessKeyId = PropertyUtil.getString("file.aliyun.accessKeyId");
 	@Value("${file.aliyun.accessKeySecret}")
 	private String aliyunAccessKeySecret = PropertyUtil.getString("file.aliyun.accessKeySecret");
-
+	
+	/**
+	 * 获取地址
+	 * @param relativePath
+	 * @return
+	 */
+	public static String getFullUrl(String relativePath) {
+		String fullUrl = FileHandlerFactory.getFullUrl(relativePath);
+		return fullUrl;
+	}
 	public String getFileStorage() {
 		return fileStorage;
 	}
