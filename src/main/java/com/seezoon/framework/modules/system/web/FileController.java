@@ -4,7 +4,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.Lists;
 import com.seezoon.framework.common.context.beans.ResponeModel;
+import com.seezoon.framework.common.context.exception.ServiceException;
 import com.seezoon.framework.common.file.beans.FileInfo;
 import com.seezoon.framework.common.utils.CodecUtils;
 import com.seezoon.framework.common.web.BaseController;
@@ -75,6 +78,23 @@ public class FileController extends BaseController {
 			fileInfos.add(fileInfo);
 		}
 		return ResponeModel.ok(fileInfos);
+	}
+	/**
+	 * kindeditor 专用
+	 * @param imgFile
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/k_upload_image.do")
+	public Map<String,Object> umUpload(@RequestParam MultipartFile imgFile) throws IOException {
+		FileInfo fileInfo = fileService.upload(imgFile.getOriginalFilename(), imgFile.getContentType(), imgFile.getSize(),
+				imgFile.getInputStream());
+		Map<String,Object> map = new HashMap<String,Object>();
+		// 输出文件地址
+		map.put("url",fileInfo.getFullUrl());
+		// 状态
+		map.put("error",0);
+		return map;
 	}
 	@RequestMapping("/down.do")
 	public void  down(@RequestParam  String relativePath,HttpServletResponse response) throws IOException {

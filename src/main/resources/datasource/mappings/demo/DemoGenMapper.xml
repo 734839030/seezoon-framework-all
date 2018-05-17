@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.seezoon.framework.modules.demo.dao.DemoGenDao" >
+  <resultMap id="BaseResultMap" type="com.seezoon.framework.modules.demo.entity.DemoGen" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="input_text" property="inputText" jdbcType="VARCHAR" />
+    <result column="input_select" property="inputSelect" jdbcType="VARCHAR" />
+    <result column="input_radio" property="inputRadio" jdbcType="VARCHAR" />
+    <result column="input_checkbox" property="inputCheckbox" jdbcType="VARCHAR" />
+    <result column="input_textarea" property="inputTextarea" jdbcType="LONGVARCHAR" />
+    <result column="input_date" property="inputDate" jdbcType="TIMESTAMP" />
+    <result column="input_zhengshu" property="inputZhengshu" jdbcType="INTEGER" />
+    <result column="input_xiaoshu" property="inputXiaoshu" jdbcType="DOUBLE" />
+    <result column="rich_text" property="richText" jdbcType="LONGVARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="file" property="file" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  id,input_text,input_select,input_radio,input_checkbox,input_date,input_zhengshu,input_xiaoshu,image,file,create_by,create_date,update_by,update_date,remarks
+  </sql>
+  <sql id="Blob_Column_List" >
+  input_textarea,rich_text
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,<include refid="Blob_Column_List" />
+    from demo_gen
+    where id = #{id}
+  </select>
+  <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.demo.entity.DemoGen" >
+    select 
+    <include refid="Base_Column_List" />
+    from demo_gen
+    <where>
+    <if test="inputText !=null and inputText!=''">
+    and input_text like concat("%",#{inputText},"%")
+    </if>
+    <if test="inputSelect !=null and inputSelect!=''">
+    and input_select = #{inputSelect}
+    </if>
+    <if test="inputRadio !=null and inputRadio!=''">
+    and input_radio = #{inputRadio}
+    </if>
+    <if test="inputCheckbox !=null and inputCheckbox!=''">
+    and input_checkbox = #{inputCheckbox}
+    </if>
+    <if test="inputDate !=null">
+    and input_date between #{inputDate} and #{inputDate}
+    </if>
+    </where>
+	<choose>
+    <when test="sortField != null and sortField != '' and direction != null and direction !=''">
+    order by ${sortField} ${direction}
+    </when>
+    <otherwise>
+   <!-- 默认排序设置 -->
+    </otherwise>
+    </choose>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="String" >
+    delete from demo_gen
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.seezoon.framework.modules.demo.entity.DemoGen" >
+    insert into demo_gen (id,input_text,input_select,input_radio,input_checkbox,input_textarea,input_date,input_zhengshu,input_xiaoshu,rich_text,image,file,create_by,create_date,update_by,update_date,remarks)
+    values (#{id},#{inputText},#{inputSelect},#{inputRadio},#{inputCheckbox},#{inputTextarea},#{inputDate},#{inputZhengshu},#{inputXiaoshu},#{richText},#{image},#{file},#{createBy},#{createDate},#{updateBy},#{updateDate},#{remarks})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seezoon.framework.modules.demo.entity.DemoGen" >
+    update demo_gen
+    <set>
+      <if test="inputText != null" >
+        input_text = #{inputText},
+      </if>
+      <if test="inputSelect != null" >
+        input_select = #{inputSelect},
+      </if>
+      <if test="inputRadio != null" >
+        input_radio = #{inputRadio},
+      </if>
+      <if test="inputCheckbox != null" >
+        input_checkbox = #{inputCheckbox},
+      </if>
+      <if test="inputTextarea != null" >
+        input_textarea = #{inputTextarea},
+      </if>
+      <if test="inputDate != null" >
+        input_date = #{inputDate},
+      </if>
+      <if test="inputZhengshu != null" >
+        input_zhengshu = #{inputZhengshu},
+      </if>
+      <if test="inputXiaoshu != null" >
+        input_xiaoshu = #{inputXiaoshu},
+      </if>
+      <if test="richText != null" >
+        rich_text = #{richText},
+      </if>
+      <if test="image != null" >
+        image = #{image},
+      </if>
+      <if test="file != null" >
+        file = #{file},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.demo.entity.DemoGen" >
+    update demo_gen
+    set 
+        input_text = #{inputText}
+        ,input_select = #{inputSelect}
+        ,input_radio = #{inputRadio}
+        ,input_checkbox = #{inputCheckbox}
+        ,input_textarea = #{inputTextarea}
+        ,input_date = #{inputDate}
+        ,input_zhengshu = #{inputZhengshu}
+        ,input_xiaoshu = #{inputXiaoshu}
+        ,rich_text = #{richText}
+        ,image = #{image}
+        ,file = #{file}
+        ,update_by = #{updateBy}
+        ,update_date = #{updateDate}
+        ,remarks = #{remarks}
+    where id = #{id}
+  </update>
+</mapper>

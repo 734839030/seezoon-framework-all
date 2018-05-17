@@ -1,28 +1,20 @@
 $(function() {
-    <#list columnInfos as columnInfo>
-    <#if columnInfo.inputType! == "richtext">
-    	var editor${columnInfo.javaFieldName ? cap_first};
+        	var editorRichText;
 	KindEditor.ready(function(K) {
-        editor${columnInfo.javaFieldName ? cap_first} = K.create("textarea[name='${columnInfo.javaFieldName}']",{
+        editorRichText = K.create("textarea[name='richText']",{
 	        	syncType:'auto',//无效
 	    		items:items,
 	    		zIndex:99999999,
 	    		uploadJson : adminContextPath + '/file/k_upload_image.do'
         });
 	});
-    </#if>
-    </#list>
 	var model = {
-		path : adminContextPath + "/${moduleName}/${functionName}",
+		path : adminContextPath + "/demo/gen",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
 			//表单默认值可以在这里设置
 			way.set("model.form.data",null);
-			<#list columnInfos as columnInfo>
-		    <#if columnInfo.inputType! == "richtext">
-		    	editor${columnInfo.javaFieldName ? cap_first}.html('');;
-		    </#if>
-   			</#list>
+		    	editorRichText.html('');
 		},
 		getFormData : function() {
 			var data =  way.get("model.form.data");
@@ -37,11 +29,7 @@ $(function() {
 		setFormDataById:function(id){
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.form.data",respone.data);
-				<#list columnInfos as columnInfo>
-			    <#if columnInfo.inputType! == "richtext">
-			    	editor${columnInfo.javaFieldName ? cap_first}.html(respone.data.${columnInfo.javaFieldName});
-			    </#if>
-	   			</#list>
+			    	editorRichText.html(respone.data.richText);
 			})
 		},
 		setViewDataById:function(id){
@@ -56,34 +44,12 @@ $(function() {
 	// 校验
 	$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
 		e.preventDefault();
-		<#list columnInfos as columnInfo>
-		<#if columnInfo.inputType! == "richtext">
-		 editor${columnInfo.javaFieldName ? cap_first}.sync();
-		 <#if columnInfo.inputType! == "date" && columnInfo.nullable! !="1">>
-		 if (!$("textarea[name='${columnInfo.javaFieldName}']").val()){
-			layer.msg("${columnInfo.columnComment}不能为空");
-			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
-			return false;
-		 }
-		 <#if columnInfo.maxLength??>
-		 if ($("textarea[name='${columnInfo.javaFieldName}']").val().length > ${columnInfo.maxLength?c}){
-			layer.msg("${columnInfo.columnComment}长度大于${columnInfo.maxLength?c}");
-			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
-			return false;
-		 }
-		 </#if>
-		 </#if>
-		</#if>
-	   	</#list>
-		<#list columnInfos as columnInfo>
-		<#if columnInfo.inputType! == "date" && columnInfo.nullable! !="1" && columnInfo.javaFieldName != "createDate" && columnInfo.javaFieldName != "updateDate">
-		if(!$("#${columnInfo.javaFieldName}").val()){
-			layer.msg("${columnInfo.columnComment}不能为空");
+		 editorRichText.sync();
+		 		if(!$("#inputDate").val()){
+			layer.msg("日期不能为空");
 			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
 			return false;
 		} 
-		</#if>
-		</#list>
 		
 		var id = model.getFormData().id;
 		var optUrl = model.path + "/save.do";
@@ -152,37 +118,90 @@ $(function() {
 			});
 		}
 	});
-	<#assign listIndex=0>
 	// 列表
 	$('#table').bootstrapTable({
 		url : model.path + '/qryPage.do',
 		columns : [ {
 			checkbox : true
 		}, 
-		<#list columnInfos as columnInfo>
-			<#if columnInfo.list! == "1">
-			<#assign listIndex=listIndex + 1>
 			{
-			field : '${columnInfo.javaFieldName}',
-			title : '${columnInfo.columnComment}',
-			<#if columnInfo.sortable! =="1">
-			sortName : '${columnInfo.dbColumnName}',
+			field : 'inputText',
+			title : '文本',
+			sortName : 'input_text',
 			sortable : true,
 			order : 'desc',
-			</#if>
-			<#if listIndex == 0>
-            formatter : function(value, row, index) {
-			    return "<a href='#' class='view' data-id='" + row.id + "'>" + ${(columnInfo.dictType?? && columnInfo.dictType!= "")?string("$.getDictName('${columnInfo.dictType}',value)","value")} + "</a>"
-			 }
-			 </#if>
-			 <#if columnInfo.dictType?? && columnInfo.dictType!= "" && listIndex != 0>
-			formatter : function(value, row, index) {
-			    return $.getDictName('${columnInfo.dictType}',value);
-			 }
-			 </#if>
 			},
-			</#if>
-		</#list>
+			{
+			field : 'inputSelect',
+			title : '下拉',
+			sortName : 'input_select',
+			sortable : true,
+			order : 'desc',
+			formatter : function(value, row, index) {
+			    return $.getDictName('yes_no',value);
+			 }
+			},
+			{
+			field : 'inputRadio',
+			title : '单选',
+			sortName : 'input_radio',
+			sortable : true,
+			order : 'desc',
+			formatter : function(value, row, index) {
+			    return $.getDictName('yes_no',value);
+			 }
+			},
+			{
+			field : 'inputCheckbox',
+			title : '复选',
+			sortName : 'input_checkbox',
+			sortable : true,
+			order : 'desc',
+			formatter : function(value, row, index) {
+			    return $.getDictName('yes_no',value);
+			 }
+			},
+			{
+			field : 'inputTextarea',
+			title : '文本域',
+			},
+			{
+			field : 'inputDate',
+			title : '日期',
+			sortName : 'input_date',
+			sortable : true,
+			order : 'desc',
+			},
+			{
+			field : 'inputZhengshu',
+			title : '整数',
+			sortName : 'input_zhengshu',
+			sortable : true,
+			order : 'desc',
+			},
+			{
+			field : 'inputXiaoshu',
+			title : '小数',
+			sortName : 'input_xiaoshu',
+			sortable : true,
+			order : 'desc',
+			},
+			{
+			field : 'richText',
+			title : '富文本',
+			},
+			{
+			field : 'image',
+			title : '图片',
+			},
+			{
+			field : 'file',
+			title : '文件',
+			},
+			{
+			field : 'updateDate',
+			title : '更新时间',
+			},
 		 ]
 	});
 });
