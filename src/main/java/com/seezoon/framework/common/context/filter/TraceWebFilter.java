@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.seezoon.framework.common.context.utils.NDCUtils;
 
 /**
- * 处理ajax 返回 信息
+ * 线程上下文及耗时日志
  * @author hdf
  * 2017年9月24日
  */

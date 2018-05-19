@@ -21,12 +21,12 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.seezoon.framework.common.Constants;
 import com.seezoon.framework.modules.system.entity.SysMenu;
 import com.seezoon.framework.modules.system.entity.SysUser;
 import com.seezoon.framework.modules.system.service.SysMenuService;
+import com.seezoon.framework.modules.system.service.SysRoleService;
 import com.seezoon.framework.modules.system.service.SysUserService;
 
 /**
@@ -40,7 +40,8 @@ public class UserRealm extends AuthorizingRealm {
 	private SysMenuService sysMenuService;
 	@Autowired
 	private SysUserService sysUserService;
-    
+	@Autowired
+	private SysRoleService sysRoleService;
 	/**
 	 * 授权(验证权限时调用) 配置了和会话时间相同的缓存
 	 */
@@ -86,7 +87,9 @@ public class UserRealm extends AuthorizingRealm {
 		}
 		User user = new User(sysUser.getId(), sysUser.getDeptId(), sysUser.getDeptName(), sysUser.getLoginName(),
 				sysUser.getName());
-		//放入
+		//放入角色
+		user.setRoles(sysRoleService.findByUserId(user.getUserId()));
+		//放入认证通过数据
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, sysUser.getPassword(),
 				ByteSource.Util.bytes(sysUser.getSalt()), getName());
 		return info;

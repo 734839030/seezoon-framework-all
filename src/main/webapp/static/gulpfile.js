@@ -49,7 +49,8 @@ gulp.task('watch',function() {
 	      }))
 	      .pipe(replace(setting.requestPathPlaceHolder , setting.requestUrlPreffix))
 	      .pipe(gulp.dest(setting.dist));
-	}
+	  	  gulp.run("include");
+		}
 	});
 });
 gulp.task('start',function() {

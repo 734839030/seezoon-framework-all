@@ -1,11 +1,13 @@
 package com.seezoon.framework.modules.system.shiro;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import org.crazycake.shiro.AuthCachePrincipal;
 
-public class User implements Serializable,AuthCachePrincipal{
+import com.seezoon.framework.modules.system.entity.SysRole;
+
+public class User implements Serializable, AuthCachePrincipal {
 
 	/**
 	 * 
@@ -16,7 +18,8 @@ public class User implements Serializable,AuthCachePrincipal{
 	private String deptName;
 	private String loginName;
 	private String name;
-	private Set<String> permissions;
+	
+	private List<SysRole> roles;
 
 	public User(String userId, String deptId, String deptName, String loginName, String name) {
 		super();
@@ -27,13 +30,16 @@ public class User implements Serializable,AuthCachePrincipal{
 		this.name = name;
 	}
 
-	public Set<String> getPermissions() {
-		return permissions;
+
+	public List<SysRole> getRoles() {
+		return roles;
 	}
 
-	public void setPermissions(Set<String> permissions) {
-		this.permissions = permissions;
+
+	public void setRoles(List<SysRole> roles) {
+		this.roles = roles;
 	}
+
 
 	public String getUserId() {
 		return userId;
