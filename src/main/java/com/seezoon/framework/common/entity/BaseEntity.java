@@ -5,7 +5,7 @@ import java.util.Date;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * 主键默认支持String 和 Long
+ * 主键默认支持String 和 Long  Integer
  * 
  * @author hdf
  * 2018年3月31日
@@ -20,7 +20,7 @@ public class BaseEntity<PK> extends QueryEntity{
 	/**
 	 * 创建者(后台人员使用)
 	 */
-	private String createBy = "1";
+	private String createBy;
 
 	/**
 	 * 创建时间(后台人员使用)
@@ -30,7 +30,7 @@ public class BaseEntity<PK> extends QueryEntity{
 	/**
 	 * 更新者(后台人员使用)
 	 */
-	private String updateBy = "1";
+	private String updateBy;
 
 	/**
 	 * 更新时间(后台人员使用)
@@ -43,11 +43,11 @@ public class BaseEntity<PK> extends QueryEntity{
 	private String remarks;
 	
 	/**
-	 * 是否需要备份，子类改变该值可以变更写到同步表
+	 * 是否需要备份，子类改变该值可以变更写到备份表，需要单独建立table_bak
 	 */
 	@JSONField(serialize=false)
 	private boolean isNeedBak =false;
-
+	
 	public boolean isNeedBak() {
 		return isNeedBak;
 	}

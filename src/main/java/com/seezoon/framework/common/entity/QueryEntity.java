@@ -1,12 +1,24 @@
 package com.seezoon.framework.common.entity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.seezoon.framework.common.utils.CurrentThreadContext;
+import com.seezoon.framework.modules.system.utils.DataPermissionBuilder;
 
-public class QueryEntity {
+public class QueryEntity implements Serializable{
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 排序字段，对应db字段名
 	 */
@@ -30,7 +42,34 @@ public class QueryEntity {
 	 * 自定义查询字段
 	 */
 	private Map<String, Object> ext;
+	/**
+	 * 当前表的别名，默认sql语句没有别名，当有别名时候，为了避免冲突需要子类指定
+	 */
+	@JSONField(serialize=false)
+	private String tableAlias;
+	/**
+	 * dataScopeFilter
+	 */
+	@JSONField(serialize=false)
+	private String dsf;
 
+	public String getDsf() {
+		// /a 路径的后端请求需要后端需要，前端不需要
+		AdminUser user = CurrentThreadContext.getUser();
+		if (user != null) {
+			dsf = DataPermissionBuilder.build(this.getTableAlias());
+		}
+		return dsf;
+	}
+
+	
+	public void setDsf(String dsf) {
+		this.dsf = dsf;
+	}
+	
+	public String getTableAlias(){
+		return tableAlias;
+	}
 	/**
 	 * 添加自定义参数
 	 * 

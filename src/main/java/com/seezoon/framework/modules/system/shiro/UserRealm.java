@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.seezoon.framework.common.Constants;
 import com.seezoon.framework.modules.system.entity.SysMenu;
+import com.seezoon.framework.modules.system.entity.SysRole;
 import com.seezoon.framework.modules.system.entity.SysUser;
 import com.seezoon.framework.modules.system.service.SysMenuService;
 import com.seezoon.framework.modules.system.service.SysRoleService;
@@ -50,6 +51,7 @@ public class UserRealm extends AuthorizingRealm {
 		User user = (User) principals.getPrimaryPrincipal();
 		String userId = user.getUserId();
 		Set<String> permsSet = new HashSet<>();
+		Set<String> roleSet = new HashSet<>();
 		List<SysMenu> menus = null;
 		// 系统管理员，拥有最高权限
 		if (ShiroUtils.isSuperAdmin()) {
@@ -65,6 +67,13 @@ public class UserRealm extends AuthorizingRealm {
 		}
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		info.setStringPermissions(permsSet);
+		List<SysRole> roles = user.getRoles();
+		if (roles != null && !roles.isEmpty()) {
+			for (SysRole sysRole : roles) {
+				roleSet.add(sysRole.getName());
+			}
+		}
+		info.setRoles(roleSet);
 		return info;
 	}
 

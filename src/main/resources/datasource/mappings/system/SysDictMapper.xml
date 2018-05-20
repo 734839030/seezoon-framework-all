@@ -22,7 +22,7 @@
     select 
     <include refid="Base_Column_List" />
     from sys_dict
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR} ${dsf}
   </select>
   <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.system.entity.SysParam" >
     select 
@@ -38,6 +38,7 @@
     		<if test="name !=null and name!=''">
     			and name like concat('%',#{name},'%')
     		</if>
+    		${dsf}
     </where>
     <!-- 有注入安全漏洞 后台系统忽略可以提高开发速度 -->
 		<if test="sortField != null and sortField != '' and direction != null and direction !=''">
@@ -45,11 +46,11 @@
 		</if>
   </select>
   <select id="findTypes" resultType="java.lang.String">
-  	select distinct type from sys_dict;
+  	select distinct type from sys_dict 
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" >
     delete from sys_dict
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR} ${dsf}
   </delete>
   <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysDict" >
     insert into sys_dict (id, type, code, 
@@ -89,7 +90,7 @@
         remarks = #{remarks,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR} ${dsf}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.system.entity.SysDict" >
     update sys_dict
@@ -101,6 +102,6 @@
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       remarks = #{remarks,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR} ${dsf}
   </update>
 </mapper>

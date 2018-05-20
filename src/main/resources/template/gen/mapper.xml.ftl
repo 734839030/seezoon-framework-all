@@ -44,9 +44,9 @@
     		<#elseif columnInfo.queryType! == ">">
     and ${columnInfo.dbColumnName} > ${"#"}{${columnInfo.javaFieldName}}
     	    <#elseif columnInfo.queryType! == "<=">
-    and<![CDATA[  ${columnInfo.dbColumnName} <= ${"#"}{${columnInfo.javaFieldName}} ]]>
+    and <![CDATA[  ${columnInfo.dbColumnName} <= ${"#"}{${columnInfo.javaFieldName}} ]]>
     		<#elseif columnInfo.queryType! == "<">
-    and<![CDATA[  ${columnInfo.dbColumnName} < ${"#"}{${columnInfo.javaFieldName}} ]]>
+    and <![CDATA[  ${columnInfo.dbColumnName} < ${"#"}{${columnInfo.javaFieldName}} ]]>
     		<#elseif columnInfo.queryType! == "between">
     and ${columnInfo.dbColumnName} between ${"#"}{${columnInfo.javaFieldName}} and ${"#"}{${columnInfo.javaFieldName}}
     		<#elseif columnInfo.queryType! == "like">
@@ -61,6 +61,7 @@
     </if>
 	</#if>
 </#list>
+	${r'${dsf}'}
     </where>
 </#if>
 	<choose>
@@ -72,9 +73,9 @@
     </otherwise>
     </choose>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="${pkType}" >
+  <delete id="deleteByPrimaryKey" >
     delete from ${tableName}
-    where id = ${r'#{id}'}
+    where id = ${r'#{id}'} ${r'${dsf}'}
   </delete>
   <#assign notFirst = false>
   <insert id="insert" parameterType="com.seezoon.framework.modules.${moduleName}.entity.${className}" >
@@ -93,7 +94,7 @@
       </#if>
       </#list>
     </set>
-    where id = ${r'#{id}'}
+    where id = ${r'#{id}'} ${r'${dsf}'}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.${moduleName}.entity.${className}" >
     update ${tableName}
@@ -104,6 +105,6 @@
         <#if notFirst>,</#if>${columnInfo.dbColumnName} = ${"#"}{${columnInfo.javaFieldName}}<#assign notFirst = true>
       </#if>
       </#list>
-    where id = ${r'#{id}'}
+    where id = ${r'#{id}'} ${r'${dsf}'}
   </update>
 </mapper>

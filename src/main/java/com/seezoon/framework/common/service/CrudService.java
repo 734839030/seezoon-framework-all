@@ -11,8 +11,11 @@ import org.springframework.util.Assert;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.seezoon.framework.common.Constants;
 import com.seezoon.framework.common.dao.CrudDao;
+import com.seezoon.framework.common.entity.AdminUser;
 import com.seezoon.framework.common.entity.BaseEntity;
+import com.seezoon.framework.common.utils.CurrentThreadContext;
 import com.seezoon.framework.common.utils.IdGen;
 
 /**
@@ -31,6 +34,10 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 	public int save(T t) {
 		t.setCreateDate(new Date());
 		t.setUpdateDate(t.getCreateDate());
+		if (StringUtils.isEmpty(t.getCreateBy())) {
+			t.setCreateBy(this.getOperatorUserId());
+		}
+		t.setUpdateBy(t.getCreateBy());
 		if (null == t.getId() || StringUtils.isEmpty(t.getId().toString())) {
 			t.setId(IdGen.uuid());
 		}
@@ -42,10 +49,13 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 	}
 
 	public int updateSelective(T t) {
-		Assert.notNull(t,"更新对象为空");
-		Assert.notNull(t.getId(),"更新对象id为空");
-		Assert.hasLength(t.getId().toString(),"更新对象id为空");
+		Assert.notNull(t, "更新对象为空");
+		Assert.notNull(t.getId(), "更新对象id为空");
+		Assert.hasLength(t.getId().toString(), "更新对象id为空");
 		t.setUpdateDate(new Date());
+		if (StringUtils.isEmpty(t.getUpdateBy())) {
+			t.setUpdateBy(this.getOperatorUserId());
+		}
 		int cnt = d.updateByPrimaryKeySelective(t);
 		if (t.isNeedBak()) {
 			this.saveBak(t.getId());
@@ -54,10 +64,13 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 	}
 
 	public int updateById(T t) {
-		Assert.notNull(t,"更新对象为空");
-		Assert.notNull(t.getId(),"更新对象id为空");
-		Assert.hasLength(t.getId().toString(),"更新对象id为空");
+		Assert.notNull(t, "更新对象为空");
+		Assert.notNull(t.getId(), "更新对象id为空");
+		Assert.hasLength(t.getId().toString(), "更新对象id为空");
 		t.setUpdateDate(new Date());
+		if (StringUtils.isEmpty(t.getUpdateBy())) {
+			t.setUpdateBy(this.getOperatorUserId());
+		}
 		int cnt = d.updateByPrimaryKey(t);
 		if (t.isNeedBak()) {
 			this.saveBak(t.getId());
@@ -67,19 +80,24 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 
 	@Transactional(readOnly = true)
 	public T findById(Serializable id) {
-		Assert.notNull(id,"id为空");
-		Assert.hasLength(id.toString(),"id为空");
+		Assert.notNull(id, "id为空");
+		Assert.hasLength(id.toString(), "id为空");
 		return d.selectByPrimaryKey(id);
 	}
 
 	public int deleteById(Serializable id) {
-		Assert.notNull(id,"id为空");
-		Assert.hasLength(id.toString(),"id为空");
+		Assert.notNull(id, "id为空");
+		Assert.hasLength(id.toString(), "id为空");
 		T t = this.findById(id);
-		if (t.isNeedBak()) {
-			this.saveBak(t);
+		if (null != t) {
+			t.setUpdateDate(new Date());
+			t.setUpdateBy(this.getOperatorUserId());
+			if (t.isNeedBak()) {
+				this.d.insertBak(t);
+			}
+			return d.deleteByPrimaryKey(id,t.getDsf());
 		}
-		return d.deleteByPrimaryKey(id);
+		return 0;
 	}
 
 	@Transactional(readOnly = true)
@@ -92,7 +110,8 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 	 * @param t
 	 * @param pageNum
 	 * @param pageSize
-	 * @param count 是否统计总数 
+	 * @param count
+	 *            是否统计总数
 	 * @return
 	 */
 	@Transactional(readOnly = true)
@@ -110,16 +129,20 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 		PageInfo<T> pageInfo = new PageInfo<T>(list);
 		return pageInfo;
 	}
+
 	/**
 	 * 备份数据
+	 * 
 	 * @param id
 	 * @return
 	 */
 	public int saveBak(Serializable id) {
 		return this.saveBak(this.findById(id));
 	}
+
 	/**
 	 * 备份数据
+	 * 
 	 * @param t
 	 * @return
 	 */
@@ -128,5 +151,19 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 			return 0;
 		}
 		return this.d.insertBak(t);
+	}
+
+	/**
+	 * 获取操作人Id
+	 * 
+	 * @return
+	 */
+	public String getOperatorUserId() {
+		String userId = Constants.SUPER_ADMIN_ID;
+		AdminUser user = CurrentThreadContext.getUser();
+		if (null != user) {
+			userId = user.getUserId();
+		}
+		return userId;
 	}
 }

@@ -95,6 +95,10 @@ public class SysUser extends BaseEntity<String> {
 		return Boolean.TRUE;
 	}
 
+	@Override
+	public String getTableAlias() {
+		return "u";
+	}
 	public String getDeptId() {
 		return deptId;
 	}

@@ -62,4 +62,9 @@ public class T {
 		zos.closeEntry();
 		zos.close();
 	}
+	@Test
+	public void t7() {
+		StringBuilder sb = new StringBuilder();
+		System.out.println(sb);
+	}
 }

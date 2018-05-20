@@ -46,6 +46,7 @@
     		<if test="name !=null and name!=''">
     			and name like concat('%',#{name},'%')
     		</if>
+    		${dsf}
     </where>
     <!-- 有注入安全漏洞 后台系统忽略可以提高开发速度 -->
 	<if test="sortField != null and sortField != '' and direction != null and direction !=''">
@@ -69,9 +70,9 @@
     delete from sys_role_menu
     where menu_id = #{menuId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey"  >
     delete from sys_menu
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR} ${dsf}
   </delete>
   <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysMenu" >
     insert into sys_menu (id, parent_id, parent_ids, 
@@ -128,7 +129,7 @@
         remarks = #{remarks,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}  ${dsf}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.system.entity.SysMenu" >
     update sys_menu
@@ -145,6 +146,6 @@
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       remarks = #{remarks,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR} ${dsf}
   </update>
 </mapper>
