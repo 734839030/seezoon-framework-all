@@ -40,7 +40,7 @@
     from <include refid="Join_Table" /> 
     <where>
     		<if test="deptId !=null and deptId!=''">
-    			and u.dept_id = #{deptId}
+    			and (d.id = #{deptId} or d.parent_ids like concat('%', #{deptId},'%'))
     		</if>
     		<if test="status !=null and status!=''">
     			and u.status = #{status}

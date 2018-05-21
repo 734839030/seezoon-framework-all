@@ -63,6 +63,9 @@ ${dbColumnName}
 		<option value="date" {{if typeof(inputType)!='undefined' && inputType == 'date'}}selected="selected"{{/if}}>日期选择</option>
 		<option value="textarea" {{if typeof(inputType)!='undefined' && inputType == 'textarea'}}selected="selected"{{/if}}>文本域</option>
 		<option value="richtext" {{if typeof(inputType)!='undefined' && inputType == 'richtext'}}selected="selected"{{/if}}>富文本</option>
+		<option value="picture" {{if typeof(inputType)!='undefined' && inputType == 'picture'}}selected="selected"{{/if}}>图片上传</option>
+		<option value="file" {{if typeof(inputType)!='undefined' && inputType == 'file'}}selected="selected"{{/if}}>文件上传</option>
+
     </select>
 </td>
 <td><input type="text" class="form-control"  name="columnInfos[][dictType]" value="${dictType}" maxlength="20" style="width:80px;" /></td>

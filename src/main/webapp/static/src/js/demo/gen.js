@@ -1,5 +1,5 @@
 $(function() {
-        	var editorRichText;
+    var editorRichText;
 	KindEditor.ready(function(K) {
         editorRichText = K.create("textarea[name='richText']",{
 	        	syncType:'auto',//无效
@@ -14,7 +14,11 @@ $(function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
 			//表单默认值可以在这里设置
 			way.set("model.form.data",null);
-		    	editorRichText.html('');
+			if (editorRichText) {
+				editorRichText.html('');
+			}
+		     	$("#imageUploadFileContainer").empty();
+		     	$("#fileUploadFileContainer").empty();
 		},
 		getFormData : function() {
 			var data =  way.get("model.form.data");
@@ -30,6 +34,20 @@ $(function() {
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.form.data",respone.data);
 			    	editorRichText.html(respone.data.richText);
+			    if (respone.data.imageArray) {
+					 var files = [];
+					 $.each(respone.data.imageArray,function(i,v){
+						 files.push({"inputName":"image","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-image-template").tmpl(files).appendTo($("#imageUploadFileContainer"));
+			 	} 
+		    		if (respone.data.fileArray) {
+					 var files = [];
+					 $.each(respone.data.fileArray,function(i,v){
+						 files.push({"inputName":"file","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-file-template").tmpl(files).appendTo($("#fileUploadFileContainer"));
+			 	} 
 			})
 		},
 		setViewDataById:function(id){
@@ -45,12 +63,22 @@ $(function() {
 	$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
 		e.preventDefault();
 		 editorRichText.sync();
-		 		if(!$("#inputDate").val()){
+		 	
+		if(!$("#inputDate").val()){
 			layer.msg("日期不能为空");
 			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
 			return false;
 		} 
-		
+		if($("input[name='image']").length == 0){
+			layer.msg("图片不能为空");
+			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
+			return false;
+		} 
+		if($("input[name='file']").length == 0){
+			layer.msg("文件不能为空");
+			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
+			return false;
+		} 
 		var id = model.getFormData().id;
 		var optUrl = model.path + "/save.do";
 		if (id) {
@@ -191,17 +219,70 @@ $(function() {
 			title : '富文本',
 			},
 			{
-			field : 'image',
-			title : '图片',
-			},
-			{
-			field : 'file',
-			title : '文件',
-			},
-			{
 			field : 'updateDate',
 			title : '更新时间',
 			},
 		 ]
 	});
+		//图片上传
+		 $('#imageUpload').fileupload({
+			 url:adminContextPath + "/file/uploadBatchImage.do",
+			 type:'POST',
+			 change: function (e, data) {
+				for (var i=0;i< data.files.length;i++) {
+					var file= data.files[i];
+					if (file.size > 2 * 1024 * 1024) {
+						layer.msg(file.name + " 文件大小超过2M,请重新选择");
+						return false;
+					}
+					 // 开头为image/
+					var reg = /^image\//
+				    if (!reg.test(file.type)) {
+					    	layer.msg(file.name + " 不是图片格式");
+				    		return false;
+				    }
+				}
+			    //当前传了多少个 可以自己写校验
+			    var cnt = $("input[name='image']").length;
+			    //本次传了多少个
+			    var chooseFilecnt = data.files.length;
+			  },
+			 done: function (e, response) {//设置文件上传完毕事件的回调函数 
+				 if (response.result.responeCode == '0') {
+					 var files = [];
+					 $.each(response.result.data,function(i,v){
+						 files.push({"inputName":"image","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-image-template").tmpl(files).appendTo($("#imageUploadFileContainer"));
+				 } 
+			 }, 
+		 });
+		 //文件上传
+		 $('#fileUpload').fileupload({
+			 url:adminContextPath + "/file/uploadBatchFile.do",
+			 type:'POST',
+			 change: function (e, data) {
+				for (var i=0;i< data.files.length;i++) {
+					var file= data.files[i];
+					if (file.size > 2 * 1024 * 1024) {
+						layer.msg(file.name + " 文件大小超过2M,请重新选择");
+						return false;
+					}
+				}
+			    //当前传了多少个 可以自己写校验
+			    var cnt = $("input[name='file']").length;
+			    //本次传了多少个
+			    var chooseFilecnt = data.files.length;
+			  },
+			 done: function (e, response) {//设置文件上传完毕事件的回调函数 
+				 if (response.result.responeCode == '0') {
+					 var files = [];
+					 $.each(response.result.data,function(i,v){
+						 files.push({"inputName":"file","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-file-template").tmpl(files).appendTo($("#fileUploadFileContainer"));
+				 } 
+			 }, 
+		 });
+	
 });

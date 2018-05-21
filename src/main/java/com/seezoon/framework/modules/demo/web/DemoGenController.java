@@ -1,8 +1,6 @@
 package com.seezoon.framework.modules.demo.web;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,11 +16,18 @@ import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.demo.entity.DemoGen;
 import com.seezoon.framework.modules.demo.service.DemoGenService;
+import java.util.ArrayList;
+import java.util.List;
+import com.seezoon.framework.modules.system.entity.SysFile;
+import com.seezoon.framework.modules.system.service.SysFileService;
+import com.seezoon.framework.common.file.FileConfig;
+import com.seezoon.framework.common.file.beans.FileInfo;
+import com.seezoon.framework.common.Constants;
 
 /**
  * 生成案例controller
  * Copyright &copy; 2018 powered by huangdf, All rights reserved.
- * @author hdf 2018-5-18 0:30:08
+ * @author hdf 2018-5-22 1:00:15
  */
 @RestController
 @RequestMapping("${admin.path}/demo/gen")
@@ -30,6 +35,8 @@ public class DemoGenController extends BaseController {
 
 	@Autowired
 	private DemoGenService demoGenService;
+	@Autowired
+	private SysFileService sysFileService;
 
 	@RequiresPermissions("demo:gen:qry")
 	@PostMapping("/qryPage.do")
@@ -47,6 +54,30 @@ public class DemoGenController extends BaseController {
 				demoGen.setRichText(StringEscapeUtils.unescapeHtml4(demoGen.getRichText()));
 			}
 		}
+        	 //文件处理
+        	if (StringUtils.isNotEmpty(demoGen.getImage())) {
+        		String[] images = StringUtils.split(demoGen.getImage(), Constants.SEPARATOR);
+        		List<FileInfo> imageArray = new ArrayList<>();
+	        	for (String path :images) {
+	        		SysFile sysFile = sysFileService.findById(FileConfig.getFileId(path));
+	        		if (null != sysFile) {
+	        			imageArray.add(new FileInfo(FileConfig.getFullUrl(path),path,sysFile.getName()));
+	        		}
+	        	}
+	        	demoGen.setImageArray(imageArray);
+        }
+        	 //文件处理
+        	if (StringUtils.isNotEmpty(demoGen.getFile())) {
+        		String[] files = StringUtils.split(demoGen.getFile(), Constants.SEPARATOR);
+        		List<FileInfo> fileArray = new ArrayList<>();
+	        	for (String path :files) {
+	        		SysFile sysFile = sysFileService.findById(FileConfig.getFileId(path));
+	        		if (null != sysFile) {
+	        			fileArray.add(new FileInfo(FileConfig.getFullUrl(path),path,sysFile.getName()));
+	        		}
+	        	}
+	        	demoGen.setFileArray(fileArray);
+        }
 		return ResponeModel.ok(demoGen);
 	}
 	@RequiresPermissions("demo:gen:save")

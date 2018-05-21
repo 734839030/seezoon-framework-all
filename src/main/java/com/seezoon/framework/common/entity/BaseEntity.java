@@ -12,6 +12,8 @@ import com.alibaba.fastjson.annotation.JSONField;
  * @param <PK>
  */
 public class BaseEntity<PK> extends QueryEntity{
+	
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 编号

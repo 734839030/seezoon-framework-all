@@ -96,7 +96,12 @@ public class SysGen extends BaseEntity<String> {
 	 * 是否富文本
 	 */
 	private boolean hasRichText;
-
+	
+	/**
+	 * 是否有文件上传
+	 */
+	private boolean hasFileUpload;
+	
 	public String getTableName() {
 		return tableName;
 	}
@@ -207,6 +212,14 @@ public class SysGen extends BaseEntity<String> {
 
 	public void setHasRichText(boolean hasRichText) {
 		this.hasRichText = hasRichText;
+	}
+
+	public boolean isHasFileUpload() {
+		return hasFileUpload;
+	}
+
+	public void setHasFileUpload(boolean hasFileUpload) {
+		this.hasFileUpload = hasFileUpload;
 	}
 
 }

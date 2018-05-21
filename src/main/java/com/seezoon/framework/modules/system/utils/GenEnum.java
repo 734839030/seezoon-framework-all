@@ -72,7 +72,15 @@ public class GenEnum {
 		/**
 		 * 富文本
 		 */
-		RICHTEXT("richtext");
+		RICHTEXT("richtext"),
+		/**
+		 * 图片上传
+		 */
+		PICTURE("picture"),
+		/**
+		 * 文件上传
+		 */
+		FILE("file");
 
 		private String value;
 

@@ -1,6 +1,7 @@
 package com.seezoon.framework.common.file;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.Assert;
 
 import com.seezoon.framework.common.context.utils.PropertyUtil;
 
@@ -53,6 +54,15 @@ public class FileConfig {
 	public static String getFullUrl(String relativePath) {
 		String fullUrl = FileHandlerFactory.getFullUrl(relativePath);
 		return fullUrl;
+	}
+	/**
+	 * 获取文件id
+	 * @param relativePath
+	 * @return
+	 */
+	public static String getFileId(String relativePath) {
+		Assert.hasLength(relativePath,"相对地址为空");
+		return relativePath.substring(relativePath.lastIndexOf("/")+1, relativePath.lastIndexOf("."));
 	}
 	public String getFileStorage() {
 		return fileStorage;

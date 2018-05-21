@@ -9,12 +9,18 @@ import java.math.BigDecimal;
 <#if hasDate >
 import java.util.Date;
 </#if>
+<#if hasFileUpload >
+import com.seezoon.framework.common.file.beans.FileInfo;
+import java.util.List;
+</#if>
 /**
  * ${menuName}
  * Copyright &copy; 2018 powered by huangdf, All rights reserved.
  * @author hdf ${.now}
  */
 public class ${className} extends BaseEntity<${pkType}> {
+
+   private static final long serialVersionUID = 1L;
 <#list columnInfos as columnInfo>
 	<#if columnInfo.javaFieldName != "id" && columnInfo.javaFieldName != "createBy" && columnInfo.javaFieldName != "createDate" && columnInfo.javaFieldName != "updateBy" && columnInfo.javaFieldName != "updateDate" && columnInfo.javaFieldName != "remarks">
     /**
@@ -31,6 +37,15 @@ public class ${className} extends BaseEntity<${pkType}> {
     </#if>
     </#if>
     private ${columnInfo.javaType} ${columnInfo.javaFieldName};
+    <#if columnInfo.inputType! == "file" || columnInfo.inputType! == "picture">
+    private List<FileInfo> ${columnInfo.javaFieldName}Array;
+    public List<FileInfo> get${columnInfo.javaFieldName ? cap_first}Array(){
+        return ${columnInfo.javaFieldName}Array;
+    }
+    public void set${columnInfo.javaFieldName ? cap_first}Array(List<FileInfo> ${columnInfo.javaFieldName}Array){
+        this.${columnInfo.javaFieldName}Array = ${columnInfo.javaFieldName}Array;
+    }
+    </#if>
 	</#if>
 </#list>
 <#list columnInfos as columnInfo>

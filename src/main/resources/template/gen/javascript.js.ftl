@@ -20,7 +20,12 @@ $(function() {
 			way.set("model.form.data",null);
 			<#list columnInfos as columnInfo>
 		    <#if columnInfo.inputType! == "richtext">
-		    	editor${columnInfo.javaFieldName ? cap_first}.html('');;
+		    if (	editor${columnInfo.javaFieldName ? cap_first}) {
+		    	editor${columnInfo.javaFieldName ? cap_first}.html('');
+		    }
+		    </#if>
+		     <#if columnInfo.inputType! == "file" || columnInfo.inputType! == "picture">
+		     	$("#${columnInfo.javaFieldName}UploadFileContainer").empty();
 		    </#if>
    			</#list>
 		},
@@ -40,6 +45,24 @@ $(function() {
 				<#list columnInfos as columnInfo>
 			    <#if columnInfo.inputType! == "richtext">
 			    	editor${columnInfo.javaFieldName ? cap_first}.html(respone.data.${columnInfo.javaFieldName});
+			    </#if>
+			    <#if columnInfo.inputType! == "picture">
+			    if (respone.data.${columnInfo.javaFieldName}Array) {
+					 var files = [];
+					 $.each(respone.data.${columnInfo.javaFieldName}Array,function(i,v){
+						 files.push({"inputName":"${columnInfo.javaFieldName}","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-image-template").tmpl(files).appendTo($("#${columnInfo.javaFieldName}UploadFileContainer"));
+			 	} 
+			    </#if>
+			    <#if columnInfo.inputType! == "file">
+		    		if (respone.data.${columnInfo.javaFieldName}Array) {
+					 var files = [];
+					 $.each(respone.data.${columnInfo.javaFieldName}Array,function(i,v){
+						 files.push({"inputName":"${columnInfo.javaFieldName}","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-file-template").tmpl(files).appendTo($("#${columnInfo.javaFieldName}UploadFileContainer"));
+			 	} 
 			    </#if>
 	   			</#list>
 			})
@@ -78,6 +101,13 @@ $(function() {
 		<#list columnInfos as columnInfo>
 		<#if columnInfo.inputType! == "date" && columnInfo.nullable! !="1" && columnInfo.javaFieldName != "createDate" && columnInfo.javaFieldName != "updateDate">
 		if(!$("#${columnInfo.javaFieldName}").val()){
+			layer.msg("${columnInfo.columnComment}不能为空");
+			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
+			return false;
+		} 
+		</#if>
+		<#if (columnInfo.inputType! == "file" || columnInfo.inputType! == "picture") && columnInfo.nullable! !="1">
+		if($("input[name='${columnInfo.javaFieldName}']").length == 0){
 			layer.msg("${columnInfo.columnComment}不能为空");
 			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
 			return false;
@@ -185,4 +215,71 @@ $(function() {
 		</#list>
 		 ]
 	});
+	<#list columnInfos as columnInfo>
+		<#if columnInfo.inputType! == "picture">
+		//图片上传
+		 $('#${columnInfo.javaFieldName}Upload').fileupload({
+			 url:adminContextPath + "/file/uploadBatchImage.do",
+			 type:'POST',
+			 change: function (e, data) {
+				for (var i=0;i< data.files.length;i++) {
+					var file= data.files[i];
+					if (file.size > 2 * 1024 * 1024) {
+						layer.msg(file.name + " 文件大小超过2M,请重新选择");
+						return false;
+					}
+					 // 开头为image/
+					var reg = /^image\//
+				    if (!reg.test(file.type)) {
+					    	layer.msg(file.name + " 不是图片格式");
+				    		return false;
+				    }
+				}
+			    //当前传了多少个 可以自己写校验
+			    var cnt = $("input[name='${columnInfo.javaFieldName}']").length;
+			    //本次传了多少个
+			    var chooseFilecnt = data.files.length;
+			  },
+			 done: function (e, response) {//设置文件上传完毕事件的回调函数 
+				 if (response.result.responeCode == '0') {
+					 var files = [];
+					 $.each(response.result.data,function(i,v){
+						 files.push({"inputName":"${columnInfo.javaFieldName}","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-image-template").tmpl(files).appendTo($("#${columnInfo.javaFieldName}UploadFileContainer"));
+				 } 
+			 }, 
+		 });
+		</#if>
+		<#if columnInfo.inputType! == "file">
+		 //文件上传
+		 $('#${columnInfo.javaFieldName}Upload').fileupload({
+			 url:adminContextPath + "/file/uploadBatchFile.do",
+			 type:'POST',
+			 change: function (e, data) {
+				for (var i=0;i< data.files.length;i++) {
+					var file= data.files[i];
+					if (file.size > 2 * 1024 * 1024) {
+						layer.msg(file.name + " 文件大小超过2M,请重新选择");
+						return false;
+					}
+				}
+			    //当前传了多少个 可以自己写校验
+			    var cnt = $("input[name='${columnInfo.javaFieldName}']").length;
+			    //本次传了多少个
+			    var chooseFilecnt = data.files.length;
+			  },
+			 done: function (e, response) {//设置文件上传完毕事件的回调函数 
+				 if (response.result.responeCode == '0') {
+					 var files = [];
+					 $.each(response.result.data,function(i,v){
+						 files.push({"inputName":"${columnInfo.javaFieldName}","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-file-template").tmpl(files).appendTo($("#${columnInfo.javaFieldName}UploadFileContainer"));
+				 } 
+			 }, 
+		 });
+		</#if>
+	</#list>
+	
 });

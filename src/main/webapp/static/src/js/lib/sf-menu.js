@@ -6,7 +6,7 @@
  */
 ;(function($) {
 	$("body").append("<div id='menuLayer' class='undisplay pd10'><ul id='menuTree' class='ztree'></ul></div>");
-	$.seezoon = {
+	$.seezoon = $.extend($.seezoon,{
 	    index:0,
 		chooseMenu:function(treeId,confirmCallback,clearCallback){
 			var setting = {
@@ -60,6 +60,7 @@
 					  },
 					  content:  $("#menuLayer") 
 					});
+			}
 		}
-	}
+	);
 })(jQuery);

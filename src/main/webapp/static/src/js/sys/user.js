@@ -30,6 +30,28 @@ $(function() {
 			$.post(adminContextPath + "/sys/role/qryAll.do",function(respone){
 				$("#roles-temlate").tmpl(respone.data).appendTo($("#roles"));
 			});
+			//左侧部门树
+			var setting = {
+					data : {
+						simpleData : {
+							enable : true,
+							idKey : "id",
+							pIdKey : "parentId",
+						}
+					},
+					callback : {
+						onClick : function(event, treeId, treeNode) {
+							way.set("model.search.deptId",treeNode.id);
+							model.tableRefresh();
+						}
+					}
+				};
+				$.post(adminContextPath + "/sys/dept/qryAll.do", function(respone) {
+					//选择上级tree
+					$.fn.zTree.init($("#deptMenuTree"), setting,respone.data);
+					var treeObj = $.fn.zTree.getZTreeObj("deptMenuTree");
+					treeObj.expandAll(true);
+				});
 		}
 	};
 	model.init();

@@ -8,7 +8,7 @@ package com.seezoon.framework.common.file.beans;
 public class FileInfo {
 
 	/**
-	 * 文件全路劲
+	 * 文件全路径
 	 */
 	private String fullUrl;
 	/**
@@ -19,6 +19,18 @@ public class FileInfo {
 	 * 原始文件名
 	 */
 	private String originalFilename;
+
+	
+	public FileInfo() {
+		super();
+	}
+
+	public FileInfo(String fullUrl, String relativePath, String originalFilename) {
+		super();
+		this.fullUrl = fullUrl;
+		this.relativePath = relativePath;
+		this.originalFilename = originalFilename;
+	}
 
 	public String getFullUrl() {
 		return fullUrl;

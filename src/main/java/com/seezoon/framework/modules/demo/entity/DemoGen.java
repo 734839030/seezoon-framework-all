@@ -5,12 +5,16 @@ import com.seezoon.framework.common.entity.BaseEntity;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
+import com.seezoon.framework.common.file.beans.FileInfo;
+import java.util.List;
 /**
  * 生成案例
  * Copyright &copy; 2018 powered by huangdf, All rights reserved.
- * @author hdf 2018-5-13 20:48:16
+ * @author hdf 2018-5-22 1:00:14
  */
 public class DemoGen extends BaseEntity<String> {
+
+   private static final long serialVersionUID = 1L;
     /**
      * 文本
      */
@@ -62,13 +66,29 @@ public class DemoGen extends BaseEntity<String> {
     /**
      * 图片
      */
-    @Length(max = 255)
+    @NotNull
+    @Length(min = 1, max = 255)
     private String image;
+    private List<FileInfo> imageArray;
+    public List<FileInfo> getImageArray(){
+        return imageArray;
+    }
+    public void setImageArray(List<FileInfo> imageArray){
+        this.imageArray = imageArray;
+    }
     /**
      * 文件
      */
-    @Length(max = 255)
+    @NotNull
+    @Length(min = 1, max = 255)
     private String file;
+    private List<FileInfo> fileArray;
+    public List<FileInfo> getFileArray(){
+        return fileArray;
+    }
+    public void setFileArray(List<FileInfo> fileArray){
+        this.fileArray = fileArray;
+    }
     public String getInputText(){
         return inputText;
     }

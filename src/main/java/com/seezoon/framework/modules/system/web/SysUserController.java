@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.seezoon.framework.common.context.beans.ResponeModel;
+import com.seezoon.framework.common.file.FileConfig;
 import com.seezoon.framework.common.file.FileHandlerFactory;
 import com.seezoon.framework.common.utils.BtRemoteValidateResult;
 import com.seezoon.framework.common.web.BaseController;
@@ -42,7 +43,7 @@ public class SysUserController extends BaseController {
 	public ResponeModel qryPage(SysUser sysUser,HttpServletRequest request) {
 		PageInfo<SysUser> page = sysUserService.findByPage(sysUser, sysUser.getPage(), sysUser.getPageSize());
 		for (SysUser user: page.getList()) {
-			user.setPhotoFullUrl(FileHandlerFactory.getFullUrl(user.getPhoto()));
+			user.setPhotoFullUrl(FileConfig.getFullUrl(user.getPhoto()));
 		}
 		return ResponeModel.ok(page);
 	}

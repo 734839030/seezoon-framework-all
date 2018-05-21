@@ -4,6 +4,9 @@
 <#if hasRichText>
 @@include('../common/editor.html')
 </#if>
+<#if hasFileUpload>
+@@include('../common/file.html')
+</#if>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -214,6 +217,28 @@
 									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
 									<div class="col-sm-10">
 										<textarea class="form-control" rows="3" way-data="${columnInfo.javaFieldName}" style="width:100%;height:400px;visibility:hidden;" name="${columnInfo.javaFieldName}" <#if columnInfo.maxLength??>maxlength="${columnInfo.maxLength?c}"</#if>  <#if columnInfo.nullable! !="1">required</#if> ></textarea>
+									</div>
+								</div>
+							</#if>
+							<#if columnInfo.inputType! == "picture">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
+									<div class="col-sm-10">
+										<div id="${columnInfo.javaFieldName}UploadFileContainer">
+										</div>
+										<label for="${columnInfo.javaFieldName}Upload" class="btn btn-default"><i class="fa fa-cloud-upload"></i>上传</label> 
+										<input type="file" name="files" id="${columnInfo.javaFieldName}Upload" accept="image/*" multiple="multiple" style="display: none;">
+									</div>
+								</div>
+							</#if>
+							<#if columnInfo.inputType! == "file">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">${columnInfo.columnComment}<#if columnInfo.nullable! !="1"><font class="text-red">*</font></#if></label>
+									<div class="col-sm-10">
+										<div id="${columnInfo.javaFieldName}UploadFileContainer">
+										</div>
+										<label for="${columnInfo.javaFieldName}Upload" class="btn btn-default"><i class="fa fa-cloud-upload"></i>上传</label> 
+										<input type="file" name="files" id="${columnInfo.javaFieldName}Upload"  multiple="multiple" style="display: none;">
 									</div>
 								</div>
 							</#if>

@@ -151,6 +151,10 @@ public class GeneratorService extends BaseService{
 			if ("richtext".equals(column.getInputType())) {
 				sysGen.setHasRichText(true);
 			}
+			//文件上传
+			if ("picture".equals(column.getInputType()) || "file".equals(column.getInputType())) {
+				sysGen.setHasFileUpload(true);
+			}
 		}
 		try {
 			return this.zipCode(sysGen);

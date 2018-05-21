@@ -1,12 +1,12 @@
 /**
  * 部门选择组件
- * $.chooseDept('需要默认选中的treeId','点确定后的回调方法','点清清除的回调方法');
+ * $.seezoon.chooseDept('需要默认选中的treeId','点确定后的回调方法','点清清除的回调方法');
  * @param $
  * @returns
  */
 ;(function($) {
 	$("body").append("<div id='deptLayer' class='undisplay pd10'><ul id='deptTree' class='ztree'></ul></div>");
-	$.seezoon = {
+	$.seezoon = $.extend($.seezoon,{
 	    index:0,
 		chooseDept:function(treeId,confirmCallback,clearCallback){
 			var setting = {
@@ -60,6 +60,7 @@
 					  },
 					  content:  $("#deptLayer") 
 					});
+			}
 		}
-	}
+	);
 })(jQuery);

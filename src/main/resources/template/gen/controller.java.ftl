@@ -18,6 +18,15 @@ import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.${moduleName}.entity.${className};
 import com.seezoon.framework.modules.${moduleName}.service.${className}Service;
+<#if hasFileUpload >
+import java.util.ArrayList;
+import java.util.List;
+import com.seezoon.framework.modules.system.entity.SysFile;
+import com.seezoon.framework.modules.system.service.SysFileService;
+import com.seezoon.framework.common.file.FileConfig;
+import com.seezoon.framework.common.file.beans.FileInfo;
+import com.seezoon.framework.common.Constants;
+</#if>
 
 /**
  * ${menuName}controller
@@ -30,6 +39,10 @@ public class ${className}Controller extends BaseController {
 
 	@Autowired
 	private ${className}Service ${className?uncap_first}Service;
+	<#if hasFileUpload >
+	@Autowired
+	private SysFileService sysFileService;
+	</#if>
 
 	@RequiresPermissions("${moduleName}:${functionName}:qry")
 	@PostMapping("/qryPage.do")
@@ -50,6 +63,20 @@ public class ${className}Controller extends BaseController {
 			}
 		}
         </#if>
+        <#if columnInfo.inputType! == "file" || columnInfo.inputType! == "picture">
+        	 //文件处理
+        	if (StringUtils.isNotEmpty(${className?uncap_first}.get${columnInfo.javaFieldName?cap_first}())) {
+        		String[] ${columnInfo.javaFieldName}s = StringUtils.split(${className?uncap_first}.get${columnInfo.javaFieldName?cap_first}(), Constants.SEPARATOR);
+        		List<FileInfo> ${columnInfo.javaFieldName}Array = new ArrayList<>();
+	        	for (String path :${columnInfo.javaFieldName}s) {
+	        		SysFile sysFile = sysFileService.findById(FileConfig.getFileId(path));
+	        		if (null != sysFile) {
+	        			${columnInfo.javaFieldName}Array.add(new FileInfo(FileConfig.getFullUrl(path),path,sysFile.getName()));
+	        		}
+	        	}
+	        	${className?uncap_first}.set${columnInfo.javaFieldName?cap_first}Array(${columnInfo.javaFieldName}Array);
+        }
+		 </#if>
    		</#list>
 		return ResponeModel.ok(${className?uncap_first});
 	}
