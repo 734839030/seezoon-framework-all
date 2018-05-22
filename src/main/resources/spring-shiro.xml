@@ -12,9 +12,6 @@
 	<!-- 加载配置属性文件 -->
 	<context:property-placeholder
 		ignore-unresolvable="true" location="classpath*:application.properties" />
-	<!-- 加载配置属性文件 按需加载 -->
-	<context:property-placeholder
-		ignore-unresolvable="true" location="classpath*:redis/redis.properties" />
 
 	<!-- Shiro权限过滤过滤器定义 -->
 	<bean name="shiroFilterChainDefinitions" class="java.lang.String">

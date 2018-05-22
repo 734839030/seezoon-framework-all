@@ -17,7 +17,8 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-	<import resource="classpath*:datasource/spring-context-jdbc.xml" /> 
-	<import resource="classpath*:redis/spring-context-redis-single.xml" /> 
+	<import resource="classpath:spring-shiro.xml"/>
+	<import resource="classpath*:spring-jdbc.xml" /> 
+	<import resource="classpath*:spring-redis.xml" /> 
 	
 </beans> 

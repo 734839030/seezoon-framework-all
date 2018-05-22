@@ -74,6 +74,22 @@ $(function() {
 	// 校验
 	$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
 		e.preventDefault();
+		var hasError = false;
+		//校验
+		$("#table-body > tr").find("td:eq(1),td:eq(4),td:eq(13)").find("input").each(function(i,v){//备注, 字段名，排序
+			if (!$.trim($(v).val())) {
+				$(v).parent().addClass("has-error");
+				hasError = true;
+			} else {
+				$(v).parent().removeClass("has-error");
+			}
+		});
+		
+		if (hasError) {
+			layer.msg("生成方案填写不完整");
+			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
+			return false;
+		}
 		var id = model.getFormData().id;
 		var optUrl = model.path + "/save.do";
 		if (id) {

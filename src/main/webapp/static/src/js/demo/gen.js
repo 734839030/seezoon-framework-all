@@ -190,10 +190,6 @@ $(function() {
 			 }
 			},
 			{
-			field : 'inputTextarea',
-			title : '文本域',
-			},
-			{
 			field : 'inputDate',
 			title : '日期',
 			sortName : 'input_date',
@@ -213,10 +209,6 @@ $(function() {
 			sortName : 'input_xiaoshu',
 			sortable : true,
 			order : 'desc',
-			},
-			{
-			field : 'richText',
-			title : '富文本',
 			},
 			{
 			field : 'updateDate',

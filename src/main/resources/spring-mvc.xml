@@ -90,6 +90,5 @@
 			</bean>
 		</property>
 	</bean>
-     
 	<import resource="classpath:message/spring-message.xml"/>
 </beans>

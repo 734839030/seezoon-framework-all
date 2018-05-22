@@ -10,9 +10,9 @@
 	</developers>
 	<artifactId>seezoon-framework-all</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>seezoon-framework-all</name>
-	<url></url>
+	<version>1.0.41.RELEASE</version>
+	<name>${project.artifactId}</name>
+	<url>https://github.com/734839030/seezoon-framework-all</url>
 	<properties>
 		<project.version>1.0.41.RELEASE</project.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -66,9 +66,35 @@
 		<poi.version>3.17</poi.version>
 		<!-- 模板 -->
 		<freemarker.version>2.3.28</freemarker.version>
-		<!-- xml开发环境自动刷新 -->
-		<mybatis.plus.version>2.2.0</mybatis.plus.version>
 	</properties>
+	<!-- 不同环境配置文件打包 mvn package -P id -->
+	<profiles>
+		<profile>
+			<!-- 开发环境 -->
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+			<activation>
+				<!-- 默认激活该profile节点 -->
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<!-- 测试环境 -->
+			<id>uat</id>
+			<properties>
+				<env>uat</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 生产环境 -->
+			<id>prod</id>
+			<properties>
+				<env>prod</env>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>javassist</groupId>
@@ -416,28 +442,32 @@
 			<artifactId>freemarker</artifactId>
 			<version>${freemarker.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus</artifactId>
-			<version>${mybatis.plus.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.github.jsqlparser</groupId>
-					<artifactId>jsqlparser</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.mybatis</groupId>
-					<artifactId>mybatis-spring</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.mybatis</groupId>
-					<artifactId>mybatis</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<targetPath>${project.build.directory}/classes</targetPath>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<excludes>
+					<exclude>env/**</exclude>
+					<exclude>application.properties</exclude>
+					<exclude>log4j.properties</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<targetPath>${project.build.directory}/classes</targetPath>
+				<directory>src/main/resources/env/${env}</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>*.properties</include>
+				</includes>
+			</resource>
+		</resources>
 		<pluginManagement>
 			<plugins>
 				<plugin>
