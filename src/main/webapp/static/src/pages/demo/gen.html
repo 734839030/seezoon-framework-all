@@ -22,7 +22,13 @@
 										<input type="text" class="form-control" placeholder="文本" name="inputText" way-data="inputText" maxlength="50"  >
 										</div>
 									<div class="form-group">
-										<label>日期</label> <input type="text" class="form-control date" placeholder="日期" name="inputDate"  way-data="inputDate">
+										<select class="form-control sf-select" way-data="inputSelect"
+											name="inputSelect" data-sf-dict-type="yes_no">
+											<option value="">请选择</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>时间</label> <input type="text" class="form-control date" placeholder="时间" name="inputDate"  way-data="inputDate">
 									</div>
 							<button type="button" class="btn btn-default sf-permission-ctl" id="search" data-sf-permission="demo:gen:qry">
 								<i class="fa fa-search"></i>
@@ -97,7 +103,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-2 control-label">日期<font class="text-red">*</font></label>
+									<label class="col-sm-2 control-label">时间<font class="text-red">*</font></label>
 									<div class="col-sm-5">
 										<input type="text" class="form-control date" way-data="inputDate" 
 											name="inputDate" id="inputDate" >
@@ -176,64 +182,94 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
-						<div class="form-group">
+							<div class="form-group">
 								<label class="col-sm-2 control-label">文本:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="inputText"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">下拉:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="inputSelect"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">单选:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="inputRadio"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">复选:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="inputCheckbox"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">文本域:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="inputTextarea"></p>
 								</div>
-								<label class="col-sm-2 control-label">日期:</label>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">时间:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="inputDate"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">整数:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="inputZhengshu"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">小数:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="inputXiaoshu"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">富文本:</label>
 								<div class="col-sm-5">
-									<p class="form-control-static" way-data="richText"></p>
+									<p class="form-control-static" way-data="richText" way-html="true"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">图片:</label>
-								<div class="col-sm-5">
-									<p class="form-control-static" way-data="image"></p>
+								<div class="col-sm-10">
+									<p class="form-control-static" id="sf-view-image-file"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">文件:</label>
 								<div class="col-sm-5">
-									<p class="form-control-static" way-data="file"></p>
+									<p class="form-control-static" id="sf-view-file-file"></p>
 								</div>
+							</div>
+							<div class="form-group">
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">创建时间:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="createDate"></p>
 								</div>
+							</div>
+							<div class="form-group">
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">更新时间:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="updateDate"></p>
 								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">备注信息:</label>
 								<div class="col-sm-5">
 									<p class="form-control-static" way-data="remarks"></p>
 								</div>
-						</div>
+							</div>
 					</form>
 				</div>
 			</div>

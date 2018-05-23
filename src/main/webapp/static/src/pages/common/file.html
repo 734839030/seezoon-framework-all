@@ -16,6 +16,18 @@
 	 	<p><a href="${url}" target="_blank">${fileName}</a> <a href="javascript:void(0);" class="text-danger sf-file-delete">删除</a></p>
 	</div>
 </script>
+<!-- 查看单条图片模板 -->
+<script id="sf-view-image-template" type="text/x-jquery-tmpl">
+	<div class="sf-file-wrapper" style="display: inline-block;">
+		<a href="${url}" target="_blank"><img src="${url}" style="width: 128px;height: 128px;" title="${fileName}"></a> 
+	</div>
+</script>
+<!-- 查看单条文件模板 -->
+<script id="sf-view-file-template" type="text/x-jquery-tmpl">
+	<div class="sf-file-wrapper">
+	 	<p><a href="${url}" target="_blank">${fileName}</a></p>
+	</div>
+</script>
 <script type="text/javascript">
 $(function(){
 	 $("body").on("click",".sf-file-delete",function(){

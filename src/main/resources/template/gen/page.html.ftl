@@ -273,16 +273,20 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
-						<div class="form-group">
 							<#list columnInfos as columnInfo>
 								<#if columnInfo.inputType! != "hidden" && columnInfo.javaFieldName != "createBy" && columnInfo.javaFieldName != "updateBy">
+								<div class="form-group">
 								<label class="col-sm-2 control-label">${columnInfo.columnComment}:</label>
-								<div class="col-sm-5">
-									<p class="form-control-static" way-data="${columnInfo.javaFieldName}"></p>
+								<div class="col-sm-10">
+									<#if columnInfo.inputType! == "picture" || columnInfo.inputType! == "file">
+									<p class="form-control-static" id="sf-view-${columnInfo.javaFieldName}-file"></p>
+									<#else>
+									<p class="form-control-static" way-data="${columnInfo.javaFieldName}" ${(columnInfo.inputType! == "richtext") ?string("way-html='true'","''")}></p>
+									</#if>
+								</div>
 								</div>
 								</#if>
 							</#list>
-						</div>
 					</form>
 				</div>
 			</div>

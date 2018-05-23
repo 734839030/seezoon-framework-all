@@ -1,5 +1,5 @@
 $(function() {
-    var editorRichText;
+        	var editorRichText;
 	KindEditor.ready(function(K) {
         editorRichText = K.create("textarea[name='richText']",{
 	        	syncType:'auto',//无效
@@ -14,9 +14,9 @@ $(function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
 			//表单默认值可以在这里设置
 			way.set("model.form.data",null);
-			if (editorRichText) {
-				editorRichText.html('');
-			}
+		    if (	editorRichText) {
+		    	editorRichText.html('');
+		    }
 		     	$("#imageUploadFileContainer").empty();
 		     	$("#fileUploadFileContainer").empty();
 		},
@@ -41,7 +41,7 @@ $(function() {
 					 });
 					 $("#sf-image-template").tmpl(files).appendTo($("#imageUploadFileContainer"));
 			 	} 
-		    		if (respone.data.fileArray) {
+			    if (respone.data.fileArray) {
 					 var files = [];
 					 $.each(respone.data.fileArray,function(i,v){
 						 files.push({"inputName":"file","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
@@ -53,6 +53,24 @@ $(function() {
 		setViewDataById:function(id){
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.view",respone.data);
+				 way.set("model.view.inputSelect",$.getDictName('yes_no',respone.data.inputSelect));
+				    way.set("model.view.inputRadio",$.getDictName('yes_no',respone.data.inputRadio));
+				    way.set("model.view.inputCheckbox",$.getDictName('yes_no',respone.data.inputCheckbox));
+
+					if (respone.data.imageArray) {
+					 var files = [];
+					 $.each(respone.data.imageArray,function(i,v){
+						 files.push({"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-view-image-template").tmpl(files).appendTo($("#sf-view-image-file"));
+					 }
+					if (respone.data.fileArray) {
+					 var files = [];
+					 $.each(respone.data.fileArray,function(i,v){
+						 files.push({"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-view-file-template").tmpl(files).appendTo($("#sf-view-file-file"));
+					 }
 			})
 		},
 		init:function(){//需要初始化的功能
@@ -63,9 +81,8 @@ $(function() {
 	$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
 		e.preventDefault();
 		 editorRichText.sync();
-		 	
-		if(!$("#inputDate").val()){
-			layer.msg("日期不能为空");
+		 		if(!$("#inputDate").val()){
+			layer.msg("时间不能为空");
 			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
 			return false;
 		} 
@@ -79,6 +96,7 @@ $(function() {
 			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
 			return false;
 		} 
+		
 		var id = model.getFormData().id;
 		var optUrl = model.path + "/save.do";
 		if (id) {
@@ -158,6 +176,9 @@ $(function() {
 			sortName : 'input_text',
 			sortable : true,
 			order : 'desc',
+            formatter : function(value, row, index) {
+			    return "<a href='#' class='view' data-id='" + row.id + "'>" + value + "</a>"
+			 }
 			},
 			{
 			field : 'inputSelect',
@@ -190,8 +211,12 @@ $(function() {
 			 }
 			},
 			{
+			field : 'inputTextarea',
+			title : '文本域',
+			},
+			{
 			field : 'inputDate',
-			title : '日期',
+			title : '时间',
 			sortName : 'input_date',
 			sortable : true,
 			order : 'desc',
@@ -209,6 +234,10 @@ $(function() {
 			sortName : 'input_xiaoshu',
 			sortable : true,
 			order : 'desc',
+			},
+			{
+			field : 'richText',
+			title : '富文本',
 			},
 			{
 			field : 'updateDate',
