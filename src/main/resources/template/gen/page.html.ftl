@@ -282,9 +282,8 @@
 									<p class="form-control-static" id="sf-view-${columnInfo.javaFieldName}-file"></p>
 									<#else>
 									<p class="form-control-static" way-data="${columnInfo.javaFieldName}" ${(columnInfo.inputType! == "richtext") ?string("way-html='true'","''")}></p>
-									</#if>
 								</div>
-								</div>
+								</#if>
 								</#if>
 							</#list>
 					</form>
