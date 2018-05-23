@@ -494,14 +494,10 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.1</version>
 				<configuration>
-					<archive>
-						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-					</archive>
+					<warSourceExcludes>static/**</warSourceExcludes>
 				</configuration>
 			</plugin>
 			<!-- Compiler 插件, 设定JDK版本 -->

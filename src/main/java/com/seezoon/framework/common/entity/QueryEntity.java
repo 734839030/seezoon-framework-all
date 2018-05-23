@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.seezoon.framework.common.utils.CurrentThreadContext;
+import com.seezoon.framework.common.utils.SQLFilterUtils;
 import com.seezoon.framework.modules.system.utils.DataPermissionBuilder;
 
 public class QueryEntity implements Serializable{
@@ -89,7 +91,7 @@ public class QueryEntity implements Serializable{
 	}
 
 	public String getSortField() {
-		return sortField;
+		return SQLFilterUtils.sqlFilter(sortField);
 	}
 
 	public void setSortField(String sortField) {
@@ -97,7 +99,7 @@ public class QueryEntity implements Serializable{
 	}
 
 	public String getDirection() {
-		return direction;
+		return SQLFilterUtils.sqlFilter(direction);
 	}
 
 	public void setDirection(String direction) {

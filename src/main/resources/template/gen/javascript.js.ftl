@@ -46,22 +46,13 @@ $(function() {
 			    <#if columnInfo.inputType! == "richtext">
 			    	editor${columnInfo.javaFieldName ? cap_first}.html(respone.data.${columnInfo.javaFieldName});
 			    </#if>
-			    <#if columnInfo.inputType! == "picture">
+			    <#if columnInfo.inputType! == "picture" || columnInfo.inputType! == "file">
 			    if (respone.data.${columnInfo.javaFieldName}Array) {
 					 var files = [];
 					 $.each(respone.data.${columnInfo.javaFieldName}Array,function(i,v){
 						 files.push({"inputName":"${columnInfo.javaFieldName}","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
 					 });
-					 $("#sf-image-template").tmpl(files).appendTo($("#${columnInfo.javaFieldName}UploadFileContainer"));
-			 	} 
-			    </#if>
-			    <#if columnInfo.inputType! == "file">
-		    		if (respone.data.${columnInfo.javaFieldName}Array) {
-					 var files = [];
-					 $.each(respone.data.${columnInfo.javaFieldName}Array,function(i,v){
-						 files.push({"inputName":"${columnInfo.javaFieldName}","path":v.relativePath,"url":v.fullUrl,"fileName":v.originalFilename});
-					 });
-					 $("#sf-file-template").tmpl(files).appendTo($("#${columnInfo.javaFieldName}UploadFileContainer"));
+					 $("#sf-${(columnInfo.inputType! == "picture")?string("image","file")}-template").tmpl(files).appendTo($("#${columnInfo.javaFieldName}UploadFileContainer"));
 			 	} 
 			    </#if>
 	   			</#list>
@@ -70,6 +61,17 @@ $(function() {
 		setViewDataById:function(id){
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.view",respone.data);
+				<#list columnInfos as columnInfo>
+					<#if columnInfo.inputType! == "picture" || columnInfo.inputType! == "file">
+					if (respone.data.${columnInfo.javaFieldName}Array) {
+					 var files = [];
+					 $.each(respone.data.${columnInfo.javaFieldName}Array,function(i,v){
+						 files.push({"url":v.fullUrl,"fileName":v.originalFilename});
+					 });
+					 $("#sf-view-${(columnInfo.inputType! == "picture")?string("image","file")}-template").tmpl(files).appendTo($("#sf-view-${columnInfo.javaFieldName}-file"));
+					 }
+					</#if>
+				</#list>
 			})
 		},
 		init:function(){//需要初始化的功能
@@ -191,7 +193,6 @@ $(function() {
 		}, 
 		<#list columnInfos as columnInfo>
 			<#if columnInfo.list! == "1">
-			<#assign listIndex=listIndex + 1>
 			{
 			field : '${columnInfo.javaFieldName}',
 			title : '${columnInfo.columnComment}',
@@ -211,6 +212,7 @@ $(function() {
 			 }
 			 </#if>
 			},
+			<#assign listIndex=listIndex + 1>
 			</#if>
 		</#list>
 		 ]
