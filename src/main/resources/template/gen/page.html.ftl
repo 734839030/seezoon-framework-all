@@ -284,7 +284,7 @@
 									<p class="form-control-static" way-data="${columnInfo.javaFieldName}" ${(columnInfo.inputType! == "richtext") ?string("way-html='true'","''")}></p>
 									</#if>
 									</div>
-								</div>
+								</div>	
 								</#if>
 							</#list>
 					</form>
