@@ -7,6 +7,18 @@
 
 官方QQ群：514685454（满）、574933593（满）、439091944
 
+## V2.0.0 功能介绍 ##
+* 前后端完全分离，采用node插件gulp 管理
+* 前端数据双向绑定wayjs
+* 统一异常处理，全局错误码
+* RBAC权限管理，精细到菜单，按钮级别权限，支持父子权限
+* 数据权限控制，不需要额外代码，框架自动支持，支持手动插拔
+* 前后端数据双向校验
+* 强大的代码生成，支持富文本，图片，文件,数据字典等复杂控件的生成，生成代码包含，完整的前端，后端，权限控制，校验等
+* 文件上传支持本地和阿里云(本人只对阿里云有感觉，所以不考虑其他厂商的)两种模式，通过配置文件转换
+* 丰富的工具类，excel导入导出，图片裁剪，验证码，二维码，基于线程池的httpclient
+* 易上手，在多个团队中使用，团队成员接受度较高，上手较快
+
 ## 常用框架 ##
 
 #### 后端 ####
@@ -59,17 +71,16 @@ static/src 为前端源文件，static/dist 为编译后的静态资源，这边
 打开浏览器输入http://127.0.0.1:8888/pages/index.html 自动拦截回到登录页。
 ![登录页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/login.png?raw=true)
 后续整理完善后，部署阿里云演示版本。
+
 ## 后续逐步开源如下功能 ##
-* 数据权限控制
 * 安全日志
-* 定时任务
-* 在线代码生成器，生成后端，前端代码。
+* 定时任务集成
 * 微信公众号，小程序通用模块
 * 文档编写
 
 ## 部分项目截图 ##
-#### 代码生成 还未完全开发完成，请使用分支版本 ####
-![代码生成](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/gen.png?raw=true)
+#### 代码生成 ####
+![代码生成](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/codegen.png?raw=true)
 #### 首页 ####
 ![首页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/index.png?raw=true)
 #### 用户管理 ####
