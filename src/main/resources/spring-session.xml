@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+	<description>Spring Session Configuration</description>
+	<context:annotation-config />
+	<!-- 将session放入redis  有很多坑  web中放入spring session filter的顺序一定要靠前，且这个配置文件要在spring初始化的时候 在spring mvc 之前初始化，
+	  -->
+	<bean id="redisHttpSessionConfiguration"
+		class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+		<property name="maxInactiveIntervalInSeconds" value="${front.session.redis.timeout}" />
+		<property name="redisNamespace" value="fsid_"/>
+		<property name="defaultRedisSerializer" ref="jdkSerializer"></property>
+		<property name="cookieSerializer" ref="defaultCookieSerializer"></property>
+	</bean>
+	<bean id="jdkSerializer"
+        class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        <!-- 都可以使用默认配置 -->
+     <bean id="defaultCookieSerializer" class="org.springframework.session.web.http.DefaultCookieSerializer">
+     	<property name="cookiePath" value="/"></property>
+     	<property name="domainName" value="${front.cookie.domainName}"></property>
+     	<property name="cookieName" value="fseezoon-sid"></property>
+     </bean>
+        
+</beans>

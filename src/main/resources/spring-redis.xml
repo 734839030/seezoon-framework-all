@@ -10,8 +10,6 @@
 
 	<description>Jedis Single Configuration 单机</description>
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
-	<!-- 加载配置属性文件  按需加载-->
-	<context:property-placeholder ignore-unresolvable="true" location="classpath*:application.properties" />
 	<!-- Jedis 连接池配置 -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxWaitMillis" value="${redis.maxWaitMillis}" /> 

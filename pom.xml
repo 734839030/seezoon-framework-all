@@ -51,8 +51,8 @@
 		<!-- redis -->
 		<redis.clients.version>2.9.0</redis.clients.version>
 		<spring.data.redis.version>1.8.1.RELEASE</spring.data.redis.version>
+		<spring.session.version>1.3.1.RELEASE</spring.session.version>
 		<shiro-version>1.3.2</shiro-version>
-
 		<shiro.redis.version>3.0.0</shiro.redis.version>
 		<kaptcha-version>0.0.9</kaptcha-version>
 		<!-- spring session -->
@@ -69,8 +69,8 @@
 	</properties>
 	<!-- 不同环境配置文件打包 mvn package -P id -->
 	<profiles>
+		<!-- 开发环境 为方便开发环境配置文件读外层的 -->
 		<profile>
-			<!-- 开发环境 -->
 			<id>dev</id>
 			<properties>
 				<env>dev</env>
@@ -442,6 +442,11 @@
 			<artifactId>freemarker</artifactId>
 			<version>${freemarker.version}</version>
 		</dependency>
+		<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session-data-redis</artifactId>
+				<version>${spring.session.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -455,8 +460,6 @@
 				</includes>
 				<excludes>
 					<exclude>env/**</exclude>
-					<exclude>application.properties</exclude>
-					<exclude>log4j.properties</exclude>
 				</excludes>
 			</resource>
 			<resource>

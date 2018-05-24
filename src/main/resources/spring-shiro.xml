@@ -9,9 +9,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	<context:annotation-config />
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<!-- 加载配置属性文件 -->
-	<context:property-placeholder
-		ignore-unresolvable="true" location="classpath*:application.properties" />
 
 	<!-- Shiro权限过滤过滤器定义 -->
 	<bean name="shiroFilterChainDefinitions" class="java.lang.String">
@@ -55,12 +52,12 @@
 	<bean id="redisSessionDAO" class="org.crazycake.shiro.RedisSessionDAO">
 		<property name="redisManager" ref="redisManager" />
 		<property name="expire" value="${admin.session.redis.timeout}" />
-		<property name="keyPrefix" value="${admin.session.key.preffix}" />
+		<property name="keyPrefix" value="asid_" />
 	</bean>
 	<bean id="cacheManager" class="org.crazycake.shiro.RedisCacheManager">
 		<property name="redisManager" ref="redisManager" />
 		<property name="expire" value="${admin.session.redis.timeout}" />
-		<property name="keyPrefix" value="${admin.session.key.preffix}" />
+		<property name="keyPrefix" value="asid_" />
 	</bean>
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
@@ -71,9 +68,9 @@
 		<property name="sessionDAO" ref="redisSessionDAO" />
 	</bean>
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-		<property name="name" value="seezoon.sessionId"></property>
+		<property name="name" value="aseezoon-sid"></property>
 		<property name="path" value="/"></property>
-		<property name="domain" value="${admin.session.domain}"></property>
+		<property name="domain" value="${admin.cooike.domain}"></property>
 	</bean>
 	<bean id="userRealm" class="com.seezoon.framework.modules.system.shiro.UserRealm">
 		<!-- 开启权限数据缓存  -->

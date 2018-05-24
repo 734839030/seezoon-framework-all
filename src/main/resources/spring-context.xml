@@ -17,8 +17,10 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-	<import resource="classpath:spring-shiro.xml"/>
+	<import resource="classpath*:spring-shiro.xml"/>
 	<import resource="classpath*:spring-jdbc.xml" /> 
 	<import resource="classpath*:spring-redis.xml" /> 
+	<import resource="classpath*:spring-session.xml" /> 
+	
 	
 </beans> 
