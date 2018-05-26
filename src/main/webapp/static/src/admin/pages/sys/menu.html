@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>@@include('../common/header.html',{"title":"菜单管理"})
+@@include('../common/treegrid.html')
+@@include('../common/ztree.html')
+<link rel="stylesheet" href="/plugins/bootstrap-table/extensions/bootstrap3-editable/css/bootstrap-editable.css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<div class="content-wrapper ml0">
+			<section class="content-header">
+				<h1>菜单管理</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>系统管理</a></li>
+					<li class="active">菜单管理</li>
+				</ol>
+			</section>
+			<section class="content container-fluid">
+				<div class="box box-primary">
+					<div class="box-body">
+						<form class="form-inline" way-scope="model.search">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="名称"
+									name="name" way-data="name" maxlength="50">
+							</div>
+							<button type="button" class="btn btn-default sf-permission-ctl" id="search" data-sf-permission="sys:menu:qry">
+								<i class="fa fa-search"></i>
+							</button>
+							<button type="button" class="btn btn-default sf-permission-ctl" id="batch-save" data-sf-permission="sys:menu:save">
+								<i class="fa fa-save">批量保存</i>
+							</button>
+							<div class="btn-group pull-right">
+								<button type="button" class="btn btn-primary sf-permission-ctl" id="add" data-sf-permission="sys:menu:save">
+									<i class="fa fa-plus"></i>
+								</button>
+								<button type="button" class="btn btn-info sf-permission-ctl" id="edit" data-sf-permission="sys:menu:update">
+									<i class="fa fa-edit"></i>
+								</button>
+								<button type="button" class="btn btn-danger sf-permission-ctl" id="delete" data-sf-permission="sys:menu:delete">
+									<i class="fa fa-trash-o"></i>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="box">
+					<div class="box-body">
+						<!-- table -->
+						<table id="table"></table>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<!-- 添加与修改start -->
+	<div class="modal fade" id="form-panel" way-scope="model.form">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" way-data="title" way-html="true"></h4>
+				</div>
+			    <div class="modal-body">
+						<!-- Custom Tabs -->
+						<div class="nav-tabs-custom">
+							<ul class="nav nav-tabs" id="myTabs">
+								<li class="active "><a href="#tab_ml" data-toggle="tab" 
+									aria-expanded="true">目录</a></li>
+								<li class=""><a href="#tab_cd" data-toggle="tab"
+									aria-expanded="false">菜单</a></li>
+								<li class=""><a href="#tab_an" data-toggle="tab"
+									aria-expanded="false">按钮</a></li>
+							</ul>
+							<div class="tab-content">
+								<!-- 目录 -->
+								<div class="tab-pane active" id="tab_ml">
+									<form class="form-horizontal" way-scope="data" id="data-form-ml">
+										<input type="hidden" way-data="id" name="id">
+										<input type="hidden"  name="type" value="0">
+										<div class="form-group">
+												<label class="col-sm-2 control-label">上级菜单</label>
+												<div class="col-sm-5">
+													<input type="hidden" way-data="parentId" name="parentId">
+													<input type="text" class="form-control parent-input"
+														way-data="parentName" name="parentName"
+														readonly="readonly">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">名称<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<input type="text" class="form-control" way-data="name"
+														maxlength="50" minlength="1" name="name" required
+														placeholder="">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">是否显示<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<label class="radio-inline"> <input type="radio" required
+														way-data="isShow" name="isShow" value="1">是
+													</label> <label class="radio-inline"> <input type="radio" required
+														way-data="isShow" name="isShow" value="0">否
+													</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">图标</label>
+												<div class="col-sm-5">
+													<input type="hidden"  way-data="icon" name="icon">
+													<i class="fa-lg icon"></i>
+													<a href="#" class="get-icon">获取图标</a>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">权限</label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control"
+														way-data="permission" maxlength="200" name="permission"
+														placeholder="逗号分隔">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">排序<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<input type="number" class="form-control" way-data="sort" required
+														maxlength="10" minlength="1" name="sort">
+												</div>
+											</div>
+											<div class="row">
+												<button type="button" class="btn btn-default col-sm-offset-1 pull-left"
+													data-dismiss="modal">
+													<i class="fa fa-times"></i> 取消
+												</button>
+												<button type="submit" class="btn btn-primary  col-sm-offset-7">
+													<i class="fa fa-save"></i> 保存
+												</button>
+											</div>
+										</form>
+								</div>
+								<!-- 菜单 -->
+								<div class="tab-pane" id="tab_cd">
+										<form class="form-horizontal" way-scope="data" id="data-form-cd">
+										<input type="hidden" way-data="id" name="id">
+										<input type="hidden"  name="type" value="1">
+										<div class="form-group">
+												<label class="col-sm-2 control-label">上级菜单</label>
+												<div class="col-sm-5">
+													<input type="hidden" way-data="parentId" name="parentId">
+													<input type="text" class="form-control parent-input"
+														way-data="parentName"  name="parentName"
+														readonly="readonly">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">名称<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<input type="text" class="form-control" way-data="name"
+														maxlength="50" minlength="1" name="name" required
+														placeholder="">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">地址<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<input type="text" class="form-control" way-data="href"
+														required maxlength="200" name="href" placeholder="">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">打开窗口<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<label class="radio-inline"> <input type="radio"
+														way-data="target" name="target" value="main" required>主窗口
+													</label> <label class="radio-inline"> <input type="radio"
+														way-data="target" name="target" value="_blank" required>弹出页
+													</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">是否显示<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<label class="radio-inline"> <input type="radio" required
+														way-data="isShow" name="isShow" value="1">是 
+													</label> <label class="radio-inline"> <input type="radio" required
+														way-data="isShow" name="isShow" value="0">否
+													</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">图标</label>
+												<div class="col-sm-5">
+													<input type="hidden"  way-data="icon" name="icon">
+													<i class="fa-lg icon"></i>
+													<a href="#" class="get-icon">获取图标</a>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">权限</label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control"
+														way-data="permission" maxlength="200" name="permission"
+														placeholder="逗号分隔">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">排序<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<input type="number" class="form-control" way-data="sort" required
+														maxlength="10" minlength="1" name="sort">
+												</div>
+											</div>
+											<div class="row">
+												<button type="button" class="btn btn-default col-sm-offset-1 pull-left"
+													data-dismiss="modal">
+													<i class="fa fa-times"></i> 取消
+												</button>
+												<button type="submit" class="btn btn-primary  col-sm-offset-7">
+													<i class="fa fa-save"></i> 保存
+												</button>
+											</div>
+										</form>
+								</div>
+								<div class="tab-pane" id="tab_an">
+									<!-- 按钮 -->
+									<form class="form-horizontal" way-scope="data" id="data-form-an">
+										<input type="hidden" way-data="id" name="id">
+										<input type="hidden"  name="type" value="2">
+										<div class="form-group">
+												<label class="col-sm-2 control-label">上级菜单</label>
+												<div class="col-sm-5">
+													<input type="hidden" way-data="parentId" name="parentId">
+													<input type="text" class="form-control parent-input"
+														way-data="parentName"  name="parentName"
+														readonly="readonly">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">名称<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<input type="text" class="form-control" way-data="name"
+														maxlength="50" minlength="1" name="name" required
+														placeholder="">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">是否显示<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<label class="radio-inline"> <input type="radio" required
+														way-data="isShow" name="isShow" value="1">是
+													</label> <label class="radio-inline"> <input type="radio" required
+														way-data="isShow" name="isShow" value="0">否
+													</label>
+													<p class="help-block text-red">通过权限值控制按钮是否显示，不显示即无权限值</p>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">权限</label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control"
+														way-data="permission" maxlength="200" name="permission"
+														placeholder="逗号分隔">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">排序<font
+													class="text-red">*</font></label>
+												<div class="col-sm-5">
+													<input type="number" class="form-control" way-data="sort" required
+														maxlength="10" minlength="1" name="sort">
+												</div>
+											</div>
+											<div class="row">
+												<button type="button" class="btn btn-default col-sm-offset-1 pull-left"
+													data-dismiss="modal">
+													<i class="fa fa-times"></i> 取消
+												</button>
+												<button type="submit" class="btn btn-primary  col-sm-offset-7">
+													<i class="fa fa-save"></i> 保存
+												</button>
+											</div>
+										</form>
+								</div>
+							</div>
+						</div>
+						<!-- nav-tabs-custom -->
+					</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加与修改end -->
+	@@include('../common/common-js.html')
+	@@include('../common/edittable.html')
+	<script src="/admin/js/sys/menu.js"></script>
+	<script src="/admin/js/lib/sf-menu.js"></script>
+</body>
+</html>

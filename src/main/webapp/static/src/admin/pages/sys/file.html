@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>@@include('../common/header.html',{"title":"文件管理"})
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<div class="content-wrapper ml0">
+			<section class="content-header">
+				<h1>文件管理</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>系统管理</a></li>
+					<li class="active">文件管理</li>
+				</ol>
+			</section>
+			<section class="content container-fluid">
+				<div class="box box-primary">
+					<div class="box-body">
+						<form class="form-inline" way-scope="model.search">
+							<div class="form-group">
+								<label for="search-name">名称</label> <input type="text"
+									class="form-control" placeholder="请输入名称" name="name" way-data="name"
+									maxlength="200">
+							</div>
+							<div class="form-group">
+								<label for="search-name">开始时间</label> <input type="text" 
+									class="form-control date search" data-date-clear="false" data-default-day="0" placeholder=">=" name="startDate"  way-data="startDate"
+									maxlength="100">
+							</div>
+							<div class="form-group">
+								<label for="search-name">截止时间</label> <input type="text" 
+									class="form-control date search" data-date-clear="false" data-default-day="1"  placeholder="<=" name="endDate"  way-data="endDate"
+									maxlength="100">
+							</div>
+							<button type="button" class="btn btn-default sf-permission-ctl" id="search" data-sf-permission="sys:file:qry">
+								<i class="fa fa-search"></i>
+							</button>
+							<div class="btn-group pull-right">
+								<label for="fileUpload" class="btn btn-default sf-permission-ctl" data-sf-permission="sys:file:upload"><i class="fa fa-cloud-upload"></i> 上传</label>
+								<input type="file" name="file" id="fileUpload" style="display: none;" >
+								<button type="button" class="btn btn-danger sf-permission-ctl" id="delete" data-sf-permission="sys:file:delete">
+									<i class="fa fa-trash-o"></i>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="box">
+					<div class="box-body">
+						<!-- table -->
+						<table id="table"></table>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	@@include('../common/common-js.html')
+	@@include('../common/file.html')
+	<script src="/admin/js/sys/file.js"></script>
+</body>
+</html>

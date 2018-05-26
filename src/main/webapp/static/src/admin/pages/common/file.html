@@ -1,0 +1,39 @@
+<script src="/admin/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/admin/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script src="/admin/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<!-- 图片模板 -->
+<script id="sf-image-template" type="text/x-jquery-tmpl">
+	<div class="sf-file-wrapper" style="display: inline-block;">
+		<input type="hidden" name="${inputName}" value="${path}">
+		<img src="${url}" style="width: 128px;height: 128px;" title="${fileName}">
+	 	<p><a href="javascript:void(0);" class="text-danger sf-file-delete">删除</a></p>
+	</div>
+</script>
+<!-- 文件模板 -->
+<script id="sf-file-template" type="text/x-jquery-tmpl">
+	<div class="sf-file-wrapper">
+		<input type="hidden" name="${inputName}" value="${path}">
+	 	<p><a href="${url}" target="_blank">${fileName}</a> <a href="javascript:void(0);" class="text-danger sf-file-delete">删除</a></p>
+	</div>
+</script>
+<!-- 查看单条图片模板 -->
+<script id="sf-view-image-template" type="text/x-jquery-tmpl">
+	<div class="sf-file-wrapper" style="display: inline-block;">
+		<a href="${url}" target="_blank"><img src="${url}" style="width: 128px;height: 128px;" title="${fileName}"></a> 
+	</div>
+</script>
+<!-- 查看单条文件模板 -->
+<script id="sf-view-file-template" type="text/x-jquery-tmpl">
+	<div class="sf-file-wrapper">
+	 	<p><a href="${url}" target="_blank">${fileName}</a></p>
+	</div>
+</script>
+<script type="text/javascript">
+$(function(){
+	 $("body").on("click",".sf-file-delete",function(){
+		 $(this).parents(".sf-file-wrapper").remove();
+	 });
+})
+</script>
+
+

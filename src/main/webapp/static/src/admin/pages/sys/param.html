@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>@@include('../common/header.html',{"title":"系统参数"})
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<div class="content-wrapper ml0">
+			<section class="content-header">
+				<h1>系统参数</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>系统管理</a></li>
+					<li class="active">系统参数</li>
+				</ol>
+			</section>
+			<section class="content container-fluid">
+				<div class="box box-primary">
+					<div class="box-body">
+						<form class="form-inline" way-scope="model.search">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="名称"
+									name="name" way-data="name" maxlength="50">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="键"
+									name="paramKey" way-data="paramKey" maxlength="50">
+							</div>
+							<button type="button" class="btn btn-default sf-permission-ctl" id="search" data-sf-permission="sys:param:qry">
+								<i class="fa fa-search"></i>
+							</button>
+							<div class="btn-group pull-right">
+								<button type="button" class="btn btn-primary sf-permission-ctl" id="add" data-sf-permission="sys:param:save">
+									<i class="fa fa-plus"></i>
+								</button>
+								<button type="button" class="btn btn-info sf-permission-ctl" id="edit" data-sf-permission="sys:param:update">
+									<i class="fa fa-edit"></i>
+								</button>
+								<button type="button" class="btn btn-danger sf-permission-ctl" id="delete" data-sf-permission="sys:param:delete">
+									<i class="fa fa-trash-o"></i>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="box">
+					<div class="box-body">
+						<!-- table -->
+						<table id="table"></table>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<!-- 添加与修改start -->
+	<div class="modal fade" id="form-panel" way-scope="model.form">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" way-data="title" way-html="true"></h4>
+				</div>
+				<form class="form-horizontal" way-scope="data" id="data-form">
+					<div class="modal-body">
+						<input type="hidden" way-data="id" name="id">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">名称<font
+								class="text-red">*</font></label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" way-data="name"
+									name="name" placeholder="" maxlength="50" minlength="1"
+									required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">键<font
+								class="text-red">*</font></label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" way-data="paramKey"
+									maxlength="50" minlength="1" name="paramKey" required
+									placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">值<font
+								class="text-red">*</font></label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" way-data="paramValue"
+									maxlength="100" minlength="1" name="paramValue" required
+									placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">备注</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="3" way-data="remarks"
+									name="remarks" maxlength="255"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left"
+							data-dismiss="modal">
+							<i class="fa fa-times"></i> 取消
+						</button>
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 添加与修改end -->
+	<!--查看  start-->
+	<div class="modal fade" id="modal-view" role="dialog"
+		way-scope="model.view">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">系统参数</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">名称:</label>
+							<div class="col-sm-5">
+								<p class="form-control-static" way-data="name"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">键:</label>
+							<div class="col-sm-5">
+								<p class="form-control-static" way-data="paramKey"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">值:</label>
+							<div class="col-sm-5">
+								<p class="form-control-static" way-data="paramValue"></p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">备注:</label>
+							<div class="col-sm-5">
+								<p class="form-control-static" way-data="remarks"></p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	@@include('../common/common-js.html')
+	<script src="/admin/js/sys/param.js"></script>
+</body>
+</html>

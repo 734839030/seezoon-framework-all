@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>@@include('common/header.html',{"title":"上征快速开发平台"})
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<header class="main-header">
+			<a href="#" class="logo"> <span class="logo-mini"><b>上征</b></span>
+				<span class="logo-lg"><b>上征快速开发平台</b></span>
+			</a>
+			<nav class="navbar navbar-static-top" role="navigation">
+				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+					role="button"> <span class="sr-only">Toggle navigation</span>
+				</a>
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<!-- User Account Menu -->
+						<li class="dropdown user user-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <img
+								src="/admin/img/default.jpg" class="user-image user-photo"
+								alt="User Image"> <span class="hidden-xs" id="userName"></span>
+						</a>
+							<ul class="dropdown-menu">
+								<li class="user-header"><img src="/img/default.jpg"
+									class="img-circle user-photo" alt="User Image">
+									<p>
+										<span id="loginName"></span> <small>上次登录2017.12.1212:12</small>
+										<small>登录ip 127.0.0.1</small>
+									</p></li>
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="#" id="user-center" class="btn btn-default btn-flat">个人中心</a>
+									</div>
+									<div class="pull-right">
+										<a href="#" id="login-out" class="btn btn-default btn-flat">退出</a>
+									</div>
+								</li>
+							</ul></li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<aside class="main-sidebar">
+			<section class="sidebar">
+				<ul class="sidebar-menu" data-widget="tree" id="left-menu">
+
+				</ul>
+			</section>
+		</aside>
+		<div class="content-wrapper" id="main-content">
+			<iframe src="/admin/pages/main.html" name="main" width="100%" height="100%"
+				scrolling="auto" frameborder="0"></iframe>
+		</div>
+
+		<!-- 个人信息 -->
+		<div class="row undisplay mg5" id="user-center-wrapper"
+			way-scope="model.form.data">
+			<div class="nav-tabs-custom">
+				<ul class="nav nav-tabs" id="user-center-tabs">
+					<li class="active"><a href="#tab_info" data-toggle="tab">个人信息</a></li>
+					<li><a href="#tab_pwd" data-toggle="tab">修改密码</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab_info">
+						<form class="form-horizontal" id="data-form">
+							<div class="row">
+								<div class="col-md-3">
+									<p>
+										<img src="" class="img-circle" way-data="photoFullUrl" way-default="/admin/img/default.jpg"
+											alt="User Image" style="height: 100px; width: 100px;">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-red">100*100</small>
+									</p>
+									<p>
+										<input type="hidden" name="photo" way-data="photo">
+										&nbsp;&nbsp;&nbsp;<label for="userImageUpload"
+											class="btn btn-default"><i class="fa fa-cloud-upload"></i>
+											更换</label> <input type="file" name="file" id="userImageUpload"
+											accept="image/*" style="display: none;">
+									</p>
+								</div>
+								<div class="col-md-9">
+									<div class="form-group">
+										<label class="col-sm-2 control-label">部门</label>
+										<div class="col-sm-5">
+											<p class="form-control-static" way-data="deptName"></p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">姓名<font
+											class="text-red">*</font></label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" way-data="name"
+												maxlength="50" minlength="1" name="name" required
+												placeholder="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">手机号</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" way-data="mobile"
+												maxlength="50" name="mobile" placeholder="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">邮箱</label>
+										<div class="col-sm-5">
+											<input type="email" class="form-control" way-data="email"
+												maxlength="50" name="email" placeholder="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label"></label>
+										<div class="col-sm-5">
+											<button type="submit" class="btn btn-primary">
+												<i class="fa fa-save"></i> 保存
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="tab-pane" id="tab_pwd">
+						<form class="form-horizontal" id="passoword-form">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">原密码<font
+											class="text-red">*</font></label>
+								<div class="col-sm-5">
+									<input type="password" class="form-control" 
+										maxlength="100" minlength="6" name="oldPassword" placeholder="" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">新密码<font
+											class="text-red">*</font></label>
+								<div class="col-sm-5">
+									<input type="password" class="form-control" way-data="password"
+										maxlength="100" minlength="6" name="password" placeholder="" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">确认密码<font
+											class="text-red">*</font></label>
+								<div class="col-sm-5">
+									<input type="password" class="form-control"
+										way-data="conFirmPassword" maxlength="100" minlength="6"
+										name="conFirmPassword" placeholder="" required>
+								</div>
+							</div>
+							<div class="form-group">
+										<label class="col-sm-2 control-label"></label>
+										<div class="col-sm-5">
+											<button type="submit" class="btn btn-primary">
+												<i class="fa fa-save"></i> 保存
+											</button>
+										</div>
+									</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<div class="pull-right hidden-xs">让开发更简单</div>
+			<strong>Copyright &copy; 2018 <a
+				href="#">huangdf</a>.
+			</strong> All rights reserved.
+		</footer>
+		<div class="control-sidebar-bg"></div>
+	</div>
+	@@include('common/common-js.html')
+	@@include('common/file.html')
+	<script src="/admin/js/index.js"></script>
+</body>
+</html>
