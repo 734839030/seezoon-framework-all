@@ -293,6 +293,6 @@
 		</div>
 	</div>
 	@@include('../common/common-js.html')
-	<script src="/js/${moduleName}/${functionName}.js"></script>
+	<script src="/admin/js/${moduleName}/${functionName}.js"></script>
 </body>
 </html>

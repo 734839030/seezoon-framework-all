@@ -23,12 +23,12 @@ gulp.task('del', function() {
 });
 // 复制文件
 gulp.task('copy',function() {
-	  gulp.src(['src/**','!src/pages/**/*.html','!src/css/**/*.css','!src/js/**/*.js'], { base: setting.src })
+	  gulp.src(['src/**'], { base: setting.src })
 	  .pipe(gulp.dest(setting.dist)); 
 });
 // html include 处理 @@include('include/header.html')
 gulp.task('include',function() {
-	gulp.src(['src/pages/**/*.html','src/css/**/*.css','src/js/**/*.js'], { base: setting.src })
+	gulp.src(['src/*/pages/**/*.html','src/*/css/**/*.css','src/*/js/**/*.js'], { base: setting.src })
 	.pipe(fileinclude({
           prefix: '@@',
           basepath: '@file'

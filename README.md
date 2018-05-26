@@ -68,7 +68,7 @@ Gulp |构建工具|[https://www.gulpjs.com.cn/](https://www.gulpjs.com.cn/)
 ![gulp运行图](https://raw.githubusercontent.com/734839030/seezoon-framework-all/master/screenshots/gulprun.jpeg)
 static/src 为前端源文件，static/dist 为编译后的静态资源，这边简单用了gulp的include 功能，后续会使用压缩合并等功能。
 
-打开浏览器输入http://127.0.0.1:8888/pages/index.html 自动拦截回到登录页。
+打开浏览器输入http://127.0.0.1:8888/admin/pages/index.html 自动拦截回到登录页。
 ![登录页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/login.png?raw=true)
 后续整理完善后，部署阿里云演示版本。
 
