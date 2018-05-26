@@ -21,14 +21,14 @@ var setting = {
 gulp.task('del', function() {
 	del('dist/**/*'); 
 });
-// 复制文件
+// 复制文件 不包含可以'!src/**'
 gulp.task('copy',function() {
-	  gulp.src(['src/**'], { base: setting.src })
+	  gulp.src(['src/*/plugins/**','src/*/img/**','src/*/css/**'], { base: setting.src })
 	  .pipe(gulp.dest(setting.dist)); 
 });
 // html include 处理 @@include('include/header.html')
 gulp.task('include',function() {
-	gulp.src(['src/*/pages/**/*.html','src/*/css/**/*.css','src/*/js/**/*.js'], { base: setting.src })
+	gulp.src(['src/*/pages/**','src/*/js/**'], { base: setting.src })
 	.pipe(fileinclude({
           prefix: '@@',
           basepath: '@file'
