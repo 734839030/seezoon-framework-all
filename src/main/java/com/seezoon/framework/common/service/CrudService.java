@@ -41,6 +41,7 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 		if (null == t.getId() || StringUtils.isEmpty(t.getId().toString())) {
 			t.setId(IdGen.uuid());
 		}
+		
 		int cnt = d.insert(t);
 		if (t.isNeedBak()) {
 			this.saveBak(t.getId());

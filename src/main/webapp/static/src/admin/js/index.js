@@ -110,7 +110,7 @@ $(function() {
 	//退出
 	$("#login-out").click(function(){
 		 $.post(model.path + "/logout.do",function(respone){
-				window.location.href="/pages/login.html";
+				window.location.href="/admin/pages/login.html";
 		});
 	});
 	//个人中心

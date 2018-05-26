@@ -70,7 +70,12 @@ public class GeneratorService extends BaseService{
 		String[] split = tableName.split("_");
 		sysGen.setModuleName(split[0]);
 		if (split.length > 1) {
+			StringBuilder sb = new StringBuilder();
 			sysGen.setFunctionName(split[1]);
+			for (int i=1;i<split.length;i++) {
+				sb.append(split[i]);
+			}
+			sysGen.setFunctionName(sb.toString());
 		}
 		sysGen.setTemplate("1");
 		sysGen.setClassName(camelToUnderline(tableName));

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.seezoon.framework.common.dao.CrudDao;
 import com.seezoon.framework.modules.system.entity.SysRole;
+import com.seezoon.framework.modules.system.entity.SysRoleDept;
 import com.seezoon.framework.modules.system.entity.SysRoleMenu;
 
 public interface SysRoleDao extends CrudDao<SysRole>{
@@ -12,4 +13,7 @@ public interface SysRoleDao extends CrudDao<SysRole>{
     public int deleteUserRoleByRoleId(Serializable roleId);
     public int insertRoleMenu(List<SysRoleMenu> roleMenus);
     public List<SysRole> findByUserId(String userId);
+    public int deleteRoleDeptByRoleId(Serializable roleId);
+    public int insertRoleDept(List<SysRoleDept> list);
+    public List<String> selectDeptIdsByRoleId(String roleId);
 }

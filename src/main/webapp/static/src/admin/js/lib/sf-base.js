@@ -60,9 +60,9 @@ $.ajaxSetup({
 		310 :function(){//未登录
 			if  (window.location.href.indexOf("/login.html") ==-1) {
 				if (self != top) {
-					window.top.location.href='/pages/login.html';
+					window.top.location.href='/admin/pages/login.html';
 				} else {
-					window.location.href='/pages/login.html';
+					window.location.href='/admin/pages/login.html';
 				}
 			}
 		},

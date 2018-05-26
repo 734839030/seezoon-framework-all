@@ -74,7 +74,7 @@ public class SysMenuController extends BaseController {
 	@RequiresPermissions("sys:menu:save")
 	@PostMapping("/batchSave.do")
 	public ResponeModel batchSave(@RequestBody List<SysMenu> list ) {
-		//直接用list接收到的json 参数实际上是jsonObject，强转到SysMenu 会报错,下列性能不好，应该不想循环List 转化
+		//直接用list接收到的json 参数实际上是jsonObject，强转到SysMenu 会报错,下列性能不好，因为不想循环List 转化
 		sysMenuService.batchSave(JSON.parseArray(JSON.toJSONString(list), SysMenu.class));
 		return ResponeModel.ok();
 	}

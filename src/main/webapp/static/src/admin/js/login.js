@@ -47,7 +47,7 @@ $(function() {
 		}, function(respone) {
 			if (respone.responeCode == "0") {
 				sessionStorage.clear();
-				window.location.href = "/pages/index.html";
+				window.location.href = "/admin/pages/index.html";
 			}
 		});
 	});

@@ -27,7 +27,9 @@ public class SysDeptService extends CrudService<SysDeptDao, SysDept>{
 		List<SysDept> list = this.findByParentIds(sysDept.getParentIds() + sysDept.getId());
 		for (SysDept sDept : list) {
 			super.deleteById(sDept.getId());
+			this.d.deleteRoleDeptByDeptId(sDept.getId());
 		}
+		this.d.deleteRoleDeptByDeptId(id);
 		return super.deleteById(id);
 	}
 }

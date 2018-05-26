@@ -28,6 +28,7 @@
 											<option value="1">本部门及以下</option>
 											<option value="2">本部门</option>
 											<option value="3">本人</option>
+											<option value="4">自定义部门</option>
 								</select>
 							</div>
 							<button type="button" class="btn btn-default sf-permission-ctl" id="search" data-sf-permission="sys:role:qry">
@@ -82,12 +83,14 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">数据范围</label>
 							<div class="col-sm-5">
-									<select class="form-control" name="dataScope" way-data="dataScope" >
+									<select class="form-control" name="dataScope" way-data="dataScope"  id="data-scope-select">
 										<option value="0">全部</option>
 										<option value="1">本部门及以下</option>
 										<option value="2">本部门</option>
 										<option value="3">本人</option>
+										<option value="4">自定义部门</option>
 									</select>
+									<p class="help-block text-red">用户如果多个角色，数据范围自动取并集</p>
 							</div>
 						</div>
 						<div class="form-group">
@@ -98,10 +101,19 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">权限</label>
-							<div class="col-sm-10 pd10">
-								<ul id="menuTree" class="ztree">
-								</ul>
+							<div class="group">
+								<label class="col-sm-2 control-label">权限</label>
+								<div class="col-sm-3 pd10">
+									<ul id="menuTree" class="ztree">
+									</ul>
+								</div>
+							</div>
+							<div class="group undisplay" id="dept-wrapper" >
+								<label class="col-sm-2 control-label">部门</label>
+								<div class="col-sm-3 pd10">
+									<ul id="deptTree" class="ztree">
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>

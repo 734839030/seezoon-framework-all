@@ -29,6 +29,7 @@ import com.seezoon.framework.modules.system.entity.SysUser;
 import com.seezoon.framework.modules.system.service.SysMenuService;
 import com.seezoon.framework.modules.system.service.SysRoleService;
 import com.seezoon.framework.modules.system.service.SysUserService;
+import com.seezoon.framework.modules.system.utils.DataPermissionBuilder;
 
 /**
  * 认证
@@ -98,7 +99,6 @@ public class UserRealm extends AuthorizingRealm {
 				sysUser.getName());
 		//放入角色
 		user.setRoles(sysRoleService.findByUserId(user.getUserId()));
-		//放入认证通过数据
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, sysUser.getPassword(),
 				ByteSource.Util.bytes(sysUser.getSalt()), getName());
 		return info;

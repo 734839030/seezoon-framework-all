@@ -327,3 +327,36 @@ CREATE TABLE `sys_user_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户-角色';
 
 SET FOREIGN_KEY_CHECKS = 1;
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 本机mysql
+ Source Server Type    : MySQL
+ Source Server Version : 50633
+ Source Host           : localhost
+ Source Database       : seezoon-framework
+
+ Target Server Type    : MySQL
+ Target Server Version : 50633
+ File Encoding         : utf-8
+
+ Date: 05/26/2018 22:46:10 PM
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+--  Table structure for `sys_role_dept`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_dept`;
+CREATE TABLE `sys_role_dept` (
+  `role_id` varchar(32) NOT NULL COMMENT '角色id',
+  `dept_id` varchar(32) NOT NULL COMMENT '部门id',
+  PRIMARY KEY (`role_id`,`dept_id`),
+  KEY `role_id` (`role_id`),
+  KEY `dept_id` (`dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色部门';
+
+SET FOREIGN_KEY_CHECKS = 1;
+

@@ -23,12 +23,13 @@ public class SysRole extends BaseEntity<String>{
      */
 	@NotNull
 	@Length(min=1,max=1)
-	@Pattern(regexp="0|1|2|3")
+	@Pattern(regexp="0|1|2|3|4")
     private String dataScope;
 	
 	/**下列字段为业务字典**/
 	
-	public List<String> menuIds;
+	private List<String> menuIds;
+	private List<String> deptIds;
     
     public String getName() {
         return name;
@@ -57,6 +58,16 @@ public class SysRole extends BaseEntity<String>{
 
 	public void setMenuIds(List<String> menuIds) {
 		this.menuIds = menuIds;
+	}
+
+
+	public List<String> getDeptIds() {
+		return deptIds;
+	}
+
+
+	public void setDeptIds(List<String> deptIds) {
+		this.deptIds = deptIds;
 	}
 
 }

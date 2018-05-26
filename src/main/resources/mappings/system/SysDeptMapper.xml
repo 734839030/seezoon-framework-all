@@ -48,6 +48,9 @@
     delete from sys_dept
     where id = #{id,jdbcType=VARCHAR} ${dsf}
   </delete>
+  <delete id="deleteRoleDeptByDeptId" parameterType="java.lang.String">
+		delete from sys_role_dept where dept_id= #{deptId}
+	</delete>
   <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysDept" >
     insert into sys_dept (id, parent_id, parent_ids, 
       name, sort, create_by, 

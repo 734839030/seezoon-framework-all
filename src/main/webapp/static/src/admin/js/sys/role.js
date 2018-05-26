@@ -5,7 +5,8 @@ $(function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
 			way.set("model.form.data",null);
 			model.menuTree.checkAllNodes(false);
-
+			model.deptTree.checkAllNodes(false);
+			$("#dept-wrapper").hide();
 		},
 		getFormData : function() {
 			var data =  way.get("model.form.data");
@@ -28,13 +29,25 @@ $(function() {
 						model.menuTree.checkNode(node, true, false);
 					} 
 				});
+				var dataScope = respone.data.dataScope;
+				if (dataScope == '4') {
+					$.post(adminContextPath + "/sys/role/qryDeptIdsByRoleId.do",{roleId:id},function(respone1){
+						//勾选角色所拥有的部门
+						var roleDepts = respone1.data;
+						for(var i=0; i<roleDepts.length; i++) {
+							var node = model.deptTree.getNodeByParam("id", roleDepts[i]);
+							model.deptTree.checkNode(node, true, false);
+						} 
+					});
+					$("#dept-wrapper").show();
+				}
 			});
 		},
 		menuTree:null,
+		deptTree:null,
 		init:function(){
-			//初始化ztree
+			//初始化菜单 ztree
 			$.post(adminContextPath + "/sys/menu/qryAll.do",function(respone){
-				//选择上级tree
 				model.menuTree = $.fn.zTree.init($("#menuTree"), {
 					data:{
 						simpleData:{
@@ -50,6 +63,24 @@ $(function() {
 					}
 				},respone.data);
 				//model.menuTree.expandAll(true);
+			});
+			//初始化部门 ztree
+			$.post(adminContextPath + "/sys/dept/qryAll.do",function(respone){
+				model.deptTree = $.fn.zTree.init($("#deptTree"), {
+					data:{
+						simpleData:{
+							enable: true,
+							idKey: "id",
+							pIdKey: "parentId",
+						}	
+					},
+					check:{
+						enable: true,
+						chkStyle:'checkbox',
+						chkboxType: { "Y": "ps", "N": "ps" }
+					}
+				},respone.data);
+				model.deptTree.expandAll(true);
 			});
 		}
 	};
@@ -67,13 +98,32 @@ $(function() {
 		for(var i=0; i<nodes.length; i++) {
 			menuIds.push(nodes[i].id);
         }
-		$.post(optUrl, $("#data-form").serialize() + "&" + $.param({menuIds:menuIds},true), function(respone) {
+		var deptTreeNodes = model.deptTree.getCheckedNodes(true);
+		var deptIds = [];
+		for(var i=0; i<deptTreeNodes.length; i++) {
+			deptIds.push(deptTreeNodes[i].id);
+        }
+		var param = $("#data-form").serialize();
+		if (menuIds.length > 0)  {
+			param = param + "&" + $.param({menuIds:menuIds},true);
+		}
+		if (deptIds.length > 0) {
+			param = param + "&" +  $.param({deptIds:deptIds},true);
+		}
+		$.post(optUrl, param , function(respone) {
 			if (respone.responeCode == '0') {
 				layer.msg("保存成功");
 				model.tableRefresh();
 				$("#form-panel").modal('toggle');
 			}
 		});
+	});
+	$("#data-scope-select").change(function(){
+		if ($(this).val() == '4') {
+			$("#dept-wrapper").show();
+		} else {
+			$("#dept-wrapper").hide();
+		}
 	});
 	// 查询
 	$("#search").click(function() {
@@ -142,7 +192,9 @@ $(function() {
 					value = "<span class='label label-info'>本部门</span>"
 				}  else if (value == '3') {//本人
 					value = "<span class='label label-default'>本人</span>"
-				}  
+				}  else if (value == '4'){//自定义部门
+					value = "<span class='label label-warning'>自定义部门</span>"
+				}
 				return value;
 			}
 		},{

@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.seezoon.framework.common.service.CrudService;
 import com.seezoon.framework.modules.system.dao.SysRoleDao;
 import com.seezoon.framework.modules.system.entity.SysRole;
+import com.seezoon.framework.modules.system.entity.SysRoleDept;
 import com.seezoon.framework.modules.system.entity.SysRoleMenu;
 
 @Service
@@ -27,12 +28,17 @@ public class SysRoleService extends CrudService<SysRoleDao, SysRole> {
 		this.d.deleteRoleMenuByRoleId(id);
 		//删除user_role
 		this.d.deleteUserRoleByRoleId(id);
+		//删除role_dept
+		this.d.deleteRoleDeptByRoleId(id);
 		return super.deleteById(id);
 	}
 	@Override
 	public int updateSelective(SysRole t) {
 		this.d.deleteRoleMenuByRoleId(t.getId());
 		this.saveRoleMenus(t.getId(), t.getMenuIds());
+		//删除role_dept
+		this.d.deleteRoleDeptByRoleId(t.getId());
+		this.saveRoleDepts(t.getId(), t.getDeptIds());
 		return super.updateSelective(t);
 	}
 
@@ -46,9 +52,25 @@ public class SysRoleService extends CrudService<SysRoleDao, SysRole> {
 		}
 		return 0;
 	}
+	private int saveRoleDepts(String roleId, List<String> deptIds) {
+		if (null != deptIds && !deptIds.isEmpty()) {
+			List<SysRoleDept> roleDepts = Lists.newArrayList();
+			for (String deptId : deptIds) {
+				roleDepts.add(new SysRoleDept(roleId, deptId));
+			}
+			return this.d.insertRoleDept(roleDepts);
+		}
+		return 0;
+	}
 
 	public List<SysRole> findByUserId(String userId) {
 		Assert.hasLength(userId,"userId 为空");
 		return  this.d.findByUserId(userId);
+	}
+	
+	public List<String> findDeptIdsByRoleId(String roleId){
+		Assert.hasLength(roleId, "roleId 为空");
+		List<String> depts = this.d.selectDeptIdsByRoleId(roleId);
+		return depts;
 	}
 }

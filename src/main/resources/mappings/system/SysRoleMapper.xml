@@ -67,6 +67,19 @@
 			(#{item.roleId,jdbcType=VARCHAR}, #{item.menuId,jdbcType=VARCHAR})
 		</foreach>
 	</insert>
+	
+	<delete id="deleteRoleDeptByRoleId" parameterType="java.lang.String">
+		delete from sys_role_dept where role_id= #{roleId}
+	</delete>
+   <insert id="insertRoleDept" parameterType="java.util.List">
+		insert into sys_role_dept (role_id, dept_id) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.roleId,jdbcType=VARCHAR}, #{item.deptId,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	<select id="selectDeptIdsByRoleId" parameterType="String" resultType="String">
+	select dept_id from sys_role_dept where role_id = #{roleId}
+	</select>
 	<insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysRole">
 		insert into sys_role (id, name, data_scope,
 		create_by, create_date, update_by,

@@ -38,14 +38,22 @@ public class SysRoleController extends BaseController {
 	public ResponeModel qryAll() {
 		return ResponeModel.ok(this.sysRoleService.findList(null));
 	}
-	
 	@RequiresPermissions("sys:role:qry")
 	@RequestMapping("/get.do")
 	public ResponeModel get(@RequestParam Serializable id) {
 		SysRole sysRole = sysRoleService.findById(id);
 		return ResponeModel.ok(sysRole);
 	}
-
+	/**
+	 * 角色关联的部门
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/qryDeptIdsByRoleId.do")
+	public ResponeModel qryDeptIdsByRoleId(@RequestParam String roleId) {
+		return ResponeModel.ok(sysRoleService.findDeptIdsByRoleId(roleId));
+	}
+	
 	@RequiresPermissions("sys:role:save")
 	@PostMapping("/save.do")
 	public ResponeModel save(@Validated SysRole sysRole, BindingResult bindingResult) {
