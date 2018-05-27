@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:reg="http://www.dangdang.com/schema/ddframe/reg"
+	xmlns:job="http://www.dangdang.com/schema/ddframe/job"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.dangdang.com/schema/ddframe/reg http://www.dangdang.com/schema/ddframe/reg/reg.xsd 
+		http://www.dangdang.com/schema/ddframe/job http://www.dangdang.com/schema/ddframe/job/job.xsd">
+	
+	<!--配置作业注册中心 -->
+	<reg:zookeeper id="regCenter" server-lists="${job.zk.server.lists}"
+		namespace="${job.zk.namespace}" base-sleep-time-milliseconds="${job.baseSleepTimeMilliseconds}"
+		connection-timeout-milliseconds="${job.zk.connectionTimeoutMilliseconds}"
+		max-sleep-time-milliseconds="${job.maxSleepTimeMilliseconds}"
+		max-retries="${job.maxRetries}" />
+
+	<!-- 不分片 将分片总数设置为sharding-total-count=1，并使用多于1台的服务器执行作业，作业将会以1主n从的方式执行。不会被重复执行 overwrite 表示每次重启到刷到zk-->
+	<job:simple id="taskNoSharedingDemo" job-ref="taskNoSharedingDemo"
+		registry-center-ref="regCenter" cron="0/10 * * * * ?" sharding-total-count="1" description="分片作业例子" overwrite="true"/>
+		
+		<!-- 分片作业 sharding-total-count=2 ，不然开发过程中会遇到取不到参数问题 -->
+	<job:simple id="taskSharedingDemo" job-ref="taskSharedingDemo"
+		registry-center-ref="regCenter" cron="0/10 * * * * ?"
+		sharding-total-count="2" sharding-item-parameters="0=A,1=B" overwrite="true"  description="分片作业"/>
+	
+	<!-- 配置数据流作业 是否分片 和simple job 原理一样  streaming-process 是否流式处理-->
+	<job:dataflow id="taskDataflowDemo" job-ref="taskDataflowDemo"
+		registry-center-ref="regCenter" cron="0/5 * * * * ?"  description="数据流作业"
+		sharding-total-count="2" sharding-item-parameters="0=A,1=B" overwrite="true" />
+</beans>

@@ -21,6 +21,5 @@
 	<import resource="classpath*:spring-jdbc.xml" /> 
 	<import resource="classpath*:spring-redis.xml" /> 
 	<import resource="classpath*:spring-session.xml" /> 
-	
-	
-</beans> 
+<!--    <import resource="classpath*:spring-job.xml" /> -->
+ </beans> 
