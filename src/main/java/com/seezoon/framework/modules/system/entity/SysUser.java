@@ -85,6 +85,10 @@ public class SysUser extends BaseEntity<String> {
 	private List<SysMenu> menus;
 	public static final String STATUS_NORMAL = "1";
 	public static final String STATUS_STOP = "0";
+	//通过角色查询用户
+	private String roleId;
+	//是否分配了某个角色
+	private String roleAssigned;
 	/**
 	 * 图像完整路径
 	 */
@@ -209,6 +213,22 @@ public class SysUser extends BaseEntity<String> {
 
 	public void setPhotoFullUrl(String photoFullUrl) {
 		this.photoFullUrl = photoFullUrl;
+	}
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
+	public String getRoleAssigned() {
+		return roleAssigned;
+	}
+
+	public void setRoleAssigned(String roleAssigned) {
+		this.roleAssigned = roleAssigned;
 	}
 
 }

@@ -1,9 +1,11 @@
 package com.seezoon.framework.modules.system.web;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +46,7 @@ public class SysRoleController extends BaseController {
 		SysRole sysRole = sysRoleService.findById(id);
 		return ResponeModel.ok(sysRole);
 	}
+	
 	/**
 	 * 角色关联的部门
 	 * @param id
@@ -67,7 +70,20 @@ public class SysRoleController extends BaseController {
 		int cnt = sysRoleService.updateSelective(sysRole);
 		return ResponeModel.ok(cnt);
 	}
-
+	@RequiresPermissions("sys:role:update")
+	@PostMapping("/removeUser.do")
+	public ResponeModel removeUser(@RequestParam List<String> userIds,String roleId) {
+		Assert.notEmpty(userIds,"移除用户为空");
+		int cnt = sysRoleService.removeUsersByRoleId(roleId, userIds);
+		return ResponeModel.ok(cnt);
+	}
+	@RequiresPermissions("sys:role:update")
+	@PostMapping("/addUser.do")
+	public ResponeModel addUser(@RequestParam List<String> userIds,String roleId) {
+		Assert.notEmpty(userIds,"移除用户为空");
+		int cnt = sysRoleService.addUsersByRoleId(roleId, userIds);
+		return ResponeModel.ok(cnt);
+	}
 	@RequiresPermissions("sys:role:delete")
 	@PostMapping("/delete.do")
 	public ResponeModel delete(@RequestParam Serializable id) {

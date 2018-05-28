@@ -129,6 +129,17 @@ $(function() {
 	$("#search").click(function() {
 		model.tableRefresh();
 	});
+	//分配
+	$("body").on("click",".role-assign",function(){
+		var roleId = $(this).data("id");
+		layer.open({
+			  title:"角色分配",
+			  type: 2, //iframe
+			  maxmin:true,
+			  area: ['95%', '95%'],
+			  content: '/admin/pages/sys/role-assign.html?roleId=' + roleId //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+			});
+	});
 	// 添加
 	$("#add").click(function() {
 		model.resetDataForm();
@@ -174,6 +185,9 @@ $(function() {
 	// 列表
 	$('#table').bootstrapTable({
 		url : model.path + '/qryPage.do',
+		onPostBody:function(){//渲染完后执行
+			$.bntPermissionHandler();
+		},
 		columns : [ {
 			checkbox : true
 		}, {
@@ -203,6 +217,13 @@ $(function() {
 			sortName : 'update_date',
 			sortable : true,
 			order : 'desc'
-		} ]
+		},{
+			field : 'oper',
+			title : '操作',
+			formatter : function(value, row, index) {
+				var oper = "<a  href='#' class='text-success sf-permission-ctl role-assign' data-sf-permission='sys:role:update' data-id='" + row.id  + "'>分配用户</a>";
+				return oper;
+			}
+		}]
 	});
 });

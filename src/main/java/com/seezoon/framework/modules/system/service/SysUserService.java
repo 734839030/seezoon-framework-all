@@ -1,5 +1,6 @@
 package com.seezoon.framework.modules.system.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -58,7 +59,13 @@ public class SysUserService extends CrudService<SysUserDao, SysUser> {
 		this.saveUserRole(t.getRoleIds(), t.getId());
 		return cnt;
 	}
-
+	@Override
+	public int deleteById(Serializable id) {
+		//删除用户角色
+		// 删除user关联的所有role
+		this.d.deleteUserRoleByUserId(String.valueOf(id));
+		return super.deleteById(id);
+	}
 	private int saveUserRole(List<String> roleIds, String userId) {
 		// 插入角色
 		if (null != roleIds && !roleIds.isEmpty()) {

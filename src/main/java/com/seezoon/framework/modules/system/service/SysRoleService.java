@@ -73,4 +73,22 @@ public class SysRoleService extends CrudService<SysRoleDao, SysRole> {
 		List<String> depts = this.d.selectDeptIdsByRoleId(roleId);
 		return depts;
 	}
+	public int removeUsersByRoleId(String roleId,List<String> userIds) {
+		Assert.hasLength(roleId, "roleId 为空");
+		Assert.notEmpty(userIds,"移除用户为空");
+		userIds.forEach((userId) -> {
+			this.d.deleteUserRoleByRoleIdAndUserId(roleId, userId);
+		});
+		return userIds.size();
+	}
+	
+	public int addUsersByRoleId(String roleId,List<String> userIds) {
+		Assert.hasLength(roleId, "roleId 为空");
+		Assert.notEmpty(userIds,"移除用户为空");
+		userIds.forEach((userId) -> {
+			this.d.deleteUserRoleByRoleIdAndUserId(roleId, userId);
+			this.d.insertUserRole(roleId, userId);
+		});
+		return userIds.size();
+	}
 }

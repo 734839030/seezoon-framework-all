@@ -51,6 +51,16 @@
     		<if test="name !=null and name!=''">
     			and u.name like concat('%',#{name},'%')
     		</if>
+    		<if test="roleId !=null and roleId!=''">
+    			<choose>
+    				<when test="roleAssigned == '1'.toString()">
+    				exists (select 1 from sys_user_role ur where role_id = #{roleId} and u.id = ur.user_id )
+    				</when>
+    				<when test="roleAssigned == '0'.toString()">
+    				not exists (select 1 from sys_user_role ur where role_id = #{roleId} and u.id = ur.user_id )
+    				</when>
+    			</choose>
+    		</if>
     		${dsf}
     </where>
     <!-- 有注入安全漏洞 后台系统忽略可以提高开发速度 -->

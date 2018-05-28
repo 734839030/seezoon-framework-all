@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+@@include('../common/header.html',{"title":"用户管理"})
+</script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<div class="content-wrapper ml0">
+			<section class="content container-fluid">
+				<div class="box box-primary">
+					<div class="box-body">
+						<form class="form-inline" way-scope="model.search">
+							<input  type="hidden" name="roleId" way-data="roleId"/>
+							<input  type="hidden" name="roleAssigned" way-data="roleAssigned"/>
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="登录名"
+									name="loginName" way-data="loginName" maxlength="50">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="姓名"
+									name="name" way-data="name" maxlength="50">
+							</div>
+							<button type="button" class="btn btn-default sf-permission-ctl" id="search" data-sf-permission="sys:user:qry">
+								<i class="fa fa-search"></i>
+							</button>
+							<div class="btn-group pull-right">
+								<button type="button" class="btn btn-primary sf-permission-ctl" id="addUser" data-sf-permission="sys:role:update">
+									<i class="fa fa-user">添加用户</i>
+								</button>
+								<button type="button" class="btn btn-danger sf-permission-ctl" id=remove data-sf-permission="sys:role:update">
+									<i class="fa fa-trash-o">批量移除</i>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="box">
+					<div class="box-body">
+							<!-- table -->
+							<table id="table"></table>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<!-- 添加与修改end -->
+	@@include('../common/common-js.html') 
+	<script src="/admin/js/sys/role-assign.js"></script>
+</body>
+</html>
