@@ -552,6 +552,14 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
+					<systemProperties>
+						<force>true</force>
+						<systemProperty>
+							<!-- 设置无效，故在jetty-web 中使用了 -->
+							<name>org.eclipse.jetty.server.Request.maxFormContentSize</name>
+							<value>100000000000000</value>
+						</systemProperty>
+					</systemProperties>
 					<httpConnector>
 						<port>8081</port>
 					</httpConnector>

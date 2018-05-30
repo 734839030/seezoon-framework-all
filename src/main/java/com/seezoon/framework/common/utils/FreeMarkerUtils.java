@@ -20,6 +20,7 @@ public class FreeMarkerUtils {
 	public static Configuration buildConfiguration(String directory) {
 		// 1.创建配置实例Cofiguration
 		Configuration cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+		cfg.setDefaultEncoding("utf-8");
 		ClassPathResource cps = new ClassPathResource(directory);
 		try {
 			cfg.setDirectoryForTemplateLoading(cps.getFile());

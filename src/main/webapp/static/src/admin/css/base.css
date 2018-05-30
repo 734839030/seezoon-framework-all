@@ -13,3 +13,8 @@
 .sf-permission-ctl{
 	display: none;
 }
+
+/* Limit image width to avoid overflow the container */
+img {
+  max-width: 100%; /* This rule is very important, please do not ignore this! */
+}

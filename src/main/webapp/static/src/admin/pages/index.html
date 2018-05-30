@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>@@include('common/header.html',{"title":"上征快速开发平台"})
+ <style>
+    .cropper-view-box,
+    .cropper-face {
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -67,8 +73,8 @@
 								<div class="col-md-3">
 									<p>
 										<img src="" class="img-circle" way-data="photoFullUrl" way-default="/admin/img/default.jpg"
-											alt="User Image" style="height: 100px; width: 100px;">
-											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-red">100*100</small>
+											alt="User Image" style="height: 128px; width: 128px;">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- <small class="text-red">100*100</small> -->
 									</p>
 									<p>
 										<input type="hidden" name="photo" way-data="photo">
@@ -160,7 +166,7 @@
 				</div>
 			</div>
 		</div>
-
+    </div>
 		<!-- Main Footer -->
 		<footer class="main-footer">
 			<div class="pull-right hidden-xs">让开发更简单</div>
@@ -172,6 +178,7 @@
 	</div>
 	@@include('common/common-js.html')
 	@@include('common/file.html')
+	@@include('common/cropper.html')
 	<script src="/admin/js/index.js"></script>
 </body>
 </html>

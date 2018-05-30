@@ -1,0 +1,105 @@
+<script type="text/javascript">
+(function($) {       
+	$("head").append("<link rel='stylesheet' href='/admin/plugins/cropperjs/cropper.min.css'>");
+	function getRoundedCanvas(sourceCanvas) {
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        var width = sourceCanvas.width;
+        var height = sourceCanvas.height;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        context.imageSmoothingEnabled = true;
+        context.drawImage(sourceCanvas, 0, 0, width, height);
+        context.globalCompositeOperation = 'destination-in';
+        context.beginPath();
+        context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
+        context.fill();
+        return canvas;
+      }
+	$.fn.sfCrop = function(callback,options) {  
+		var cropper;
+		var croppable = false;
+		var defaults =  {
+		          aspectRatio: 1,
+		          viewMode: 1,
+		          ready: function () {
+		            croppable = true;
+		          }
+		       }; 
+		var opts = $.extend(defaults, options);   
+		$('#sf-crop-modal').on('shown.bs.modal', function (e) {
+			var image = document.getElementById('sf-image-to-crop');
+			if (cropper) {
+				cropper.destroy();
+			}
+			cropper = new Cropper(image, opts);
+		})
+		$(this).change(function(e){
+		 	var files = e.target.files;
+	        var done = function (url) {
+	        		$("#sf-image-to-crop").attr("src",url);
+	        		$("#sf-crop-modal").modal("show");
+	        		//清空，不然选择同张图不触发change事件
+	        		$(this).val('');
+	        };
+	        var reader;
+	        var file;
+	        var url;
+	        if (files && files.length > 0) {
+	          file = files[0];
+	          if (URL) {
+	            done(URL.createObjectURL(file));
+	          } else if (FileReader) {
+	            reader = new FileReader();
+	            reader.onload = function (e) {
+	              done(reader.result);
+	            };
+	            reader.readAsDataURL(file);
+	          }
+	        }
+	 	});
+		$("#sf-crop").click(function(){
+			  var croppedCanvas;
+	          var roundedCanvas;
+	          if (!croppable) {
+	            return;
+	          }
+	          // Crop
+	          croppedCanvas = cropper.getCroppedCanvas();
+	          // Round 不裁剪成圆的
+	          //roundedCanvas = getRoundedCanvas(croppedCanvas);
+	          // Show
+	          $.post(adminContextPath + "/file/uploadBase64.do",{base64File:croppedCanvas.toDataURL()},function(respone){
+		        	  	if (respone.responeCode == '0') {
+		        	  		callback(respone.data);
+		        	  		$("#sf-crop-modal").modal('toggle');
+		        	  	}
+	          });
+		});
+	};     
+})(jQuery);   
+</script>
+<script src="/admin/plugins/cropperjs/cropper.min.js"></script>
+ <div class="modal fade" id="sf-crop-modal" style="z-index: 999999999">
+      <div class="modal-dialog" >
+        <div class="modal-content">
+	          <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">&times;</span>
+	            </button>
+	            <h4 class="modal-title"><i class="fa  fa-crop"></i> 裁剪</h4>
+	          </div>
+	          <div class="modal-body">
+	            <div class="img-container">
+	              <img id="sf-image-to-crop" src="" style="width: 100%;height: 100%;">
+	            </div>
+	          </div>
+	          <div class="modal-footer">
+	            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	            <button type="button" class="btn btn-primary" id="sf-crop">裁剪</button>
+	          </div>
+        </div>
+</div>
+

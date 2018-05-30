@@ -18,6 +18,8 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSON;
+
 public class T {
 
 	@Test
@@ -64,7 +66,8 @@ public class T {
 	}
 	@Test
 	public void t7() {
-		StringBuilder sb = new StringBuilder();
-		System.out.println(sb);
+		String[] split = StringUtils.split("1,dsada;dsad",",;");
+		System.out.println(JSON.toJSONString(split));
+
 	}
 }

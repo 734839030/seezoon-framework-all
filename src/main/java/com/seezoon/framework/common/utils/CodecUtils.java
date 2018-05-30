@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * 编解码器
  * 
@@ -41,5 +43,13 @@ public class CodecUtils {
 
 		}
 		return null;
+	}
+	
+	public static byte[] base64Decode(String data) {
+		return Base64.decodeBase64(data);
+	}
+	
+	public static String base64Encode(byte[] data) {
+		return Base64.encodeBase64String(data);
 	}
 }

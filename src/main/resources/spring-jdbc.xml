@@ -37,7 +37,7 @@
 	<!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
     <!-- MyBatis end -->
-	<!-- 数据源配置, 使用 BoneCP 数据库连接池 -->
+	<!-- 数据源配置, 使用 阿里 数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
 	    <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
 	    <property name="driverClassName" value="${jdbc.driver}" />

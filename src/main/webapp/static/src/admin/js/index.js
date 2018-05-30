@@ -93,9 +93,10 @@ $(function() {
 						$(".user-photo").attr("src",data.photoFullUrl);
 					}
 					$("#userName").text(data.name);
-					$("#loginName").text(data.loginName + "[" + data.deptName + "]");
+					$("#loginName").text(data.loginName +  (data.deptName ? "[" + data.deptName + "]":""));
 				}
 			});
+			
 		}
 	}
 	model.init();
@@ -187,30 +188,12 @@ $(function() {
 			}
 		});
 	});
-	//图像上传
-	 $('#userImageUpload').fileupload({
-		 url:adminContextPath + "/file/uploadImage.do",
-		 type:'POST',
-		 formData:null,
-		 change: function (e, data) {
-			 var file = data.files[0];
-		    if (file.size > 2 * 1024 * 1024) {
-		    		layer.msg(file.name + " 文件大小超过2M,请重新选择");
-		    		return false;
-		    }
-		  // 开头为image/
-			var reg = /^image\//
-		    if (!reg.test(file.type)) {
-			    	layer.msg(file.name + " 不是图片格式");
-		    		return false;
-		    }
-		  },
-		 done: function (e, response) {//设置文件上传完毕事件的回调函数 
-			 if (response.result.responeCode == '0') {
-				// layer.msg(response.result.data.originalFilename + " 上传成功");
-				 way.set("model.form.data.photo",response.result.data.relativePath);
-				 way.set("model.form.data.photoFullUrl",response.result.data.fullUrl);
-			 } 
-        }, 
+	// $("#user-center").click();
+	 $("#userImageUpload").sfCrop(function(data){
+		 way.set("model.form.data.photo",data.relativePath);
+		 way.set("model.form.data.photoFullUrl",data.fullUrl);
+	 },{
+		 minCropBoxWidth:128,
+		 minCropBoxHeight:128
 	 });
 });

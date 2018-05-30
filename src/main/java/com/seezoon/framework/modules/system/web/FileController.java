@@ -2,6 +2,7 @@ package com.seezoon.framework.modules.system.web;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -12,6 +13,9 @@ import java.util.regex.Pattern;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,12 +29,13 @@ import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.context.exception.ServiceException;
 import com.seezoon.framework.common.file.beans.FileInfo;
 import com.seezoon.framework.common.utils.CodecUtils;
+import com.seezoon.framework.common.utils.IdGen;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.entity.SysFile;
 import com.seezoon.framework.modules.system.service.FileService;
 
 @RestController
-@RequestMapping("${admin.path}/file")
+@RequestMapping({"${admin.path}/file","${front.path}/file"})
 public class FileController extends BaseController {
 
 	private Pattern pattern = Pattern.compile("^image/.+$");
@@ -63,7 +68,17 @@ public class FileController extends BaseController {
 		return ResponeModel.ok(fileService.upload(file.getOriginalFilename(), file.getContentType(), file.getSize(),
 				file.getInputStream()));
 	}
-
+	@PostMapping("/uploadBase64.do")
+	public ResponeModel uploadBase64(String base64File) throws IOException {
+		String[] contents = StringUtils.split(base64File, ":;,");
+		if (contents.length < 4) {
+			return ResponeModel.error("文件为空");
+		}
+		String contentType = contents[1];
+		byte[] file = CodecUtils.base64Decode(contents[3]);
+		return ResponeModel.ok(fileService.upload(IdGen.uuid() + "." +contentType.substring(contentType.lastIndexOf("/") + 1), contentType, (long)file.length,
+				new ByteArrayInputStream(file)));
+	}
 	@PostMapping("/uploadBatchImage.do")
 	public ResponeModel uploadBatchImage(@RequestParam MultipartFile[] files) throws IOException {
 		for (MultipartFile file : files) {
@@ -96,6 +111,7 @@ public class FileController extends BaseController {
 		map.put("error",0);
 		return map;
 	}
+	
 	@RequestMapping("/down.do")
 	public void  down(@RequestParam  String relativePath,HttpServletResponse response) throws IOException {
 		ServletOutputStream outputStream = response.getOutputStream();
