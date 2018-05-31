@@ -94,7 +94,7 @@ $(function() {
 			  type: 2, //iframe
 			  maxmin:true,
 			  area: ['95%', '95%'],
-			  content: '/pages/common/icon.html'  //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+			  content: '/admin/pages/common/icon.html'  //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 			}); 
 	});
 	//点击父菜单选择框

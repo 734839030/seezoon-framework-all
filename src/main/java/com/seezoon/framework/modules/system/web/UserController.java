@@ -13,8 +13,10 @@ import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.file.FileHandlerFactory;
 import com.seezoon.framework.common.utils.BtRemoteValidateResult;
 import com.seezoon.framework.common.web.BaseController;
+import com.seezoon.framework.modules.system.entity.SysLoginLog;
 import com.seezoon.framework.modules.system.entity.SysMenu;
 import com.seezoon.framework.modules.system.entity.SysUser;
+import com.seezoon.framework.modules.system.service.SysLoginLogService;
 import com.seezoon.framework.modules.system.service.SysMenuService;
 import com.seezoon.framework.modules.system.service.SysUserService;
 import com.seezoon.framework.modules.system.shiro.ShiroUtils;
@@ -32,6 +34,8 @@ public class UserController extends BaseController {
 	private SysUserService sysUserService;
 	@Autowired
 	private SysMenuService sysMenuService;
+	@Autowired
+	private SysLoginLogService sysLoginLogService;
 
 	@PostMapping("/getUserMenus.do")
 	public ResponeModel getUserMenus() {
@@ -54,9 +58,14 @@ public class UserController extends BaseController {
 
 	@PostMapping("/getUserInfo.do")
 	public ResponeModel getUserInfo() {
-		SysUser user = sysUserService.findById(ShiroUtils.getUserId());
+		String userId = ShiroUtils.getUserId();
+		SysUser user = sysUserService.findById(userId);
 		Assert.notNull(user, "用户存在");
 		user.setPhotoFullUrl(FileHandlerFactory.getFullUrl(user.getPhoto()));
+		SysLoginLog lastLoginInfo = sysLoginLogService.findLastLoginInfo(userId);
+		user.setLastLoginIp(lastLoginInfo.getIp());
+		user.setLastLoginTime(lastLoginInfo.getLoginTime());
+		user.setLastLoginArea(lastLoginInfo.getArea());
 		return ResponeModel.ok(user);
 	}
 

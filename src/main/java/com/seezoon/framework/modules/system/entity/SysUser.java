@@ -1,5 +1,6 @@
 package com.seezoon.framework.modules.system.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -93,6 +94,18 @@ public class SysUser extends BaseEntity<String> {
 	 * 图像完整路径
 	 */
 	private String photoFullUrl;
+	/**
+	 * 上次登录时间
+	 */
+	private Date lastLoginTime;
+	/**
+	 * 登录ip
+	 */
+	private String lastLoginIp;
+	/**
+	 * 上次登录地区
+	 */
+	private String lastLoginArea;
 
 	@Override
 	public boolean isNeedBak() {
@@ -231,4 +244,27 @@ public class SysUser extends BaseEntity<String> {
 		this.roleAssigned = roleAssigned;
 	}
 
+	public Date getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(Date lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
+	public String getLastLoginIp() {
+		return lastLoginIp;
+	}
+
+	public void setLastLoginIp(String lastLoginIp) {
+		this.lastLoginIp = lastLoginIp;
+	}
+
+	public String getLastLoginArea() {
+		return lastLoginArea;
+	}
+
+	public void setLastLoginArea(String lastLoginArea) {
+		this.lastLoginArea = lastLoginArea;
+	}
 }

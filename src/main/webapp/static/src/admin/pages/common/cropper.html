@@ -1,5 +1,18 @@
 <script type="text/javascript">
 (function($) {       
+	/*
+	需要圆角效果页面手动引入
+	<style>
+    .cropper-view-box,
+    .cropper-face {
+      border-radius: 50%;
+    }
+  </style> 
+  调用方式
+  $("#userImageUpload").sfCrop(callback,{});
+  
+  https://github.com/fengyuanchen/cropperjs
+  */
 	$("head").append("<link rel='stylesheet' href='/admin/plugins/cropperjs/cropper.min.css'>");
 	function getRoundedCanvas(sourceCanvas) {
         var canvas = document.createElement('canvas');
@@ -26,7 +39,7 @@
 		          viewMode: 1,
 		          ready: function () {
 		            croppable = true;
-		          }
+		          },
 		       }; 
 		var opts = $.extend(defaults, options);   
 		$('#sf-crop-modal').on('shown.bs.modal', function (e) {

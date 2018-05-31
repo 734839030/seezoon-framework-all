@@ -279,7 +279,7 @@ $(function() {
 		}, {
 			field : 'updateDate',
 			title : '更新时间',
-			sortName : 'update_date',
+			sortName : 'u.update_date',
 			sortable : true,
 			order : 'desc'
 		},{

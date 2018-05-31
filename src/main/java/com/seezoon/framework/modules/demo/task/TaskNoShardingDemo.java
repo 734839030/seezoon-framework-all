@@ -12,7 +12,7 @@ import com.seezoon.framework.common.job.BaseJob;
  * 2018年5月27日
  */
 @Component
-public class TaskNoSharedingDemo extends BaseJob implements SimpleJob{
+public class TaskNoShardingDemo extends BaseJob implements SimpleJob{
 
 	@Override
 	public void execute(ShardingContext shardingContext) {

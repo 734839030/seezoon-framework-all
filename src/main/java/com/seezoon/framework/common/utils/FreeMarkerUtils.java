@@ -7,6 +7,7 @@ import java.io.Writer;
 
 import org.springframework.core.io.ClassPathResource;
 
+import com.alibaba.fastjson.JSON;
 import com.seezoon.framework.common.context.exception.ServiceException;
 
 import freemarker.template.Configuration;

@@ -94,6 +94,9 @@ $(function() {
 					}
 					$("#userName").text(data.name);
 					$("#loginName").text(data.loginName +  (data.deptName ? "[" + data.deptName + "]":""));
+					$("#lastLoginTime").text(data.lastLoginTime);
+					$("#lastLoginIp").text(data.lastLoginIp);
+					//$("#lastLoginIp").text(data.lastLoginIp  +  (data.lastLoginArea ? "(" + data.lastLoginArea + ")":"") );
 				}
 			});
 			
@@ -193,7 +196,12 @@ $(function() {
 		 way.set("model.form.data.photo",data.relativePath);
 		 way.set("model.form.data.photoFullUrl",data.fullUrl);
 	 },{
-		 minCropBoxWidth:128,
-		 minCropBoxHeight:128
+		 minCropBoxWidth:200,
+		 minCropBoxHeight:200,
+		 cropBoxResizable:false,
+		 data:{
+			 width:200,
+			 heght:200,
+		 }
 	 });
 });

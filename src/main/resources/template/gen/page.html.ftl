@@ -72,7 +72,7 @@
 									</#if>
 									<#if columnInfo.inputType! == "date">
 									<div class="form-group">
-										<label>${columnInfo.columnComment}</label> <input type="text" class="form-control date" placeholder="${columnInfo.columnComment}" name="${columnInfo.javaFieldName}"  way-data="${columnInfo.javaFieldName}">
+										<label>${columnInfo.columnComment}</label> <input type="text" class="form-control date search" placeholder="${columnInfo.columnComment}" name="${columnInfo.javaFieldName}"  way-data="${columnInfo.javaFieldName}">
 									</div>
 									</#if>
 								</#if>
@@ -281,7 +281,7 @@
 									<#if columnInfo.inputType! == "picture" || columnInfo.inputType! == "file">
 									<p class="form-control-static" id="sf-view-${columnInfo.javaFieldName}-file"></p>
 									<#else>
-									<p class="form-control-static" way-data="${columnInfo.javaFieldName}" ${(columnInfo.inputType! == "richtext") ?string("way-html='true'","''")}></p>
+									<p class="form-control-static" way-data="${columnInfo.javaFieldName}" ${(columnInfo.inputType! == "richtext") ?string("way-html='true'","")}></p>
 									</#if>
 									</div>
 								</div>	

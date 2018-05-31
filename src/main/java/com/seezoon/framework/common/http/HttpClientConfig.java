@@ -10,7 +10,7 @@ public class HttpClientConfig {
 	// 连接超时 ms
 	private int connectTimeout = 6 * 1000;
 	// 获取数据超时 ms
-	private int socketTimeout = 10 * 1000;
+	private int socketTimeout = 6 * 1000;
 	// 获取连接超时ms
 	private int connectionRequestTimeout = 10 * 1000;
 	// 最大线程数

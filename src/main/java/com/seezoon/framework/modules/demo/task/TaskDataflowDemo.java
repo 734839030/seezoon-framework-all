@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
-import com.seezoon.framework.common.context.support.Student;
 import com.seezoon.framework.common.job.BaseJob;
 
 /**
@@ -22,30 +21,18 @@ import com.seezoon.framework.common.job.BaseJob;
  *
  */
 @Component
-public class TaskDataflowDemo extends BaseJob implements DataflowJob<String> {
+public class TaskDataflowDemo extends BaseJob implements DataflowJob<String>{
 
 	@Override
 	public List<String> fetchData(ShardingContext shardingContext) {
-		switch (shardingContext.getShardingItem()) {
-        case 0: 
-            List<String> data0 = getTestData(shardingContext.getShardingParameter());
-            return data0;
-        case 1: 
-            List<String> data1 = getTestData(shardingContext.getShardingParameter());
-            return data1;
-		}
-		return null;
-    }	
+		List<String> list = new ArrayList<>();
+		list.add("hello  job");
+		return list;
+	}
 
 	@Override
 	public void processData(ShardingContext shardingContext, List<String> data) {
-		logger.debug("processData:{}",JSON.toJSONString(data));
+		logger.debug("processData:" + JSON.toJSONString(data));
 	}
 
-	public List<String> getTestData(String shardingItem){
-		List<String> list = new ArrayList<>();
-		list.add("A");
-		list.add("B");
-		return list;
-	}
 }

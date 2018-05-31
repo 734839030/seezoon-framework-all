@@ -39,4 +39,5 @@ public class UserFilter extends org.apache.shiro.web.filter.authc.UserFilter {
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		return super.isAccessAllowed(request, response, mappedValue);
 	}
+	
 }

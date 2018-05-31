@@ -17,6 +17,17 @@ import com.seezoon.framework.modules.system.dto.GenColumnInfo;
  */
 public class SysGen extends BaseEntity<String> {
 
+	private String id1;
+	
+	public String getId1() {
+		
+		return this.getId();
+	}
+
+	public void setId1(String id1) {
+		this.id1 = id1;
+	}
+
 	/**
 	 * 表名
 	 */

@@ -25,6 +25,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
+import org.springframework.util.StopWatch;
 
 import com.alibaba.fastjson.JSON;
 import com.seezoon.framework.common.context.exception.ServiceException;
@@ -93,9 +94,14 @@ public class HttpRequestUtils {
 	}
 
 	public static String execute(HttpRequestBase request) {
+		StopWatch watch = new StopWatch();
+		watch.start();
 		CloseableHttpResponse response = null;
 		try {
 			response = defaultHttpPoolClient.execute(request);
+			watch.stop();
+			String requestURI = request.getURI().toString();
+			logger.info("http client:{} comleted use {} ms",requestURI,watch.getTotalTimeMillis());
 			int status = response.getStatusLine().getStatusCode();
 			if (HttpStatus.SC_OK == status) {// 成功
 				HttpEntity entity = response.getEntity();
