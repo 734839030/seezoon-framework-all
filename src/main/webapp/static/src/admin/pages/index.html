@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>@@include('common/header.html',{"title":"上征快速开发平台"})
+<head>@@include('common/header.html',{"title":"上征科技快速开发平台"})
  <style>
     .cropper-view-box,
     .cropper-face {
@@ -12,7 +12,7 @@
 	<div class="wrapper">
 		<header class="main-header">
 			<a href="#" class="logo"> <span class="logo-mini"><b>上征</b></span>
-				<span class="logo-lg"><b>上征快速开发平台</b></span>
+				<span class="logo-lg"><b>上征科技快速开发平台</b></span>
 			</a>
 			<nav class="navbar navbar-static-top" role="navigation">
 				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
@@ -66,6 +66,7 @@
 				<ul class="nav nav-tabs" id="user-center-tabs">
 					<li class="active"><a href="#tab_info" data-toggle="tab">个人信息</a></li>
 					<li><a href="#tab_pwd" data-toggle="tab">修改密码</a></li>
+					<li><a href="#tab_theme" data-toggle="tab">主题</a></li>
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="tab_info">
@@ -163,6 +164,9 @@
 										</div>
 									</div>
 						</form>
+					</div>
+					<div class="tab-pane" id="tab_theme">
+						@@include('common/change_skin.html')
 					</div>
 				</div>
 			</div>
