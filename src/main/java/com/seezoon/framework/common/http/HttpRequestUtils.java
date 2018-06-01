@@ -87,7 +87,6 @@ public class HttpRequestUtils {
 	}
 
 	public static String doPost(String url, Map<String, String> params) {
-		logger.debug("test log");
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(getUrlEncodedFormEntity(params));
 		return execute(httpPost);
@@ -101,7 +100,7 @@ public class HttpRequestUtils {
 			response = defaultHttpPoolClient.execute(request);
 			watch.stop();
 			String requestURI = request.getURI().toString();
-			logger.info("http client:{} comleted use {} ms",requestURI,watch.getTotalTimeMillis());
+			logger.debug("http client:{} comleted use {} ms",requestURI,watch.getTotalTimeMillis());
 			int status = response.getStatusLine().getStatusCode();
 			if (HttpStatus.SC_OK == status) {// 成功
 				HttpEntity entity = response.getEntity();

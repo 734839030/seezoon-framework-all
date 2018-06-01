@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.seezoon.framework.modules.system.entity.SysLoginLog" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="area" property="area" jdbcType="VARCHAR" />
@@ -48,6 +49,10 @@
     <if test="ip !=null and ip!=''">
     and l.ip = #{ip}
     </if>
+    <if test="status !=null and status!=''">
+    and l.status = #{status}
+    </if>
+    
     <if test="loginName !=null and loginName!=''">
     and u.login_name = #{loginName}
     </if>
@@ -70,58 +75,7 @@
     where id = #{id} ${dsf}
   </delete>
   <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysLoginLog" >
-    insert into sys_login_log (id,user_id,login_time,ip,area,user_agent,device_name,browser_name,create_by,create_date,update_by,update_date,remarks)
-    values (#{id},#{userId},#{loginTime},#{ip},#{area},#{userAgent},#{deviceName},#{browserName},#{createBy},#{createDate},#{updateBy},#{updateDate},#{remarks})
+    insert into sys_login_log (id,user_id,status,login_time,ip,area,user_agent,device_name,browser_name,create_by,create_date,update_by,update_date,remarks)
+    values (#{id},#{userId},#{status},#{loginTime},#{ip},#{area},#{userAgent},#{deviceName},#{browserName},#{createBy},#{createDate},#{updateBy},#{updateDate},#{remarks})
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.seezoon.framework.modules.system.entity.SysLoginLog" >
-    update sys_login_log
-    <set>
-      <if test="userId != null" >
-        user_id = #{userId},
-      </if>
-      <if test="loginTime != null" >
-        login_time = #{loginTime},
-      </if>
-      <if test="ip != null" >
-        ip = #{ip},
-      </if>
-      <if test="area != null" >
-        area = #{area},
-      </if>
-      <if test="userAgent != null" >
-        user_agent = #{userAgent},
-      </if>
-      <if test="deviceName != null" >
-        device_name = #{deviceName},
-      </if>
-      <if test="browserName != null" >
-        browser_name = #{browserName},
-      </if>
-      <if test="updateBy != null" >
-        update_by = #{updateBy},
-      </if>
-      <if test="updateDate != null" >
-        update_date = #{updateDate},
-      </if>
-      <if test="remarks != null" >
-        remarks = #{remarks},
-      </if>
-    </set>
-    where id = #{id} ${dsf}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.system.entity.SysLoginLog" >
-    update sys_login_log
-    set 
-        user_id = #{userId}
-        ,login_time = #{loginTime}
-        ,ip = #{ip}
-        ,area = #{area}
-        ,user_agent = #{userAgent}
-        ,device_name = #{deviceName}
-        ,browser_name = #{browserName}
-        ,update_by = #{updateBy}
-        ,update_date = #{updateDate}
-        ,remarks = #{remarks}
-    where id = #{id} ${dsf}
-  </update>
 </mapper>

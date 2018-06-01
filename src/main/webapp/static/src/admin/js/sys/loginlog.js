@@ -70,6 +70,22 @@ $(function() {
 			title : '浏览器名称',
 			},
 			{
+				field : 'status',
+				title : '状态',
+				formatter : function(value, row, index) {
+					if (value == '0'){//正常
+						value = "<span class='label label-success'>成功</span>";
+					} else if (value == '1') {//密码错误
+						value = "<span class='label label-danger'>密码错误</span>"
+					} else if (value == '2') {//禁用
+						value = "<span class='label label-danger'>禁用</span>"
+					} else if (value == '3') {//密码错误
+						value = "<span class='label label-danger'>系统错误</span>"
+					} 
+					return value;
+				}
+			},
+			{
 				field : 'loginTime',
 				title : '登录时间',
 				sortName : 'l.login_time',

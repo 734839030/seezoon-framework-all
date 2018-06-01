@@ -359,4 +359,27 @@ CREATE TABLE `sys_role_dept` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色部门';
 
 SET FOREIGN_KEY_CHECKS = 1;
-
+-- ----------------------------
+--  Table structure for `sys_login_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_login_log`;
+CREATE TABLE `sys_login_log` (
+  `id` varchar(32) NOT NULL COMMENT '编号',
+  `user_id` varchar(32) NOT NULL COMMENT '用户ID',
+  `status` varchar(1) NOT NULL COMMENT '登录状态0:成功;1.密码错误；2.已禁用;3.系统错误',
+  `login_time` datetime NOT NULL COMMENT '登录时间',
+  `ip` varchar(16) DEFAULT NULL COMMENT 'IP地址',
+  `area` varchar(20) DEFAULT NULL COMMENT '登录地区',
+  `user_agent` varchar(1000) NOT NULL COMMENT '用户代理',
+  `device_name` varchar(100) DEFAULT NULL COMMENT '设备名称',
+  `browser_name` varchar(100) DEFAULT NULL COMMENT '浏览器名称',
+  `create_by` varchar(32) NOT NULL COMMENT '创建者',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  `update_by` varchar(32) NOT NULL COMMENT '更新者',
+  `update_date` datetime NOT NULL COMMENT '更新时间',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '备注信息',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `ip` (`ip`) USING BTREE,
+  KEY `login_time` (`login_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='登录日志';

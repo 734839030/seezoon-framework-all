@@ -63,9 +63,11 @@ public class UserController extends BaseController {
 		Assert.notNull(user, "用户存在");
 		user.setPhotoFullUrl(FileHandlerFactory.getFullUrl(user.getPhoto()));
 		SysLoginLog lastLoginInfo = sysLoginLogService.findLastLoginInfo(userId);
-		user.setLastLoginIp(lastLoginInfo.getIp());
-		user.setLastLoginTime(lastLoginInfo.getLoginTime());
-		user.setLastLoginArea(lastLoginInfo.getArea());
+		if (null != lastLoginInfo) {
+			user.setLastLoginIp(lastLoginInfo.getIp());
+			user.setLastLoginTime(lastLoginInfo.getLoginTime());
+			user.setLastLoginArea(lastLoginInfo.getArea());
+		}
 		return ResponeModel.ok(user);
 	}
 

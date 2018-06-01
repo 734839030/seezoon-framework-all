@@ -25,6 +25,15 @@
 									maxlength="100">
 							</div>
 							<div class="form-group">
+								<select class="form-control" name="status" way-data="status">
+									<option value="">请选择状态</option>
+									<option value="0">成功</option>
+									<option value="1">密码错误</option>
+									<option value="2">禁用</option>
+									<option value="3">系统错误</option>
+								</select>
+							</div>
+							<div class="form-group">
 								<label for="search-name">截止时间</label> <input type="text" 
 									class="form-control date search" data-date-clear="false" data-default-day="1"  placeholder="<=" name="endDate"  way-data="endDate"
 									maxlength="100">
