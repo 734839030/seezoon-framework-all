@@ -82,6 +82,9 @@ public class SysUserController extends BaseController {
 		if (ShiroUtils.isSuperAdmin(id)) {
 			return ResponeModel.error("超级管理员不允许删除");
 		}
+		if (ShiroUtils.getUserId().equals(id)) {
+			return ResponeModel.error("自己不能删除自己");
+		}
 		int cnt = sysUserService.deleteById(id);
 		return ResponeModel.ok(cnt);
 	}
@@ -100,6 +103,9 @@ public class SysUserController extends BaseController {
 	public ResponeModel setStatus(@RequestParam String id, @RequestParam String status) {
 		if (ShiroUtils.isSuperAdmin(id)) {
 			return ResponeModel.error("超级管理员不允许修改");
+		}
+		if (ShiroUtils.getUserId().equals(id)) {
+			return ResponeModel.error("自己不能修改自己");
 		}
 		SysUser sysUser = new SysUser();
 		sysUser.setId(id);

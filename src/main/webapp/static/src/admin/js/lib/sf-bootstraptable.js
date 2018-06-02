@@ -30,6 +30,9 @@ $(function(){
 		singleSelect : true,
 		clickToSelect : true,
 		contentType : 'application/x-www-form-urlencoded',
+		onPostBody:function(){//渲染完后执行
+			$.bntPermissionHandler();
+		},
 		queryParams : function(params) {
 			var param = {
 				page : this.pageNumber,

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,8 @@ import com.seezoon.framework.common.utils.TreeHelper;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.entity.SysDept;
 import com.seezoon.framework.modules.system.service.SysDeptService;
+import com.seezoon.framework.modules.system.shiro.ShiroUtils;
+import com.seezoon.framework.modules.system.shiro.User;
 
 @RestController
 @RequestMapping("${admin.path}/sys/dept")
@@ -28,6 +31,27 @@ public class SysDeptController extends BaseController {
 	private SysDeptService sysDeptService;
 	private TreeHelper<SysDept> treeHelper = new TreeHelper<>();
 
+	/**
+	 * 用户管理那里的部门查询,只能看到自己及以下部门
+	 * @param sysDept
+	 * @return
+	 */
+	@PostMapping("/qryAllWithScope.do")
+	public ResponeModel qryAllWithScope(SysDept sysDept) {
+		User user = ShiroUtils.getUser();
+		String deptId = user.getDeptId();
+		if (ShiroUtils.isSuperAdmin(user.getUserId())) {
+			return this.qryAll(sysDept);
+		}
+		//如果是非超级管理员返回自己部门及以下
+		SysDept currentDept = sysDeptService.findById(deptId);
+		Assert.notNull(currentDept, "当前所属部门为空");
+		List<SysDept> list = sysDeptService.findByParentIds(currentDept.getParentIds() + deptId);
+		list.add(currentDept);
+		return ResponeModel.ok(list);
+	}
+	
+	
 	@PostMapping("/qryAll.do")
 	public ResponeModel qryAll(SysDept sysDept) {
 		sysDept.setSortField("sort");

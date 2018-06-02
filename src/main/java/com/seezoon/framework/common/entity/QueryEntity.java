@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +59,7 @@ public class QueryEntity implements Serializable{
 	public String getDsf() {
 		// /a 路径的后端请求需要后端需要，前端不需要
 		AdminUser user = CurrentThreadContext.getUser();
-		if (user != null) {
+		if (user != null && StringUtils.isEmpty(dsf)) {
 			dsf = DataPermissionBuilder.build(this.getTableAlias());
 		}
 		return dsf;

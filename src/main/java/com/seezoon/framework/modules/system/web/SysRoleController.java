@@ -18,6 +18,9 @@ import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.entity.SysRole;
 import com.seezoon.framework.modules.system.service.SysRoleService;
+import com.seezoon.framework.modules.system.service.SysUserService;
+import com.seezoon.framework.modules.system.shiro.ShiroUtils;
+import com.seezoon.framework.modules.system.shiro.User;
 
 @RestController
 @RequestMapping("${admin.path}/sys/role")
@@ -25,12 +28,24 @@ public class SysRoleController extends BaseController {
 
 	@Autowired
 	private SysRoleService sysRoleService;
-
+	
 	@RequiresPermissions("sys:role:qry")
 	@PostMapping("/qryPage.do")
 	public ResponeModel qryPage(SysRole sysRole) {
 		PageInfo<SysRole> page = sysRoleService.findByPage(sysRole, sysRole.getPage(), sysRole.getPageSize());
 		return ResponeModel.ok(page);
+	}
+	
+	@PostMapping("/qryAllWithScope.do")
+	public ResponeModel qryAllWithScope() {
+		User user = ShiroUtils.getUser();
+		String userId = user.getUserId();
+		if (ShiroUtils.isSuperAdmin(userId)) {
+			return this.qryAll();
+		}
+		//如果是非超级管理员返回自己拥有的权限
+		List<SysRole> list = sysRoleService.findByUserId(userId);
+		return ResponeModel.ok(list);
 	}
 	/**
 	 * 添加修改用户时候会调用

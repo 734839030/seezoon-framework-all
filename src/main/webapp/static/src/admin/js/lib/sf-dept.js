@@ -1,6 +1,6 @@
 /**
  * 部门选择组件
- * $.seezoon.chooseDept('需要默认选中的treeId','点确定后的回调方法','点清清除的回调方法');
+ * $.seezoon.chooseDept('需要默认选中的treeId','点确定后的回调方法','点清清除的回调方法','是否按权限过滤部门数据');
  * @param $
  * @returns
  */
@@ -8,7 +8,7 @@
 	$("body").append("<div id='deptLayer' class='undisplay pd10'><ul id='deptTree' class='ztree'></ul></div>");
 	$.seezoon = $.extend($.seezoon,{
 	    index:0,
-		chooseDept:function(treeId,confirmCallback,clearCallback){
+		chooseDept:function(treeId,confirmCallback,clearCallback,filter){
 			var setting = {
 					data : {
 						simpleData : {
@@ -25,7 +25,11 @@
 						}
 					}
 				};
-				$.post(adminContextPath + "/sys/dept/qryAll.do", function(respone) {
+				var url = adminContextPath + "/sys/dept/qryAll.do";
+				if (filter) {
+					url = adminContextPath + "/sys/dept/qryAllWithScope.do";
+				}
+				$.post(url , function(respone) {
 					//选择上级tree
 					$.fn.zTree.init($("#deptTree"), setting,respone.data);
 					var treeObj = $.fn.zTree.getZTreeObj("deptTree");

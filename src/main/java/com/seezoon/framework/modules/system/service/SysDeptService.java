@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.seezoon.framework.common.Constants;
 import com.seezoon.framework.common.service.CrudService;
 import com.seezoon.framework.modules.system.dao.SysDeptDao;
 import com.seezoon.framework.modules.system.entity.SysDept;
@@ -16,6 +17,8 @@ public class SysDeptService extends CrudService<SysDeptDao, SysDept>{
 	public List<SysDept> findByParentIds(String parentIds){
 		Assert.hasLength(parentIds,"parentIds 不能为空");
 		SysDept sysDept = new SysDept();
+		sysDept.setSortField("sort");
+		sysDept.setDirection(Constants.ASC);
 		sysDept.setParentIds(parentIds);
 		return this.findList(sysDept);
 	}

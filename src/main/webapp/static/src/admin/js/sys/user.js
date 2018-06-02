@@ -27,7 +27,7 @@ $(function() {
 		},
 		init:function(){
 			//渲染角色
-			$.post(adminContextPath + "/sys/role/qryAll.do",function(respone){
+			$.post(adminContextPath + "/sys/role/qryAllWithScope.do",function(respone){
 				$("#roles-temlate").tmpl(respone.data).appendTo($("#roles"));
 			});
 			//左侧部门树
@@ -46,7 +46,7 @@ $(function() {
 						}
 					}
 				};
-				$.post(adminContextPath + "/sys/dept/qryAll.do", function(respone) {
+				$.post(adminContextPath + "/sys/dept/qryAllWithScope.do", function(respone) {
 					//选择上级tree
 					$.fn.zTree.init($("#deptMenuTree"), setting,respone.data);
 					var treeObj = $.fn.zTree.getZTreeObj("deptMenuTree");
@@ -153,7 +153,7 @@ $(function() {
 			way.set("model.form.data.deptId",null);
 			way.set("model.form.data.deptName",null);
 			$("#data-form").data('bootstrapValidator').updateStatus('deptName', 'INVALID');
-		});
+		},true);
 	});
 	// 添加
 	$("#add").click(function() {
@@ -222,9 +222,6 @@ $(function() {
 	// 列表
 	$('#table').bootstrapTable({
 		url : model.path + '/qryPage.do',
-		onPostBody:function(){//渲染完后执行
-			$.bntPermissionHandler();
-		},
 		columns : [ {
 			checkbox : true
 		}, {
