@@ -1,0 +1,18 @@
+下载地址
+http://maven.apache.org/download.cgi
+版本 apache-maven-3.5.3-bin.tar.gz
+cd /usr/local/
+wget http://mirror.bit.edu.cn/apache/maven/maven-3/3.5.3/binaries/apache-maven-3.5.3-bin.tar.gz
+
+tar -zxvf apache-maven-3.5.3-bin.tar.gz
+
+export PATH=$PATH:/usr/local/apache-maven-3.5.3/bin
+立即生效
+source /etc/profile
+验证
+mvn -v
+
+这种无伤大雅的工具yum 也可以 
+yum install maven -y
+不过使用之前查看下版本，不太低就可以
+yum list maven 
