@@ -58,6 +58,9 @@ $(function() {
 			field : 'area',
 			title : '登录地区',
 			formatter : function(value, row, index) {
+				if (value) {
+					return value;
+				}
 				return "<a target='_blank' href='http://ip.chinaz.com/?IP=" + row.ip +"'>查看</a>";
 			}
 			},

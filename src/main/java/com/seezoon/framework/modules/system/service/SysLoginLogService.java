@@ -46,16 +46,16 @@ public class SysLoginLogService extends CrudService<SysLoginLogDao, SysLoginLog>
 			loginLog.setBrowserName(browser.getName() +" "+ browser.getVersion(userAgentStr));
 			loginLog.setDeviceName(os.getName() + " "+ os.getDeviceType());
 			loginLog.setIp(ip);
-//			if (StringUtils.isNotEmpty(ip)) {
-//				String ipInfo = HttpRequestUtils.doGet("http://ip.taobao.com/service/getIpInfo.php", Maps.newHashMap("ip",ip));
-//				if (StringUtils.isNotEmpty(ipInfo)) {
-//					JSONObject parseObject = JSON.parseObject(ipInfo);
-//					if (parseObject.containsKey("data")) {
-//						JSONObject data = parseObject.getJSONObject("data");
-//						loginLog.setArea(data.getString("region") + data.getString("city"));
-//					}
-//				}
-//			}
+			if (StringUtils.isNotEmpty(ip)) {
+				String ipInfo = HttpRequestUtils.doGet("http://ip.taobao.com/service/getIpInfo.php", Maps.newHashMap("ip",ip));
+				if (StringUtils.isNotEmpty(ipInfo)) {
+					JSONObject parseObject = JSON.parseObject(ipInfo);
+					if (parseObject.containsKey("data")) {
+						JSONObject data = parseObject.getJSONObject("data");
+						loginLog.setArea(data.getString("region") + data.getString("city"));
+					}
+				}
+			}
 			loginLog.setUserId(userId);
 			loginLog.setUserAgent(userAgentStr);
 			loginLog.setLoginTime(new Date());

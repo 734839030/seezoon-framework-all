@@ -95,8 +95,8 @@ $(function() {
 					$("#userName").text(data.name);
 					$("#loginName").text(data.loginName +  (data.deptName ? "[" + data.deptName + "]":""));
 					$("#lastLoginTime").text(data.lastLoginTime);
-					$("#lastLoginIp").text(data.lastLoginIp);
-					//$("#lastLoginIp").text(data.lastLoginIp  +  (data.lastLoginArea ? "(" + data.lastLoginArea + ")":"") );
+					//$("#lastLoginIp").text(data.lastLoginIp);
+					$("#lastLoginIp").text(data.lastLoginIp  +  (data.lastLoginArea ? "(" + data.lastLoginArea + ")":"") );
 				}
 			});
 			

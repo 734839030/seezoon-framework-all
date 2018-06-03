@@ -69,7 +69,7 @@
 		<useragent.version>1.21</useragent.version>
 	</properties>
 	<!-- 不同环境配置文件打包 mvn package -P id -->
-	<profiles>
+	<profiles> 
 		<profile>
 			<id>dev</id>
 			<properties>

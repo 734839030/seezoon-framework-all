@@ -51,5 +51,10 @@ $(function() {
 			}
 		});
 	});
-	
+	//个人中心
+	$.post(adminContextPath + "/user/getUserInfo.do",function(respone){
+		if (respone.responeCode == '0') {
+			window.location.href = "/admin/pages/index.html";
+		}
+    });
 });

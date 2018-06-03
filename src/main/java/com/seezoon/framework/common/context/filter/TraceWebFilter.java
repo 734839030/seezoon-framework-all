@@ -12,10 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.seezoon.framework.common.context.utils.NDCUtils;
 
 /**
- * 线程上下文及耗时日志
+ * 线程上下文及耗时日志 
+ * 改为原生filter 实现了
+ * 
  * @author hdf
  * 2017年9月24日
  */
+@Deprecated
 public class TraceWebFilter implements HandlerInterceptor {
 	/**
 	 * 日志对象

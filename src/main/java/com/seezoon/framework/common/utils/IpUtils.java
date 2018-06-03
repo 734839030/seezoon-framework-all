@@ -34,6 +34,8 @@ public class IpUtils {
 				// 根据网卡取本机配置的IP
 				InetAddress inet = null;
 				try {
+					//mac 这里不设置为非常慢
+					//scutil --set HostName "localhost"
 					inet = InetAddress.getLocalHost();
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
