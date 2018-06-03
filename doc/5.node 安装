@@ -1,0 +1,16 @@
+下载地址
+https://nodejs.org/en/download/
+版本已编译好的二进制node-v8.11.2-linux-x64.tar.xz
+cd /usr/local
+wget https://nodejs.org/dist/v8.11.2/node-v8.11.2-linux-x64.tar.xz
+
+tar -xvf node-v8.11.2-linux-x64.tar.xz
+
+vim /etc/profile
+export PATH=$PATH:/usr/local/node-v8.11.2-linux-x64/bin
+立即生效
+source /etc/profile
+
+验证
+node -v
+npm -v

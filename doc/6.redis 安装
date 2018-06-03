@@ -1,0 +1,17 @@
+下载地址
+https://redis.io/download
+版本 redis-4.0.9.tar.gz
+cd /usr/local/
+wget http://download.redis.io/releases/redis-4.0.9.tar.gz
+
+tar -zxvf redis-4.0.9.tar.gz
+cd redis-4.0.9
+make && make install
+
+vim redis.conf
+注释
+#bind 127.0.0.1
+protected-mode no
+daemonize yes
+
+src/redis-server ../redis.conf

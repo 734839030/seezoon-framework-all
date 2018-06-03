@@ -92,3 +92,12 @@ QA:
  [mysqld]
  socket=/tmp/mysql.sock
  
+mysql 常用语句
+查看进程
+SHOW FULL PROCESSLIST;
+查看事务
+select * from INFORMATION_SCHEMA.INNODB_TRX;
+查看事务锁或者去掉条件查看事务情况
+SELECT t.trx_started,t.trx_mysql_thread_id,t.trx_rows_locked,t.trx_query,t.trx_lock_structs FROM INFORMATION_SCHEMA.INNODB_TRX t 
+where t.trx_state like '%LOCK%' order by t.trx_started asc;
+kill t.trx_mysql_thread_id;

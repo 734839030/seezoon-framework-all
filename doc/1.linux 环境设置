@@ -14,4 +14,14 @@ systemctl restart sshd
 ssh ip seezoon@id -p 9876
 su root
 
+timewait 过高优化内核
+连接查看
+netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
 
+vim /etc/sysctl.conf
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_fin_timeout = 30
+
+/sbin/sysctl -p
