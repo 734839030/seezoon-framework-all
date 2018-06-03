@@ -70,7 +70,7 @@ public class SysLoginLog extends BaseEntity<String> {
 	public static final String  SUCCESS = "0";
 	public static final String  PASSWORD_WRONG = "1";
 	public static final String  USER_STAUTS_STOP = "2";
-	public static final String  SYSTEM_ERROR = "3";
+	public static final String  LOCK_24 = "3";
 
 
 	@Override

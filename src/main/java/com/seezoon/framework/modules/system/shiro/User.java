@@ -18,16 +18,19 @@ public class User implements Serializable, AuthCachePrincipal {
 	private String deptName;
 	private String loginName;
 	private String name;
+	private String status;
 	
 	private List<SysRole> roles;
 
-	public User(String userId, String deptId, String deptName, String loginName, String name) {
+	public User(String userId, String deptId, String deptName, String loginName, String name,String status) {
 		super();
 		this.userId = userId;
 		this.deptId = deptId;
 		this.deptName = deptName;
 		this.loginName = loginName;
 		this.name = name;
+		this.status = status;
+
 	}
 
 
@@ -84,6 +87,16 @@ public class User implements Serializable, AuthCachePrincipal {
 	@Override
 	public String getAuthCacheKey() {
 		return userId;
+	}
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

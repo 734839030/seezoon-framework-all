@@ -67,7 +67,7 @@ $(function() {
 			},
 			{
 			field : 'browserName',
-			title : '浏览器名称',
+			title : '浏览器',
 			},
 			{
 				field : 'status',
@@ -79,8 +79,8 @@ $(function() {
 						value = "<span class='label label-danger'>密码错误</span>"
 					} else if (value == '2') {//禁用
 						value = "<span class='label label-danger'>禁用</span>"
-					} else if (value == '3') {//密码错误
-						value = "<span class='label label-danger'>系统错误</span>"
+					} else if (value == '3') {//锁定24小时
+						value = "<span class='label label-danger'>锁定24小时</span>"
 					} 
 					return value;
 				}

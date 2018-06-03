@@ -20,6 +20,7 @@ import com.seezoon.framework.modules.system.service.SysLoginLogService;
 import com.seezoon.framework.modules.system.service.SysMenuService;
 import com.seezoon.framework.modules.system.service.SysUserService;
 import com.seezoon.framework.modules.system.shiro.ShiroUtils;
+import com.seezoon.framework.modules.system.shiro.User;
 
 /**
  * 综合用户信息处理
@@ -39,7 +40,8 @@ public class UserController extends BaseController {
 
 	@PostMapping("/getUserMenus.do")
 	public ResponeModel getUserMenus() {
-		String userId = ShiroUtils.getUserId();
+		User user = ShiroUtils.getUser();
+		String userId = user.getUserId();
 		List<SysMenu> menus = null;
 		// 系统管理员，拥有最高权限
 		if (ShiroUtils.isSuperAdmin()) {
@@ -59,16 +61,16 @@ public class UserController extends BaseController {
 	@PostMapping("/getUserInfo.do")
 	public ResponeModel getUserInfo() {
 		String userId = ShiroUtils.getUserId();
-		SysUser user = sysUserService.findById(userId);
-		Assert.notNull(user, "用户存在");
-		user.setPhotoFullUrl(FileHandlerFactory.getFullUrl(user.getPhoto()));
+		SysUser sysUser = sysUserService.findById(userId);
+		Assert.notNull(sysUser, "用户存在");
+		sysUser.setPhotoFullUrl(FileHandlerFactory.getFullUrl(sysUser.getPhoto()));
 		SysLoginLog lastLoginInfo = sysLoginLogService.findLastLoginInfo(userId);
 		if (null != lastLoginInfo) {
-			user.setLastLoginIp(lastLoginInfo.getIp());
-			user.setLastLoginTime(lastLoginInfo.getLoginTime());
-			user.setLastLoginArea(lastLoginInfo.getArea());
+			sysUser.setLastLoginIp(lastLoginInfo.getIp());
+			sysUser.setLastLoginTime(lastLoginInfo.getLoginTime());
+			sysUser.setLastLoginArea(lastLoginInfo.getArea());
 		}
-		return ResponeModel.ok(user);
+		return ResponeModel.ok(sysUser);
 	}
 
 	@PostMapping("/updateInfo.do")

@@ -6,6 +6,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import com.seezoon.framework.common.Constants;
+import com.seezoon.framework.common.context.exception.ServiceException;
 
 /**
  * Shiro工具类
@@ -32,7 +33,8 @@ public class ShiroUtils {
 	}
 
 	public static User getUser() {
-		return (User) SecurityUtils.getSubject().getPrincipal();
+		User user= (User) SecurityUtils.getSubject().getPrincipal();
+		return user;
 	}
 
 	public static String getUserId() {

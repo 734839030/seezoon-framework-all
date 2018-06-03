@@ -31,7 +31,7 @@
     select 
     <include refid="Base_Column_List" />
     from <include refid="Join_Table" />
-    where id = #{id}
+    where l.id = #{id}
   </select>
   <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.system.entity.SysLoginLog" >
     select 

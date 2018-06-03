@@ -23,6 +23,7 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.seezoon.framework.common.Constants;
+import com.seezoon.framework.common.context.exception.ServiceException;
 import com.seezoon.framework.modules.system.entity.SysMenu;
 import com.seezoon.framework.modules.system.entity.SysRole;
 import com.seezoon.framework.modules.system.entity.SysUser;
@@ -51,6 +52,10 @@ public class UserRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		User user = (User) principals.getPrimaryPrincipal();
 		String userId = user.getUserId();
+		SysUser sysUser = sysUserService.findById(userId);
+		if (SysUser.STATUS_STOP.equals(sysUser.getStatus())) {
+			throw new ServiceException("用户已被禁用");
+		}
 		Set<String> permsSet = new HashSet<>();
 		Set<String> roleSet = new HashSet<>();
 		List<SysMenu> menus = null;
@@ -93,10 +98,10 @@ public class UserRealm extends AuthorizingRealm {
 		}
 		// 禁用状态
 		if (SysUser.STATUS_STOP.equals(sysUser.getStatus())) {
-			throw new LockedAccountException("账号已被锁定");
+			throw new LockedAccountException("账号已被禁用");
 		}
 		User user = new User(sysUser.getId(), sysUser.getDeptId(), sysUser.getDeptName(), sysUser.getLoginName(),
-				sysUser.getName());
+				sysUser.getName(),sysUser.getStatus());
 		//放入角色
 		user.setRoles(sysRoleService.findByUserId(user.getUserId()));
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, sysUser.getPassword(),

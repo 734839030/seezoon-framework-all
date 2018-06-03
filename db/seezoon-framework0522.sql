@@ -366,7 +366,7 @@ DROP TABLE IF EXISTS `sys_login_log`;
 CREATE TABLE `sys_login_log` (
   `id` varchar(32) NOT NULL COMMENT '编号',
   `user_id` varchar(32) NOT NULL COMMENT '用户ID',
-  `status` varchar(1) NOT NULL COMMENT '登录状态0:成功;1.密码错误；2.已禁用;3.系统错误',
+  `status` varchar(1) NOT NULL COMMENT '登录状态0:成功;1.密码错误；2.已禁用;3.锁定24小时',
   `login_time` datetime NOT NULL COMMENT '登录时间',
   `ip` varchar(16) DEFAULT NULL COMMENT 'IP地址',
   `area` varchar(20) DEFAULT NULL COMMENT '登录地区',

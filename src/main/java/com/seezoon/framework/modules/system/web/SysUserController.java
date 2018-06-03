@@ -25,6 +25,7 @@ import com.seezoon.framework.common.utils.BtRemoteValidateResult;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.modules.system.entity.SysRole;
 import com.seezoon.framework.modules.system.entity.SysUser;
+import com.seezoon.framework.modules.system.service.LoginSecurityService;
 import com.seezoon.framework.modules.system.service.SysRoleService;
 import com.seezoon.framework.modules.system.service.SysUserService;
 import com.seezoon.framework.modules.system.shiro.ShiroUtils;
@@ -37,7 +38,8 @@ public class SysUserController extends BaseController {
 	private SysUserService sysUserService;
 	@Autowired
 	private SysRoleService sysRoleService;
-
+	@Autowired
+	private LoginSecurityService loginSecurityService;
 	@RequiresPermissions("sys:user:qry")
 	@PostMapping("/qryPage.do")
 	public ResponeModel qryPage(SysUser sysUser,HttpServletRequest request) {
@@ -107,10 +109,17 @@ public class SysUserController extends BaseController {
 		if (ShiroUtils.getUserId().equals(id)) {
 			return ResponeModel.error("自己不能修改自己");
 		}
-		SysUser sysUser = new SysUser();
-		sysUser.setId(id);
-		sysUser.setStatus(status);
-		int cnt = this.sysUserService.updateSelective(sysUser);
-		return ResponeModel.ok(cnt);
+		//status 为 2 是账户锁定24小时 解锁
+		if ("2".equals(status)) {
+			SysUser findById = sysUserService.findById(id);
+			Assert.notNull(findById, "解锁用户不存在");
+			loginSecurityService.unLock(findById.getLoginName());
+		} else {
+			SysUser sysUser = new SysUser();
+			sysUser.setId(id);
+			sysUser.setStatus(status);
+			this.sysUserService.updateSelective(sysUser);
+		}
+		return ResponeModel.ok();
 	}
 }

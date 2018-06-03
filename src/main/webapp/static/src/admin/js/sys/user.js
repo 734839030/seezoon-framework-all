@@ -287,8 +287,9 @@ $(function() {
 				if (row.status == '0') {//禁用状态
 					oper = "<a  href='#' class='text-success sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='1'>启用</a>";
 				} else {//正常状态
-					oper = "<a  href='#' class='text-danger sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='0'>禁用</a>";
-				}
+					oper = "<a  href='#' class='text-danger sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='0'>禁用</a> | ";
+					oper = oper + "<a  href='#' class='text-danger sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='2'>解锁</a>";
+				} 
 				return oper;
 			}
 		}]

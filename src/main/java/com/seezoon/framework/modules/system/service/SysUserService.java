@@ -18,6 +18,7 @@ import com.seezoon.framework.modules.system.shiro.ShiroUtils;
 @Service
 public class SysUserService extends CrudService<SysUserDao, SysUser> {
 
+	
 	public SysUser findByLoginName(String loginName) {
 		Assert.hasLength(loginName, "loginName 为空");
 		SysUser sysUser = new SysUser();
@@ -25,7 +26,7 @@ public class SysUserService extends CrudService<SysUserDao, SysUser> {
 		List<SysUser> list = this.findList(sysUser);
 		return list.isEmpty() ? null : list.get(0);
 	}
-
+	
 	@Override
 	public int save(SysUser t) {
 		String salt = RandomStringUtils.randomAlphanumeric(20);

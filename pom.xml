@@ -51,7 +51,7 @@
 		<!-- redis -->
 		<redis.clients.version>2.9.0</redis.clients.version>
 		<spring.data.redis.version>1.8.1.RELEASE</spring.data.redis.version>
-		<shiro-version>1.3.2</shiro-version>
+		<shiro.version>1.4.0</shiro.version>
 		<shiro.redis.version>3.0.0</shiro.redis.version>
 		<kaptcha-version>0.0.9</kaptcha-version>
 		<!-- spring session -->
@@ -348,7 +348,7 @@
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-spring</artifactId>
-			<version>${shiro-version}</version>
+			<version>${shiro.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
