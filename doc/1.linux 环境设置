@@ -1,0 +1,17 @@
+禁止root 远程登录
+#添加用户
+useradd seezoon 
+passwd seezoon
+#修改root 禁止远程登录及sshd 端口
+vim /etc/ssh/sshd_config
+修改如下配置,端口需要在机器上先开放
+Port 9876
+PermitRootLogin no
+
+重启sshd 
+systemctl restart sshd
+
+ssh ip seezoon@id -p 9876
+su root
+
+

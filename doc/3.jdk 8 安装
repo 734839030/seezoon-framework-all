@@ -1,0 +1,27 @@
+下载地址
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+版本jdk-8u172-linux-x64.tar.gz
+cd /usr/local
+wget http://download.oracle.com/otn-pub/java/jdk/8u172-b11/a58eab1ec242421181065cdc37240b08/jdk-8u172-linux-x64.tar.gz?AuthParam=1528022102_f125d4a1caedaf7769b38c62401e2c67
+tar -zxvf jdk-8u172-linux-x64.tar.gz
+配置环境变量
+vim /etc/profile
+
+JAVA_HOME=/usr/local/jdk1.8.0_172
+PATH=$JAVA_HOME/bin:$PATH
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_HOME PATH CLASSPATH
+
+立即生效
+source /etc/profile
+
+验证
+java -version
+
+常用命令
+jmap -heap [pid] 整个堆状态
+jmap -histo[:live] [pid]  存活对象排名
+jmap -dump:[live,]format=b,file=1.dump pid 
+jstack [pid] > fileName 栈信息
+jstat -gc [pid] [间隔] [次数]
+

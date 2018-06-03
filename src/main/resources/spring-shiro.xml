@@ -80,7 +80,7 @@
 	</bean>
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="sessionManager" ref="sessionManager" />
-		<!-- <property name="rememberMeManager" ref="rememberMeManager"/>  -->
+		<property name="rememberMeManager" ref="rememberMeManager"/> 
 		<property name="cacheManager" ref="cacheManager" />
 		<property name="realm" ref="userRealm" />
 	</bean>

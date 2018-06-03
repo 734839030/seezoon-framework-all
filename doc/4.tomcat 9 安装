@@ -1,0 +1,22 @@
+下载地址
+https://tomcat.apache.org/download-90.cgi
+版本apache-tomcat-9.0.8.tar.gz
+cd /usr/local
+wget http://mirrors.shu.edu.cn/apache/tomcat/tomcat-9/v9.0.8/bin/apache-tomcat-9.0.8.tar.gz
+
+tar -zxvf apache-tomcat-9.0.8.tar.gz
+
+可选
+参数调优内存大小根据机器调整，xms 建议和xmx 配置一致，或者xms至少是xmx 1/4以上
+jvm 调优
+vim bin/catalina.sh
+在cygwin=false上添加
+JAVA_OPTS="-Xmx512m -Xms128m -XX:+UseG1GC -XX:+PrintGCDetails -verbose:gc -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCTimeStamps -Xloggc:../logs/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=../logs/dump"
+
+tomcat 调优
+http://tomcat.apache.org/tomcat-9.0-doc/config/http.html
+vim conf/server.xml
+在Connector 节点加入
+connectionTimeout="15000" maxThreads="1000" acceptCount="200" minSpareThreads="20" URIEncoding="UTF-8" useBodyEncodingForURI="true"
+
+
