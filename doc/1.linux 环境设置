@@ -19,9 +19,10 @@ timewait 过高优化内核
 netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
 
 vim /etc/sysctl.conf
-net.ipv4.tcp_syncookies = 1
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_max_tw_buckets = 180000
+net.ipv4.tcp_syncookies = 1 
+net.ipv4.tcp_tw_reuse = 1  #公网不建议打开，设置0
+net.ipv4.tcp_tw_recycle = 1 #公网不建议打开，设置0
 net.ipv4.tcp_fin_timeout = 30
 
 /sbin/sysctl -p

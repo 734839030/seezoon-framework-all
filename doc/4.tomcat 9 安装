@@ -11,7 +11,7 @@ tar -zxvf apache-tomcat-9.0.8.tar.gz
 jvm 调优
 vim bin/catalina.sh
 在cygwin=false上添加
-JAVA_OPTS="-Xmx512m -Xms128m -XX:+UseG1GC -XX:+PrintGCDetails -verbose:gc -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCTimeStamps -Xloggc:../logs/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=../logs/dump"
+JAVA_OPTS="-Xmx512m -Xms128m -XX:+UseG1GC -verbose:gc -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=10M  -Xloggc:../logs/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=../logs/dump"
 
 tomcat 调优
 http://tomcat.apache.org/tomcat-9.0-doc/config/http.html
