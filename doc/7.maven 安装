@@ -16,3 +16,15 @@ mvn -v
 yum install maven -y
 不过使用之前查看下版本，不太低就可以
 yum list maven 
+
+
+设置阿里云镜像 体验如飞的感觉
+vim apache-maven-3.5.3/conf/settings.xml
+在mirrors 节点中加入
+
+ <mirror>
+      <id>alimaven</id>
+      <name>aliyun maven</name>
+      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+      <mirrorOf>central</mirrorOf>        
+    </mirror>

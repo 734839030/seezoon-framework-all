@@ -14,3 +14,7 @@ source /etc/profile
 验证
 node -v
 npm -v
+
+gulp 安装
+npm install gulp -g
+验证gulp -v

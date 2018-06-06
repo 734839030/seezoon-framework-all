@@ -1,0 +1,48 @@
+#!/bin/bash
+echo "----------------------------------"  
+echo "please enter your choise:" 
+echo "(1) 后台资源"
+echo "(2) 前端静态资源"
+echo "(0) Exit Menu"
+echo "----------------------------------"
+source_code_path=/usr/local/project-build/source-code
+project_name=seezoon-framework-all
+tomcat_path=/usr/local/tomcat-seezoon
+nginx_static_path=/usr/local/nginx/html/seezoon-framework
+read input
+cd ${source_code_path}/${project_name}
+git pull
+case $input in
+    1)
+    cd ${source_code_path}/${project_name}
+    sed -i  "s#@xxxxxxxxx@#真密码#g" ${source_code_path}/${project_name}/src/main/resources/env/prod/application.properties
+    mvn clean package -P prod
+    cpid=$(ps -ef |grep -c ${tomcat_path})
+	if [ $cpid -gt 1 ]
+        then
+         echo  "stopping  please wait ......"
+        ps -ef | grep ${tomcat_path} | grep -v grep | awk '{print $2}' | xargs kill
+        sleep 5
+        cpid=$(ps -ef |grep -c ${tomcat_path})
+        if [ $cpid -gt 1 ]
+        	  then
+      	  ps -ef | grep ${tomcat_path} | grep -v grep | awk '{print $2}' | xargs kill -9
+        fi
+   		echo "${project_name} is stoppped"
+	else
+  	 echo "${project_name} is already stoppped"
+   	fi
+	echo 'kill ok'
+    mv -f target/seezoon-framework-all.war ${tomcat_path}/webapps/ROOT.war
+    cd ${tomcat_path}/bin
+    ./startup.sh && tailf ../logs/catalina.out
+    exit;;
+    2)
+    cd ${source_code_path}/${project_name}/src/main/webapp/static
+    gulp prod
+    \cp -R dist/* ${nginx_static_path}
+    exit;;
+    *)
+    echo "----输入不符合预期，部署终止 ----"
+    exit;;
+esac
