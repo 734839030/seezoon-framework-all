@@ -14,5 +14,8 @@
     "gulp": "^3.9.1",
     "gulp-file-include": "^2.0.0",
     "gulp-replace": "^0.6.1"
+  },
+  "devDependencies": {
+    "gulp-sequence": "^1.0.0"
   }
 }

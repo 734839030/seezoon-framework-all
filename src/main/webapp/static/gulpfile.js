@@ -1,7 +1,8 @@
 //npm install 即可，如果不行再使用下面
 //gulp 需要全局装 
-//npm install gulp gulp-file-include del express gulp-replace -g  
+//npm install gulp gulp-file-include del express gulp-replace gulp-sequence -g  
 //新安装依赖命令后面加上 --save-dev
+var gulpSequence = require('gulp-sequence')
 var gulp = require('gulp');
 var fileinclude  = require('gulp-file-include');
 var replace = require('gulp-replace');
@@ -21,16 +22,16 @@ var setting = {
 }
 // 清空输出文件
 gulp.task('del', function() {
-	del('dist/**/*'); 
+	return del('dist/**/*'); 
 });
 // 复制文件 不包含可以'!src/**'
 gulp.task('copy',function() {
-	  gulp.src(['src/*/plugins/**','src/*/img/**','src/*/css/**'], { base: setting.src })
+	return gulp.src(['src/*/plugins/**','src/*/img/**','src/*/css/**'], { base: setting.src })
 	  .pipe(gulp.dest(setting.dist)); 
 });
 // html include 处理 @@include('include/header.html')
 gulp.task('include',function() {
-	gulp.src(['src/*/pages/**','src/*/js/**'], { base: setting.src })
+	return gulp.src(['src/*/pages/**','src/*/js/**'], { base: setting.src })
 	.pipe(fileinclude({
           prefix: '@@',
           basepath: '@file'
@@ -40,7 +41,7 @@ gulp.task('include',function() {
 });
 gulp.task('watch',function() {
   // 监听到变化
-    gulp.watch('src/**/*.*', function(event) {
+	return gulp.watch('src/**/*.*', function(event) {
   	console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 	
 	if (event.type == 'added' || event.type == 'changed' ||  event.type =='renamed' ) {
@@ -55,7 +56,7 @@ gulp.task('watch',function() {
 		}
 	});
 });
-gulp.task('start',function() {
+gulp.task('start',function(cb) {
 	// 本地测试127.0.0.1 和 local host  有跨域
 	app.all('*', function(req, res, next) {
 	    res.header("Access-Control-Allow-Origin", "*");
@@ -68,15 +69,19 @@ gulp.task('start',function() {
 	app.listen(8888, () => {
 	  console.log('App listening at port 8888');
 	});
+	cb();
 });
 
 // 默认任务
-gulp.task('default', ['copy','include','watch','start']);
-gulp.task("env-uat",function(){
+gulp.task('default', gulpSequence(['copy'],['include'],['watch'],['start']));
+gulp.task("env-uat",function(cb){
 	setting.requestUrlPreffix = uat;
+	cb();
 });
-gulp.task("env-prod",function(){
+gulp.task("env-prod",function(cb){
 	setting.requestUrlPreffix = prod;
+	cb();
 });
-gulp.task('uat', ['del','copy','env-uat','include']);
-gulp.task('prod', ['del','copy','env-prod','include']);
+gulp.task('uat', gulpSequence(['del'],['copy'],['env-uat'],['include']));
+gulp.task('prod', gulpSequence(['del'],['copy'],['env-prod'],['include']));
+
