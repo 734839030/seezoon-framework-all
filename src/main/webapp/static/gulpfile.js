@@ -1,7 +1,5 @@
-//npm install 即可，如果不行再使用下面
-//gulp 需要全局装 
-//npm install gulp gulp-file-include del express gulp-replace -g  
-//新安装依赖命令后面加上 --save-dev
+//npm install
+//npm install gulp gulp-file-include del express gulp-replace  --save-dev
 var gulp = require('gulp');
 var fileinclude  = require('gulp-file-include');
 var replace = require('gulp-replace');
@@ -11,7 +9,7 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var dev = "http://127.0.0.1:8081/seezoon-framework-all";
-var prod = "http://118.31.63.161";
+var prod = "";
 var uat = "";
 var setting = {
 		src:'./src',
