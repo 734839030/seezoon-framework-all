@@ -175,6 +175,17 @@ $(function() {
 			$("#form-panel").modal('toggle');
 		}
 	});
+	//解锁
+	$("#unLock-user").dblclick(function(){
+		var id = $("#form-panel input[name='id']").val();
+		if (id) {
+			$.post(model.path + "/unlock.do",{id:id},function(respone){
+				if (respone.responeCode == '0') {
+					layer.msg("解锁成功");
+				}
+			});
+		}
+	});
 	//设置状态
 	$("body").on("click", ".setStatus", function() {
 		var id = $(this).data("id");
@@ -287,8 +298,7 @@ $(function() {
 				if (row.status == '0') {//禁用状态
 					oper = "<a  href='#' class='text-success sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='1'>启用</a>";
 				} else {//正常状态
-					oper = "<a  href='#' class='text-danger sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='0'>禁用</a> | ";
-					oper = oper + "<a  href='#' class='text-danger sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='2'>解锁</a>";
+					oper = "<a  href='#' class='text-danger sf-permission-ctl setStatus' data-sf-permission='sys:user:update' data-id='" + row.id  + "' data-status='0'>禁用</a>";
 				} 
 				return oper;
 			}

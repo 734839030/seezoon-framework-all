@@ -109,17 +109,25 @@ public class SysUserController extends BaseController {
 		if (ShiroUtils.getUserId().equals(id)) {
 			return ResponeModel.error("自己不能修改自己");
 		}
-		//status 为 2 是账户锁定24小时 解锁
-		if ("2".equals(status)) {
-			SysUser findById = sysUserService.findById(id);
-			Assert.notNull(findById, "解锁用户不存在");
-			loginSecurityService.unLock(findById.getLoginName());
-		} else {
-			SysUser sysUser = new SysUser();
-			sysUser.setId(id);
-			sysUser.setStatus(status);
-			this.sysUserService.updateSelective(sysUser);
-		}
+		SysUser sysUser = new SysUser();
+		sysUser.setId(id);
+		sysUser.setStatus(status);
+		this.sysUserService.updateSelective(sysUser);
+		return ResponeModel.ok();
+	}
+	
+	/**
+	 * 账户锁定24小时 解锁
+	 * 用户信息修改panel 双击图像解锁
+	 * @param id
+	 * @return
+	 */
+	@RequiresPermissions("sys:user:update")
+	@PostMapping("/unlock.do")
+	public ResponeModel setStatus(@RequestParam String id) {
+		SysUser findById = sysUserService.findById(id);
+		Assert.notNull(findById, "解锁用户不存在");
+		loginSecurityService.unLock(findById.getLoginName());
 		return ResponeModel.ok();
 	}
 }

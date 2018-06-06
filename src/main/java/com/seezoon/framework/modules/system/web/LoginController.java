@@ -65,17 +65,17 @@ public class LoginController extends BaseController{
 		} catch (UnknownAccountException|IncorrectCredentialsException|LockedAccountException e) {
 			if (e instanceof UnknownAccountException ) {
 				logger.warn("loging account not exist loginName:{},IP:{},User-Agent:{}",userForm.getLoginName(),ip,userAgent);
-				return ResponeModel.error("账户密码错误");
+				return ResponeModel.error("账户密码错误,连续错误5次将锁定24小时");
 			} else {
 				loginSecurityService.incrementLoginFailTimes(loginName);
 				if (e instanceof IncorrectCredentialsException) {
 					//账户密码错误
 					sysLoginLogService.loginLogByLoginName(SysLoginLog.PASSWORD_WRONG,loginName, ip, userAgent);
-					return ResponeModel.error("账户密码错误");
+					return ResponeModel.error("账户密码错误,连续错误5次将锁定24小时");
 				} else if (e instanceof LockedAccountException) {
 					//账号已被锁定
 					sysLoginLogService.loginLogByLoginName(SysLoginLog.USER_STAUTS_STOP,loginName, ip, userAgent);
-					return ResponeModel.error("账号已被锁定");
+					return ResponeModel.error("账号已被禁用");
 				}
 			}
 		}
