@@ -12,7 +12,7 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var dev = "http://127.0.0.1:8081/seezoon-framework-all";
-var prod = "http://118.31.63.161";
+var prod = "https://dev.seezoon.com";
 var uat = "";
 var setting = {
 		src:'./src',

@@ -18,11 +18,11 @@ import com.seezoon.framework.modules.system.shiro.User;
  * 
  * @author hdf 2017年9月24日
  */
-public class SystemFilter implements HandlerInterceptor {
+public class AdminFilter implements HandlerInterceptor {
 	/**
 	 * 日志对象
 	 */
-	private Logger logger = LoggerFactory.getLogger(SystemFilter.class);
+	private Logger logger = LoggerFactory.getLogger(AdminFilter.class);
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

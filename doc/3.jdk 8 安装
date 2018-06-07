@@ -17,6 +17,9 @@ source /etc/profile
 
 验证
 java -version
+优化
+vim /usr/local/jdk1.8.0_172/jre/lib/security/java.security
+securerandom.source=file:/dev/urandom
 
 常用命令
 jmap -heap [pid] 整个堆状态
