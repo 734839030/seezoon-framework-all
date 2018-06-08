@@ -22,7 +22,7 @@
     select 
     <include refid="Base_Column_List" />
     from sys_dict
-    where id = #{id,jdbcType=VARCHAR} ${dsf}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.system.entity.SysParam" >
     select 

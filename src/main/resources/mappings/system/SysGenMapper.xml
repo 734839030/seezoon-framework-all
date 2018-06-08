@@ -43,7 +43,7 @@
     			menu_name = #{menuName,jdbcType=VARCHAR}
     		</if>
     		<if test="moduleName !=null and moduleName!=''">
-    			module_name = #{moduleName,jdbcType=VARCHAR}
+    			and module_name = #{moduleName,jdbcType=VARCHAR}
     		</if>
     		${dsf}
     </where>
