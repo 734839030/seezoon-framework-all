@@ -39,6 +39,8 @@ $(function() {
 	// 列表
 	$('#table').bootstrapTable({
 		url : model.path + '/qryPage.do',
+		sortName:'l.login_time',
+		sortOrder:'desc',
 		columns : [ {
 			checkbox : true
 		}, 
