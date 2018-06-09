@@ -3,7 +3,6 @@ package com.seezoon.framework.modules;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -15,10 +14,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-
-import com.alibaba.fastjson.JSON;
 
 public class T {
 
@@ -66,8 +62,13 @@ public class T {
 	}
 	@Test
 	public void t7() {
-		String[] split = StringUtils.split("1,dsada;dsad",",;");
-		System.out.println(JSON.toJSONString(split));
-
+//		Field field = ReflectionUtils.findField(demoParam.getClass(), "id");
+//		Class<?> declaringClass = field.getDeclaringClass();
+//		System.out.println(declaringClass.getName());
+//		Class clazz2 = demoParam.getClass();  
+//	    Type type2 = clazz2.getGenericSuperclass();  
+//	    ParameterizedType parameterizedType2 = (ParameterizedType) type2;  
+//	    System.out.println(parameterizedType2);  
+//	    System.out.println(parameterizedType2.getActualTypeArguments()[0].equals(Integer.class));  
 	}
 }

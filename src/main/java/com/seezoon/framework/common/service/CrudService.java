@@ -1,6 +1,12 @@
 package com.seezoon.framework.common.service;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.ReflectionUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -26,11 +33,11 @@ import com.seezoon.framework.common.utils.IdGen;
  * @param <T>
  */
 @Transactional(rollbackFor = Exception.class)
-public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> extends BaseService {
+public class CrudService<D extends CrudDao<T>, T extends BaseEntity<? extends Serializable>> extends BaseService {
 
 	@Autowired
 	protected D d;
-
+	
 	public int save(T t) {
 		t.setCreateDate(new Date());
 		t.setUpdateDate(t.getCreateDate());
@@ -38,8 +45,21 @@ public class CrudService<D extends CrudDao<T>, T extends BaseEntity<String>> ext
 			t.setCreateBy(this.getOperatorUserId());
 		}
 		t.setUpdateBy(t.getCreateBy());
+		//自增主键的insert sql 不能出现插入id 
 		if (null == t.getId() || StringUtils.isEmpty(t.getId().toString())) {
-			t.setId(IdGen.uuid());
+			Class<?> clazz = t.getClass();  
+		    Type type = clazz.getGenericSuperclass();  
+		    ParameterizedType parameterizedType = (ParameterizedType) type;  
+		    if (parameterizedType.getActualTypeArguments()[0].equals(String.class)) {
+		    		//t.setId(IdGen.uuid()); 这个要是编译可以过去就不用这么麻烦去获取主键类型
+		    		Field findField = ReflectionUtils.findField(clazz, "id");
+		    		try {
+		    			    findField.setAccessible(true);
+						findField.set(t, IdGen.uuid());
+				} catch (Exception e) {
+					logger.error("set id error:",e);
+				} 
+		    }
 		}
 		
 		int cnt = d.insert(t);

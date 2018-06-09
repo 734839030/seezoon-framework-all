@@ -1,6 +1,8 @@
 package com.seezoon.framework.common.entity;
 
-public class TreeEntity<PK> extends BaseEntity<PK> {
+import java.io.Serializable;
+
+public class TreeEntity<PK extends Serializable> extends BaseEntity<PK> {
 
 	/**
 	 * 父部门

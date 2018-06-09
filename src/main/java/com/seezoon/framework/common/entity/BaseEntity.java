@@ -1,5 +1,6 @@
 package com.seezoon.framework.common.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -11,7 +12,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * 2018年3月31日
  * @param <PK>
  */
-public class BaseEntity<PK> extends QueryEntity{
+public class BaseEntity<PK extends Serializable> extends QueryEntity{
 	
 	private static final long serialVersionUID = 1L;
 
