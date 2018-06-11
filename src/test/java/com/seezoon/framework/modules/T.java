@@ -9,15 +9,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class T {
 
+	protected Logger logger = LoggerFactory.getLogger(T.class);
 	@Test
 	public void t2() throws Exception  {
 		File file = new File("/Users/hdf/Downloads/1.txt"); 
@@ -70,5 +75,15 @@ public class T {
 //	    ParameterizedType parameterizedType2 = (ParameterizedType) type2;  
 //	    System.out.println(parameterizedType2);  
 //	    System.out.println(parameterizedType2.getActualTypeArguments()[0].equals(Integer.class));  
+	}
+	@Test
+	public void t8() {
+		try {
+			File file= null;
+			file.exists();
+			System.out.println(1/0);
+		} catch (Exception e) {
+			logger.error("dsadsa",e);
+		}
 	}
 }

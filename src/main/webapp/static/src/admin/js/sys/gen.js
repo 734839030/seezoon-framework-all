@@ -60,7 +60,9 @@ $(function() {
 		var tableName = $(this).val();
 		if (tableName) {//查询信息
 			$.post(model.path + "/qryTableInfo.do",{tableName:tableName},function(respone){
-				model.setFormData(respone.data);
+				if (respone.responeCode == '0') {
+					model.setFormData(respone.data);
+				}
 			});
 		} else {//清空
 			model.resetDataForm();

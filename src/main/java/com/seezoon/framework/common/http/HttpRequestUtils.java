@@ -2,14 +2,11 @@ package com.seezoon.framework.common.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -18,6 +15,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
@@ -66,24 +64,19 @@ public class HttpRequestUtils {
 
 	public static String doGet(String url, Map<String, String> params) {
 		Assert.hasLength(url, "请求地址为空");
-		HttpGet httpGet = new HttpGet(url);
 		UrlEncodedFormEntity urlEncodedFormEntity = getUrlEncodedFormEntity(params);
 		if (urlEncodedFormEntity != null) {
 			try {
-				String paramStr = EntityUtils.toString(urlEncodedFormEntity);
-				URL urlO = new URL(url);
-				String query = urlO.getQuery();
-				if (StringUtils.isNotEmpty(query)) {
-					httpGet.setURI(URI.create(url + "&" + paramStr));
-				} else {
-					httpGet.setURI(URI.create(url + "?" + paramStr));
-				}
+				URIBuilder builder = new URIBuilder(url);
+				HttpGet httpGet = new HttpGet(url);
+				builder.setParameters(getNameValuePair(params));
+				String result = execute(httpGet);
+				return result;
 			} catch (Exception e) {
 				throw new ServiceException(e);
 			}
 		}
-		String result = execute(httpGet);
-		return result;
+		return null;
 	}
 
 	public static String doPost(String url, Map<String, String> params) {
@@ -129,17 +122,21 @@ public class HttpRequestUtils {
 
 	private static UrlEncodedFormEntity getUrlEncodedFormEntity(Map<String, String> params) {
 		UrlEncodedFormEntity entity = null;
+		try {
+			entity = new UrlEncodedFormEntity(getNameValuePair(params), DEFAULT_CHARSET);
+		} catch (UnsupportedEncodingException e) {
+		}
+		return entity;
+	}
+
+	private static List<NameValuePair> getNameValuePair(Map<String, String> params){
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		if (null != params && !params.isEmpty()) {
-			List<NameValuePair> list = new ArrayList<NameValuePair>();
 			for (Entry<String, String> entry : params.entrySet()) {
 				list.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 			}
-			try {
-				entity = new UrlEncodedFormEntity(list, DEFAULT_CHARSET);
-			} catch (UnsupportedEncodingException e) {
-			}
 		}
-		return entity;
+		return list;
 	}
 
 	public static void shutDown() {

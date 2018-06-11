@@ -49,6 +49,7 @@ public class SysGenService extends CrudService<SysGenDao, SysGen> {
 	public String findPkType(String tableName) {
 		Assert.hasLength(tableName, "表名为空");
 		String dbPkType = this.d.findPkType(tableName);
+		Assert.hasLength(dbPkType,tableName + " 需要主键，名为id");
 		return GenTypeMapping.getDbJavaMapping(dbPkType);
 	}
 	/**

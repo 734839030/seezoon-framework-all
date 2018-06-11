@@ -7,9 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 
+import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
@@ -56,19 +58,29 @@ public class HttpPoolClient {
 		httpClientConnectionManager = createHttpClientConnectionManager();
 		httpClient = createHttpClient(httpClientConnectionManager);
 	}
-
-	protected CloseableHttpClient createHttpClient(HttpClientConnectionManager connectionManager) {
-		return HttpClients.custom().setConnectionManager(connectionManager)
-				.setUserAgent(httpClientConfig.getUserAgent()).disableContentCompression().disableAutomaticRetries()
-				.build();
+	public CloseableHttpClient getHttpClient() {
+		return httpClient;
 	}
-
-	private HttpClientConnectionManager createHttpClientConnectionManager() {
+	
+	private CloseableHttpClient createHttpClient(HttpClientConnectionManager connectionManager) {
+		//HttpHost proxy = new HttpHost("127.0.0.1",8889);
 		RequestConfig requestConfig = RequestConfig.custom()
+				//.setProxy(proxy)
 				.setConnectionRequestTimeout(httpClientConfig.getConnectionRequestTimeout())// 获取连接等待时间
 				.setConnectTimeout(httpClientConfig.getConnectTimeout())// 连接超时
 				.setSocketTimeout(httpClientConfig.getSocketTimeout())// 获取数据超时
 				.build();
+		httpClient = HttpClients.custom().setConnectionManager(httpClientConnectionManager)
+				.setDefaultRequestConfig(requestConfig)
+				.setUserAgent(httpClientConfig.getUserAgent())
+				.disableContentCompression().disableAutomaticRetries()
+				.setConnectionTimeToLive(httpClientConfig.getConnTimeToLive(), TimeUnit.MILLISECONDS)// 连接最大存活时间
+				.setRetryHandler(new DefaultHttpRequestRetryHandler(httpClientConfig.getRetyTimes(), true))// 重试次数
+				.build();
+		return httpClient;
+	}
+
+	public  HttpClientConnectionManager createHttpClientConnectionManager() {
 		SSLContext sslContext = null;
 		try {
 			sslContext = SSLContexts.custom().loadTrustMaterial(null, new TrustStrategy() {
@@ -96,11 +108,6 @@ public class HttpPoolClient {
 				SocketConfig.custom().setSoTimeout(httpClientConfig.getSocketTimeout()).setSoKeepAlive(true).build());
 		// 连接不活跃多久检查毫秒 并不是100 % 可信
 		poolingHttpClientConnectionManager.setValidateAfterInactivity(httpClientConfig.getValidateAfterInactivity());
-		httpClient = HttpClients.custom().setConnectionManager(httpClientConnectionManager)
-				.setDefaultRequestConfig(requestConfig)
-				.setConnectionTimeToLive(httpClientConfig.getConnTimeToLive(), TimeUnit.MILLISECONDS)// 连接最大存活时间
-				.setRetryHandler(new DefaultHttpRequestRetryHandler(httpClientConfig.getRetyTimes(), true))// 重试次数
-				.build();
 		// 空闲扫描线程
 		HttpClientIdleConnectionMonitor.registerConnectionManager(poolingHttpClientConnectionManager, httpClientConfig);
 		return poolingHttpClientConnectionManager;
@@ -111,6 +118,7 @@ public class HttpPoolClient {
 		this.httpClientConnectionManager.shutdown();
 	}
 
+	
 	public CloseableHttpResponse execute(HttpRequestBase request) {
 		try {
 			return httpClient.execute(request);
@@ -120,4 +128,12 @@ public class HttpPoolClient {
 		}
 	}
 
+	public CloseableHttpResponse execute(HttpRequestBase request,HttpClientContext httpClientContext) {
+		try {
+			return httpClient.execute(request,httpClientContext);
+		} catch (IOException e) {
+			request.abort();
+			throw new ServiceException(e);
+		}
+	}
 }
