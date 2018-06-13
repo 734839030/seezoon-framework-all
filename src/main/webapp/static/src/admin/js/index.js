@@ -1,5 +1,5 @@
 $(function() {
-	var singePage = (localStorage.getItem("mutiPage") && localStorage.getItem("mutiPage") == '0'? true:false);
+	var singePage = !localStorage.getItem("mutiPage") || localStorage.getItem("mutiPage") == '0';
 	model = {
 		path : adminContextPath + "/user",
 		//递归菜单
