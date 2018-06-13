@@ -1,14 +1,14 @@
 $(function() {
+	var singePage = (localStorage.getItem("mutiPage") && localStorage.getItem("mutiPage") == '0'? true:false);
 	model = {
 		path : adminContextPath + "/user",
 		//递归菜单
 		handLeftMenu:function(allMenus,parentId){
 			var menuHtml = "";
-			var active = "";
 			$.each(allMenus,function(i,v){//
 				if (v.parentId == parentId) {//先处理第一级的
 					 if (v.type == '0') {//目录
-						 menuHtml +="<li class='treeview " + active+ "'>" +
+						 menuHtml +="<li class='treeview'>" +
 						 "<a href='#'>" +
 				            "<i class='"+ v.icon +"'></i> <span>" + v.name+ "</span>"+
 				            "<span class='pull-right-container'>"+
@@ -25,9 +25,11 @@ $(function() {
 						 }
 						 if (!v.href) {
 							 v.href = 'javascript:void(0)';
+						 } else {
+							 v.href = "/admin" + v.href;
 						 }
-						 menuHtml += "<li class='" + active + "'>" +
-				          "<a href='/admin" + v.href + "' target='" + v.target  + "'>" +
+						 menuHtml += "<li>" +
+				          "<a class='menu' href='javascript:void(0)' data-href='" + v.href + "' target='" + v.target  + "'>" +
 				            "<i class='" + v.icon + "'></i> <span>" + v.name+ "</span>" +
 				          "</a>" +
 				        "</li>";
@@ -75,7 +77,13 @@ $(function() {
 		},
 		init:function(){
 			//iframe的高度100%  父容器必须是实际高度
-			$("#main-content").height($("#main-content").height()-150);
+			//$("#main-content").height($("#main-content").height()-150);
+			$("iframe").height($("#main-content").height()-160);
+			if (singePage) {
+				$("#single-page").show();
+			} else {
+				$("#layui-tab").show();
+			}
 			//菜单渲染
 			$.post(model.path + "/getUserMenus.do",function(respone){
 				var menu = "";
@@ -110,6 +118,38 @@ $(function() {
 		var $this = $(this);
 		$this.addClass("active");
 		$this.siblings().removeClass("active");
+	});
+	//菜单处理
+	$("body").on("click",".menu",function(){
+		var $this = $(this);
+		var href = $(this).data("href");
+		var target = $(this).attr("target");
+		
+		if ("main" != target) {
+			window.location.href = href;
+		} else { 
+			if (singePage) {
+				window.main.location.href = href;
+			} else {
+				var mainHeight = $(".main-sidebar").height()-$(".main-footer").height()-100;
+				//lay tabs 需要
+				layui.use('element', function(){
+					 var element = layui.element;
+					 if ( $("li[lay-id='" + href +"']").length == 0) {
+						 element.tabAdd('main', {
+							 title: $this.html(),
+							 content: "<iframe  src='" + href +"'  width='100%' height='" + mainHeight +"px' scrolling='auto' frameborder='0'></iframe>", //支持传入html
+							 id: $this.data("href"),
+						 })
+						 element.tabChange('main', href); 
+					 } else {
+						 element.tabChange('main', href); 
+						 //刷新
+						 $("iframe[src='"+ href+ "']").attr("src",href);
+					 }
+				});
+			}
+		}
 	});
 	//退出
 	$("#login-out").click(function(){

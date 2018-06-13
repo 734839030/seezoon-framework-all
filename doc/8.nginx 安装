@@ -15,79 +15,107 @@ make && make install
 
 vim nginx.conf
 参数调优
+user  root;
 worker_processes  auto;
-
-
 worker_rlimit_nofile 65535;
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
 
 events {
     worker_connections 65535;
     multi_accept on;
     use epoll;
+
 }
 
-http {
-	    sendfile        on;
-	    tcp_nopush     on;
-	    tcp_nodelay    on;
-	    open_file_cache max=1024000 inactive=30s;
-	    open_file_cache_valid 20s;
-	    open_file_cache_min_uses 1;
-	
-	    keepalive_timeout 65;
-	    keepalive_requests 8192;
-	    client_body_buffer_size  512k;
-	    proxy_connect_timeout    30;
-	    proxy_read_timeout       300;
-	    proxy_send_timeout       300;
-	    proxy_buffer_size        64k;
-	    proxy_buffers           4 64k;
-	    proxy_busy_buffers_size 128k;
-	    proxy_temp_file_write_size 128k;
-	    proxy_temp_path /tmp;
-	    proxy_cache_path /tmp/cache levels=1:2 keys_zone=cache_one:500m inactive=1d max_size=10g;
-	    gzip on;
-	    gzip_min_length 1k;
-	    gzip_buffers 4 16k;
-	    #gzip_http_version 1.0;
-	    gzip_comp_level 6;
-	    gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/json  image/jpeg image/gif image/png;
-	    gzip_vary off;
-	    gzip_disable "MSIE [1-6]\.";
-	    #多跨域支持，单域名直接写
-	    map $http_origin $corsHost {
-	    		default 0;
-	        "~https://dev.seezoon.com" https://dev.seezoon.com;
-	        "~http://dev.seezoon.com" http://dev.seezoon.com;
-		}
-}   
 
-	 #强制跳转https
-	 server {
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+    sendfile        on;
+	tcp_nopush     on;
+	tcp_nodelay    on;
+	open_file_cache max=1024000 inactive=30s;
+	open_file_cache_valid 20s;
+	open_file_cache_min_uses 1;
+	
+	keepalive_timeout 65;
+	keepalive_requests 8192;
+	client_body_buffer_size  512k;
+	proxy_connect_timeout    30;
+	proxy_read_timeout       300;
+	proxy_send_timeout       300;
+	proxy_buffer_size        64k;
+	proxy_buffers           4 64k;
+	proxy_busy_buffers_size 128k;
+	proxy_temp_file_write_size 128k;
+     proxy_temp_path /tmp;
+     proxy_cache_path /tmp/cache levels=1:2 keys_zone=cache_one:500m inactive=1d max_size=10g;
+     gzip on;
+     gzip_min_length 1k;
+     gzip_buffers 4 16k;
+     gzip_comp_level 6;
+     gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/json  image/jpeg image/gif image/png;
+     gzip_vary off;
+     gzip_disable "MSIE [1-6]\.";
+
+
+     map $http_origin $corsHost {
+     default 0;
+     "~https://dev.seezoon.com" https://dev.seezoon.com;
+     "~http://dev.seezoon.com" http://dev.seezoon.com;
+       }
+
+    upstream tomcat-seezoon {
+        server 127.0.0.1:8080 max_fails=3 fail_timeout=8s;
+     }
+     server {
         listen       80;
         server_name  loalhost;
         rewrite ^(.*)$  https://$host$1 permanent;
-     }
-	server {
-		#ssl
-	    ssl on;
+    }
+    server {
+        listen       443;
+        server_name  localhost;
+
+        #charset koi8-r;
+        ssl on;
         ssl_certificate   /usr/local/nginx/certification/dev/dev.pem;
         ssl_certificate_key  /usr/local/nginx/certification/dev/dev.key;
         ssl_session_timeout 5m;
         ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
         ssl_prefer_server_ciphers on;
-		#跨域
-		location / {
-			add_header Access-Control-Allow-Origin $corsHost;
-			add_header Access-Control-Allow-Credentials "true";
-			add_header Access-Control-Allow-Headers "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With";
-			add_header Access-Control-Expose-Headers "*";
-			add_header Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS";
-			if ($request_method = "OPTIONS" ) {
-				return 200;
-			}
-			add_header Access-Control-Max-Age 86400;
-		}
+        #access_log  logs/host.access.log  main;
+        location ~ \.do$ {
+            proxy_redirect off;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            add_header Access-Control-Allow-Origin $corsHost;
+        add_header Access-Control-Allow-Credentials "true";
+        add_header Access-Control-Allow-Headers "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With";
+        add_header Access-Control-Expose-Headers "*";
+        add_header Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS";
+        if ($request_method = "OPTIONS" ) {
+            return 200;
+        }
+        add_header Access-Control-Max-Age 86400;
+            proxy_pass http://tomcat-seezoon;
 	}
-
+        location / {
+             access_log off;
+            alias   html/seezoon-framework/;
+            index  admin/pages/index.html;
+        }
+}

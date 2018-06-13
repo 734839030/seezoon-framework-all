@@ -73,6 +73,9 @@ public class SysUserController extends BaseController {
 	@RequiresPermissions("sys:user:update")
 	@PostMapping("/update.do")
 	public ResponeModel update(@Validated SysUser sysUser, BindingResult bindingResult) {
+		if (ShiroUtils.isSuperAdmin(sysUser.getId()) && SysUser.STATUS_STOP.equals(sysUser.getStatus())) {
+			return ResponeModel.error("超级管理员不允许修改为禁用状态");
+		}
 		//密码为空则不更新
 		sysUser.setPassword(StringUtils.trimToNull(sysUser.getPassword()));
 		int cnt = sysUserService.updateUserRoleSelective(sysUser);

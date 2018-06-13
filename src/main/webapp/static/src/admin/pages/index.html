@@ -8,14 +8,14 @@
     }
   </style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini " >
 	<div class="wrapper">
 		<header class="main-header">
 			<a href="#" class="logo"> <span class="logo-mini"><b><i class="fa fa-fw fa-desktop"></i></b></span>
 				<span class="logo-lg"><i class="fa fa-fw fa-desktop"></i>    <b>Seezoon快速开发</b></span>
 			</a>
 			<nav class="navbar navbar-static-top" role="navigation">
-				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+				<a href="#" class="sidebar-toggle" data-toggle="push-menu" id="push-menu"
 					role="button"> <span class="sr-only">Toggle navigation</span>
 				</a>
 				<div class="navbar-custom-menu">
@@ -54,11 +54,24 @@
 				</ul>
 			</section>
 		</aside>
+		
 		<div class="content-wrapper" id="main-content">
-			<iframe src="/admin/pages/main.html" name="main" width="100%" height="100%"
+			<!-- 单页 -->
+			<iframe src="/admin/pages/main.html" name="main" width="100%" height="100%" id="single-page" style="display: none;"
 				scrolling="auto" frameborder="0"></iframe>
+			<!-- 多页签 -->
+			<div id="layui-tab" class="layui-tab layui-tab-brief" style="margin: 0px;display: none;"  lay-allowClose="true" lay-filter="main">
+				<ul class="layui-tab-title">
+					 <li class="layui-this">首页</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+						<iframe src='/admin/pages/main.html'  width='100%' height='100%' scrolling='auto' frameborder='0'></iframe>
+   					</div>
+				</div>
+			</div>
 		</div>
-
+	
 		<!-- 个人信息 -->
 		<div class="row undisplay mg5" id="user-center-wrapper"
 			way-scope="model.form.data">
@@ -171,7 +184,6 @@
 				</div>
 			</div>
 		</div>
-    </div>
 		<!-- Main Footer -->
 		<footer class="main-footer">
 			<div class="pull-right hidden-xs">让开发更简单</div>
@@ -180,7 +192,6 @@
 			</strong> All rights reserved.
 		</footer>
 		<div class="control-sidebar-bg"></div>
-	</div>
 	@@include('common/common-js.html')
 	@@include('common/file.html')
 	@@include('common/cropper.html')
