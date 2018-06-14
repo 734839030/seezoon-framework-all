@@ -66,11 +66,9 @@ Gulp |构建工具|[https://www.gulpjs.com.cn/](https://www.gulpjs.com.cn/)
 
 ## 本地运行 ##
 1. 本工程为maven项目，导入eclipse
-2. 建立数据库seezoon-framework，运行/src/main/resources/db/seezoon-framework.sql,配置src/main/resources/datasource/jdbc.properties
-3. 配置/src/main/resources/redis/redis.properties
-4. 运行到tomcat
-5. 运行前端需要先配置/src/main/webapp/static/gulpfile.js
-中dev=后端接口地址上下文，gulp 是node插件，所以先安装node环境，
+2. 建立数据库seezoon-framework，运行/src/main/resources/db/seezoon-framework.sql,配置src/main/resources/env/application.properties
+3. 运行到tomcat 或者 mvn jetty:run
+4. 运行前端需要先配置/src/main/webapp/static/gulpfile.js 中dev=后端接口地址上下文，gulp 是node插件，所以先安装node环境，
 安装完成后命令行执行npm install 安装相关插件，然后再命令行到gulpfile.js 所在目录运行gulp 如图：
 ![gulp运行图](https://raw.githubusercontent.com/734839030/seezoon-framework-all/master/screenshots/gulprun.jpeg)
 static/src 为前端源文件，static/dist 为编译后的静态资源，这边简单用了gulp的include 功能，后续会使用压缩合并等功能。
