@@ -78,7 +78,7 @@ $(function() {
 		init:function(){
 			//iframe的高度100%  父容器必须是实际高度
 			//$("#main-content").height($("#main-content").height()-150);
-			$("iframe").height($("#main-content").height()-160);
+			$("iframe").height($("#main-content").height()-100);
 			if (singePage) {
 				$("#single-page").show();
 			} else {
