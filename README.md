@@ -66,16 +66,18 @@ Gulp |构建工具|[https://www.gulpjs.com.cn/](https://www.gulpjs.com.cn/)
 
 ## 本地运行 ##
 1. 本工程为maven项目，导入eclipse
-2. 建立数据库seezoon-framework，运行/src/main/resources/db/seezoon-framework.sql,配置src/main/resources/env/application.properties
-3. 运行到tomcat 或者 mvn jetty:run
-4. 运行前端需要先配置/src/main/webapp/static/gulpfile.js 中dev=后端接口地址上下文，gulp 是node插件，所以先安装node环境，
+2. 建立数据库seezoon-framework，运行/src/main/resources/db/seezoon-framework.sql,配置src/main/resources/datasource/jdbc.properties
+3. 配置/src/main/resources/redis/redis.properties
+4. 运行到tomcat
+5. 运行前端需要先配置/src/main/webapp/static/gulpfile.js
+中dev=后端接口地址上下文，gulp 是node插件，所以先安装node环境，
 安装完成后命令行执行npm install 安装相关插件，然后再命令行到gulpfile.js 所在目录运行gulp 如图：
-![gulp运行图](https://raw.githubusercontent.com/734839030/seezoon-framework-all/master/screenshots/gulprun.jpeg)
+![gulp运行图](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/gulp-run.png?raw=true)
 static/src 为前端源文件，static/dist 为编译后的静态资源，这边简单用了gulp的include 功能，后续会使用压缩合并等功能。
 
 打开浏览器输入http://127.0.0.1:8888/admin/pages/index.html 自动拦截回到登录页。
-![登录页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/login.png?raw=true)
-后续整理完善后，部署阿里云演示版本。
+![登录页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/login-page.png?raw=true)
+
 
 ## 后续逐步开源如下功能 ##
 * 微信公众号，小程序通用模块
@@ -86,33 +88,28 @@ static/src 为前端源文件，static/dist 为编译后的静态资源，这边
 #### 代码生成 ####
 ![代码生成](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/codegen.png?raw=true)
 #### 首页 ####
-![首页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/index.png?raw=true)
+![首页](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/index-page.png?raw=true)
 #### 用户管理 ####
-![用户管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/user.png?raw=true)
-#### 部门管理 ####
-![部门管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/dept.png?raw=true)
+![用户管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/user-manager.png?raw=true)
 #### 字典管理 ####
 ![地点管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/dict.png?raw=true)
 #### 文件管理 ####
 ![文件管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/file.png?raw=true)
 #### 角色管理 ####
-![角色管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/role.png?raw=true)
+![角色管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/role-manage.png?raw=true)
 #### 菜单管理 ####
-![菜单管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/menuindex.png?raw=true)
-
+![菜单管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/menu1.png?raw=true)
 ![菜单管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/menu2.png?raw=true)
-
-![菜单管理](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/menu3.png?raw=true)
-
 ![图标选择](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/icon.png?raw=true)
-#### 个人信息 ####
-![用户中心](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/usercenter.png?raw=true)
+#### 多主题 ####
+![主题](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/muti-themes.png?raw=true)
+
+> 更多功能参见演示网站。
 
 下面为分布式版本线上案列，小型项目还是一体比较方便。
 ![产品编辑](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/eg1.png?raw=true)
 ![运费](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/eg2.png?raw=true)
- ![规格](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/eg3.png?raw=true)
- ![规格配置](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/eg4.png?raw=true)
-
+![规格](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/eg3.png?raw=true)
+![规格配置](https://github.com/734839030/seezoon-framework-all/blob/master/screenshots/eg4.png?raw=true)
 
 
