@@ -66,9 +66,9 @@ Gulp |构建工具|[https://www.gulpjs.com.cn/](https://www.gulpjs.com.cn/)
 
 ## 本地运行 ##
 1. 本工程为maven项目，导入eclipse
-2. 建立数据库seezoon-framework，运行/src/main/resources/db/seezoon-framework.sql,配置src/main/resources/datasource/jdbc.properties
-3. 配置/src/main/resources/redis/redis.properties
-4. 运行到tomcat
+2. 建立数据库seezoon-framework，运行/src/main/resources/db/seezoon-framework.sql
+3. 配置/src/main/resources/env/application.properties
+4. 运行到tomcat 或者mvn jetty:run
 5. 运行前端需要先配置/src/main/webapp/static/gulpfile.js
 中dev=后端接口地址上下文，gulp 是node插件，所以先安装node环境，
 安装完成后命令行执行npm install 安装相关插件，然后再命令行到gulpfile.js 所在目录运行gulp 如图：
