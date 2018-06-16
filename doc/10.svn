@@ -1,0 +1,30 @@
+团队其他成员不喜欢git
+故安装svn
+yum install subversion -y
+验证 
+svnserve --version
+
+创建svn 仓库repository
+
+svnadmin create /usr/local/svndata
+
+配置更新都无需重启
+vim /usr/local/svndata/conf/svnserve.conf
+anon-access = none
+auth-access = write
+password-db = passwd
+#authz-db = authz  这个是分组分资源库授权 简单实用则不需要,配合authz 文件使用
+
+添加用户
+vim /usr/local/svndata/conf/passwd
+[users]
+huangdf = huangdf
+
+启动
+svnserve -d -r /usr/local/svndata
+启动的是根仓库则访问svn://127.0.0.1 即可，如果启动的是上级目录则加上对应的路径
+关闭
+pkill svnserve
+
+
+
