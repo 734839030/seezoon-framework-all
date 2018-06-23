@@ -15,7 +15,6 @@
       list-style: none;
       overflow: hidden;
     }
-
     .bs-glyphicons li {
       float: left;
       width: 25%;
@@ -52,14 +51,26 @@
   </style>
   <script type="text/javascript">
   $(function(){
+  	$(".glyphicon,.fa").parent().css("cursor","pointer");
 	  $(".glyphicon,.fa").parent().click(function(){
 		    var clas = $(this).find(".glyphicon,.fa").attr("class");
-		    parent.$("input[name='icon']").val(clas);
+		    var color =$("input[name='color']:checked").val();
+		    parent.$("input[name='icon']").val(clas + " " + color);
 		    //预览 
-		    parent.$(".icon").attr("class",".icon").attr("class","icon fa-lg " + clas);
+		    parent.$(".icon").attr("class","icon fa-lg " + clas + " " + color);
 		    var index = parent.layer.getFrameIndex(window.name)
 		    parent.layer.close(index);
 	  });
+	  var oldColor = parent.$(".icon").attr("class");
+	  if (oldColor) {
+		  $("input[name='color']").each(function(i,v){
+			  var color = $(v).val();
+			  if (color && oldColor.indexOf(color) != -1) {
+				  $(this).attr("checked","checked");
+				  return false;
+			  }
+		  });
+	  }
   });
   </script>
 </head>
@@ -67,6 +78,23 @@
 	<div class="wrapper">
 		<div class="content-wrapper ml0">
 			<section class="content">
+			 	<div class="row">
+			 		<div class="col-xs-12">
+			 			<div class="form-group">
+					 		<label class="radio-inline"> <input type="radio"  name="color" value="" checked="checked">默认</label> 
+					 		<label class="radio-inline text-red"> <input type="radio"  name="color" value="text-red">红色</label> 
+					 		<label class="radio-inline text-yellow"> <input type="radio"  name="color" value="text-yellow">黄色</label> 
+					 		<label class="radio-inline text-aqua"> <input type="radio"  name="color" value="text-aqua">水色</label> 
+					 		<label class="radio-inline text-blue"> <input type="radio"  name="color" value="text-blue">蓝色</label> 
+					 		<label class="radio-inline text-light-blue"> <input type="radio"  name="color" value="text-light-blue">亮蓝色</label> 
+					 		<label class="radio-inline text-green"> <input type="radio"  name="color" value="text-green">绿色</label> 
+					 		<label class="radio-inline text-gray"> <input type="radio"  name="color" value="text-gray">灰色</label> 
+					 		<label class="radio-inline text-navy"> <input type="radio"  name="color" value="text-navy">藏青色</label> 
+					 		<label class="radio-inline text-purple"> <input type="radio"  name="color" value="text-purple">紫色</label> 
+					 		<label class="radio-inline text-orange"> <input type="radio"  name="color" value="text-orange">橙色</label> 
+			 			</div>
+			 		</div>
+			 	</div>
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="nav-tabs-custom">

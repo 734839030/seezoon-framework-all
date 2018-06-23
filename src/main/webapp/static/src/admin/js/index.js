@@ -126,10 +126,15 @@ $(function() {
 		var target = $(this).attr("target");
 		
 		if ("main" != target) {
-			window.location.href = href;
+			window.open(href,target);
+			//window.location.href = href;
 		} else { 
 			if (singePage) {
-				window.main.location.href = href;
+				if ("main" == target) {
+					window.main.location.href = href;
+				} else {
+					window.open(href,target);
+				}
 			} else {
 				var mainHeight = $(".main-sidebar").height()-$(".main-footer").height()-100;
 				//lay tabs 需要
