@@ -1,7 +1,5 @@
 package com.seezoon.framework.modules.system.web;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authc.IncorrectCredentialsException;

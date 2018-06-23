@@ -64,19 +64,15 @@ public class HttpRequestUtils {
 
 	public static String doGet(String url, Map<String, String> params) {
 		Assert.hasLength(url, "请求地址为空");
-		UrlEncodedFormEntity urlEncodedFormEntity = getUrlEncodedFormEntity(params);
-		if (urlEncodedFormEntity != null) {
-			try {
-				URIBuilder builder = new URIBuilder(url);
-				HttpGet httpGet = new HttpGet(url);
-				builder.setParameters(getNameValuePair(params));
-				String result = execute(httpGet);
-				return result;
-			} catch (Exception e) {
-				throw new ServiceException(e);
-			}
+		try {
+			URIBuilder builder = new URIBuilder(url);
+			builder.setParameters(getNameValuePair(params));
+			HttpGet httpGet = new HttpGet(builder.toString());
+			String result = execute(httpGet);
+			return result;
+		} catch (Exception e) {
+			throw new ServiceException(e);
 		}
-		return null;
 	}
 
 	public static String doPost(String url, Map<String, String> params) {
