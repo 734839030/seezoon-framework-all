@@ -30,11 +30,11 @@ $(document).ajaxStart(function() {// 开始
 		layer.msg("请求超时，请重试");
 	} else if ("Not Found" == thrownError) {
 		layer.msg("请求路径错误,请检查");
-	} else if ("failed" == jqxhr.status) {
+	} else if (0 == jqxhr.status) {
 		layer.msg("网络连接失败");
 	} else {
-		if (!jqxhr.status) {
-			layer.msg("服务器故障");
+		if (jqxhr.status) {
+			layer.msg(jqxhr.status + "服务器故障");
 		}
 	}
 }).ajaxSuccess(function(event, xhr, settings) {
