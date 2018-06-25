@@ -1,8 +1,11 @@
 $(function() {
+	var singePage = !localStorage.getItem("mutiPage") || localStorage.getItem("mutiPage") == '0';
 	//iframe的高度100%  父容器必须是实际高度
 	$("#main-content").height($(".main-sidebar").height() - $(".main-footer").height()-42);
-	$("iframe").height($(".main-sidebar").height() - $(".main-footer").height()-90);
-	var singePage = !localStorage.getItem("mutiPage") || localStorage.getItem("mutiPage") == '0';
+	if (!singePage) {
+		//多页签
+		$("iframe").height($(".main-sidebar").height() - $(".main-footer").height()-90);
+	}
 	model = {
 		path : adminContextPath + "/user",
 		//递归菜单
