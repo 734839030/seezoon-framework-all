@@ -1,4 +1,7 @@
 $(function() {
+	//iframe的高度100%  父容器必须是实际高度
+	$("#main-content").height($(".main-sidebar").height() - $(".main-footer").height()-42);
+	$("iframe").height($(".main-sidebar").height() - $(".main-footer").height()-90);
 	var singePage = !localStorage.getItem("mutiPage") || localStorage.getItem("mutiPage") == '0';
 	model = {
 		path : adminContextPath + "/user",
@@ -26,7 +29,10 @@ $(function() {
 						 if (!v.href) {
 							 v.href = 'javascript:void(0)';
 						 } else {
-							 v.href = "/admin" + v.href;
+							 var regx = /^https?:/;
+							 if (!regx.test(v.href)) {
+								 v.href = "/admin" + v.href;
+							 }
 						 }
 						 menuHtml += "<li>" +
 				          "<a class='menu' href='javascript:void(0)' data-href='" + v.href + "' target='" + v.target  + "'>" +
@@ -76,9 +82,6 @@ $(function() {
 			}
 		},
 		init:function(){
-			//iframe的高度100%  父容器必须是实际高度
-			//$("#main-content").height($("#main-content").height()-150);
-			$("iframe").height($("#main-content").height()-100);
 			if (singePage) {
 				$("#single-page").show();
 			} else {
@@ -136,7 +139,7 @@ $(function() {
 					window.open(href,target);
 				}
 			} else {
-				var mainHeight = $(".main-sidebar").height()-$(".main-footer").height()-100;
+				var mainHeight = $(".main-sidebar").height()-$(".main-footer").height()-90;
 				//lay tabs 需要
 				layui.use('element', function(){
 					 var element = layui.element;
