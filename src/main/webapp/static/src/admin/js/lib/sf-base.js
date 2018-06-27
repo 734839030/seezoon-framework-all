@@ -33,8 +33,8 @@ $(document).ajaxStart(function() {// 开始
 	} else if (0 == jqxhr.status) {
 		layer.msg("网络连接失败");
 	} else {
-		if (jqxhr.status) {
-			layer.msg(jqxhr.status + "服务器故障");
+		if (thrownError) {
+			layer.msg(jqxhr.status + ":" + thrownError);
 		}
 	}
 }).ajaxSuccess(function(event, xhr, settings) {
