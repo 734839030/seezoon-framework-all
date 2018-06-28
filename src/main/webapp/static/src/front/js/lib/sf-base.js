@@ -12,6 +12,7 @@ var frontContextPath = requestPath + "/f";
  * 公共
  */
 var publicContextPath = requestPath + "/public"; 
+
 // wayjs 默认不存储localstoreage
 way.options.persistent = false;
 /**
@@ -32,11 +33,7 @@ $(document).ajaxStart(function() {// 开始
 		layer.msg("请求路径错误,请检查");
 	} else if (0 == jqxhr.status) {
 		layer.msg("网络连接失败");
-	} else {
-		if (thrownError) {
-			layer.msg(jqxhr.status + ":" + thrownError);
-		}
-	}
+	} 
 }).ajaxSuccess(function(event, xhr, settings) {
 	if (xhr.responseText) {
 		var data = $.parseJSON(xhr.responseText);
@@ -60,7 +57,8 @@ $.ajaxSetup({
 	crossDomain:true,
 	statusCode : {
 		310 :function(){//未登录
-			layer.msg("未登录");
+			//layer.msg("未登录");
+			location.href = publicContextPath + "/wechat/oauth2.do?scope=snsapi_base&redirectUrl=" + encodeURIComponent(location.href);
 		},
 		404 : function() {
 		  layer.msg("请求路径错误");

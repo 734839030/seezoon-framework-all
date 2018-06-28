@@ -32,11 +32,7 @@ $(document).ajaxStart(function() {// 开始
 		layer.msg("请求路径错误,请检查");
 	} else if (0 == jqxhr.status) {
 		layer.msg("网络连接失败");
-	} else {
-		if (thrownError) {
-			layer.msg(jqxhr.status + ":" + thrownError);
-		}
-	}
+	} 
 }).ajaxSuccess(function(event, xhr, settings) {
 	if (xhr.responseText) {
 		var data = $.parseJSON(xhr.responseText);

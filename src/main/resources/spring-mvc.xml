@@ -56,6 +56,12 @@
         <mvc:mapping path="/a/**" /> 
         <bean class="com.seezoon.framework.modules.system.filter.AdminFilter"></bean>    
     </mvc:interceptor>
+    <mvc:interceptor>    
+        <!-- 匹配的是url路径，后端通用拦截器 -->  
+        <mvc:mapping path="/f/**" /> 
+        <mvc:exclude-mapping path="/f/wechat/auth2Login.do"/>
+        <bean class="com.seezoon.framework.front.session.FrontSessionFilter"></bean>    
+    </mvc:interceptor>
     </mvc:interceptors>
     <!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->
 	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">

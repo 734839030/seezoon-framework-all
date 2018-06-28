@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.seezoon.framework.modules.wechat.dao.WechatUserInfoDao" >
+  <resultMap id="BaseResultMap" type="com.seezoon.framework.modules.wechat.entity.WechatUserInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="head_img_url" property="headImgUrl" jdbcType="VARCHAR" />
+    <result column="subscribe" property="subscribe" jdbcType="VARCHAR" />
+    <result column="subscribe_time" property="subscribeTime" jdbcType="TIMESTAMP" />
+    <result column="subscribe_scene" property="subscribeScene" jdbcType="VARCHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  id,nickname,sex,country,province,city,head_img_url,subscribe,subscribe_time,subscribe_scene,openid,unionid,create_by,create_date,update_by,update_date,remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wechat_user_info
+    where id = #{id}
+  </select>
+  <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.wechat.entity.WechatUserInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from wechat_user_info
+    <where>
+    <if test="nickname !=null and nickname!=''">
+    and nickname like concat("%",#{nickname},"%")
+    </if>
+     <if test="openid !=null and openid!=''">
+    and openid = #{openid}
+    </if>
+    <if test="sex !=null and sex!=''">
+    and sex = #{sex}
+    </if>
+	${dsf}
+    </where>
+	<choose>
+    <when test="sortField != null and sortField != '' and direction != null and direction !=''">
+    order by ${sortField} ${direction}
+    </when>
+    <otherwise>
+   <!-- 默认排序设置 -->
+    </otherwise>
+    </choose>
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from wechat_user_info
+    where id = #{id} ${dsf}
+  </delete>
+  <insert id="insert" parameterType="com.seezoon.framework.modules.wechat.entity.WechatUserInfo" >
+    insert into wechat_user_info (id,nickname,sex,country,province,city,head_img_url,subscribe,subscribe_time,subscribe_scene,openid,unionid,create_by,create_date,update_by,update_date,remarks)
+    values (#{id},#{nickname},#{sex},#{country},#{province},#{city},#{headImgUrl},#{subscribe},#{subscribeTime},#{subscribeScene},#{openid},#{unionid},#{createBy},#{createDate},#{updateBy},#{updateDate},#{remarks})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seezoon.framework.modules.wechat.entity.WechatUserInfo" >
+    update wechat_user_info
+    <set>
+      <if test="nickname != null" >
+        nickname = #{nickname},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex},
+      </if>
+      <if test="country != null" >
+        country = #{country},
+      </if>
+      <if test="province != null" >
+        province = #{province},
+      </if>
+      <if test="city != null" >
+        city = #{city},
+      </if>
+      <if test="headImgUrl != null" >
+        head_img_url = #{headImgUrl},
+      </if>
+      <if test="subscribe != null" >
+        subscribe = #{subscribe},
+      </if>
+      <if test="subscribeTime != null" >
+        subscribe_time = #{subscribeTime},
+      </if>
+      <if test="subscribeScene != null" >
+        subscribe_scene = #{subscribeScene},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid},
+      </if>
+      <if test="unionid != null" >
+        unionid = #{unionid},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks},
+      </if>
+    </set>
+    where id = #{id} ${dsf}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.wechat.entity.WechatUserInfo" >
+    update wechat_user_info
+    set 
+        nickname = #{nickname}
+        ,sex = #{sex}
+        ,country = #{country}
+        ,province = #{province}
+        ,city = #{city}
+        ,head_img_url = #{headImgUrl}
+        ,subscribe = #{subscribe}
+        ,subscribe_time = #{subscribeTime}
+        ,subscribe_scene = #{subscribeScene}
+        ,openid = #{openid}
+        ,unionid = #{unionid}
+        ,update_by = #{updateBy}
+        ,update_date = #{updateDate}
+        ,remarks = #{remarks}
+    where id = #{id} ${dsf}
+  </update>
+</mapper>

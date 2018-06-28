@@ -1,8 +1,9 @@
 $(function() {
-	var model = {
-		path : adminContextPath + "/sys/param",
+    	var model = {
+		path : adminContextPath + "/wechat/userinfo",
 		resetDataForm : function() {
 			$("#data-form").bootstrapValidator('resetForm', true);
+			//表单默认值可以在这里设置
 			way.set("model.form.data",null);
 		},
 		getFormData : function() {
@@ -23,34 +24,18 @@ $(function() {
 		setViewDataById:function(id){
 			$.get(this.path + "/get.do",{id:id},function(respone){
 				way.set("model.view",respone.data);
+				    way.set("model.view.sex",$.getDictName('sex',respone.data.sex));
+				    way.set("model.view.subscribe",$.getDictName('yes_no',respone.data.subscribe));
 			})
 		},
-	};
-	// 校验
-	$("#data-form").bootstrapValidator({
-		fields:{
-			paramKey:{
-				validators:{
-					threshold:1,
-					remote: {
-	                    url: model.path + "/checkParamKey.do",//验证地址
-	                    data:{
-		                    	id:function(){
-		                    		return model.getFormData().id;
-		                    },
-		                    paramKey:function(){
-		                    		return model.getFormData().paramKey;
-		                    	},
-	                    },
-	                    message: '键已存在',//提示消息
-	                    type:'post',
-	                   delay: 500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
-	                },
-				}
-			}
+		init:function(){//需要初始化的功能
 		}
-	}).on("success.form.bv", function(e) {// 提交
+	};
+	model.init();
+	// 校验
+	$("#data-form").bootstrapValidator().on("success.form.bv", function(e) {// 提交
 		e.preventDefault();
+		
 		var id = model.getFormData().id;
 		var optUrl = model.path + "/save.do";
 		if (id) {
@@ -63,6 +48,17 @@ $(function() {
 				$("#form-panel").modal('toggle');
 			}
 		});
+	});
+	//查看图像
+	$("body").on("click", ".viewImages", function() {
+		var url = $(this).data("url");
+		layer.photos({
+		    photos: {
+		    	title: "图像", //相册标题
+		    	data:[{src:url}]
+		    },
+		    anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+		  });
 	});
 	/**
 	 * 查看
@@ -123,25 +119,72 @@ $(function() {
 		url : model.path + '/qryPage.do',
 		columns : [ {
 			checkbox : true
-		}, {
-			field : 'name',
-			title : '名称',
-			formatter : function(value, row, index) {
+		}, 
+			{
+			field : 'nickname',
+			title : '昵称',
+            formatter : function(value, row, index) {
 			    return "<a href='#' class='view text-success' data-id='" + row.id + "'>" + value + "</a>"
+			 }
+			},
+			{
+			field : 'sex',
+			title : '性别',
+			formatter : function(value, row, index) {
+			    return $.getDictName('sex',value);
+			 }
+			},
+			{
+			field : 'country',
+			title : '国家',
+			},
+			{
+			field : 'province',
+			title : '省份',
+			},
+			{
+			field : 'city',
+			title : '城市',
+			},
+			{
+			field : 'headImgUrl',
+			title : '图像',
+			cellStyle:function cellStyle(value, row, index, field) {
+				  return {
+					    css: {"width": "50px", "padding": "3px","text-align":"center","cursor":'pointer'}
+					  };
+					},
+			formatter : function(value, row, index) {
+				if (value) {
+					return "<image src='" + value  + "' class='viewImages' style='width:40px;height:40px;' data-url='" + value + "'/>";
+				} else {
+					return value;
+				}
 			}
-			
-		}, {
-			field : 'paramKey',
-			title : '键',
-		}, {
-			field : 'paramValue',
-			title : '值'
-		}, {
+			},
+			{
+			field : 'subscribe',
+			title : '是否关注',
+			formatter : function(value, row, index) {
+			    return $.getDictName('yes_no',value);
+			 }
+			},
+			{
+			field : 'subscribeTime',
+			title : '关注时间',
+			sortName : 'subscribe_time',
+			sortable : true,
+			order : 'desc',
+			},
+			{
+			field : 'subscribeScene',
+			title : '关注场景',
+			},
+			{
 			field : 'updateDate',
 			title : '更新时间',
-			sortName : 'update_date',
-			sortable : true,
-			order : 'desc'
-		} ]
+			},
+		 ]
 	});
+	
 });

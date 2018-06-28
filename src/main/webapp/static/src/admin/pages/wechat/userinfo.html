@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>@@include('../common/header.html',{"title":"用户信息"})
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<div class="content-wrapper ml0">
+			<section class="content-header">
+				<h1>用户信息</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>模块名称</a></li>
+					<li class="active">用户信息</li>
+				</ol>
+			</section>
+			<section class="content container-fluid">
+				<div class="box box-primary">
+					<div class="box-body">
+						<form class="form-inline" way-scope="model.search">
+										<div class="form-group">
+										<input type="text" class="form-control" placeholder="昵称" name="nickname" way-data="nickname" maxlength="100"  >
+										</div>
+									<div class="form-group">
+										<select class="form-control sf-select" way-data="sex"
+											name="sex" data-sf-dict-type="sex">
+											<option value="">请选择</option>
+										</select>
+									</div>
+							<button type="button" class="btn btn-default sf-permission-ctl" id="search" data-sf-permission="wechat:userinfo:qry">
+								<i class="fa fa-search"></i>
+							</button>
+							<div class="btn-group pull-right">
+								<!-- <button type="button" class="btn btn-primary sf-permission-ctl" id="add" data-sf-permission="wechat:userinfo:save">
+									<i class="fa fa-plus"></i>
+								</button> -->
+								<button type="button" class="btn btn-info sf-permission-ctl" id="edit" data-sf-permission="wechat:userinfo:update">
+									<i class="fa fa-edit"></i>
+								</button>
+								<button type="button" class="btn btn-danger sf-permission-ctl" id="delete" data-sf-permission="wechat:userinfo:delete">
+									<i class="fa fa-trash-o"></i>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="box">
+					<div class="box-body">
+						<!-- table -->
+						<table id="table"></table>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<!-- 添加与修改start -->
+	<div class="modal fade" id="form-panel" way-scope="model.form">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" way-data="title" way-html="true"></h4>
+				</div>
+				<form class="form-horizontal" way-scope="data" id="data-form">
+					<div class="modal-body">
+							<input type="hidden" way-data="id" name="id">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">昵称</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="nickname" maxlength="100"
+											name="nickname"  >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">性别</label>
+									<div class="col-sm-5">
+										<select class="form-control sf-select" way-data="sex"
+											name="sex" data-sf-dict-type="sex" >
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">国家</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="country" maxlength="64"
+											name="country"  >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">省份</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="province" maxlength="64"
+											name="province"  >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">城市</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="city" maxlength="64"
+											name="city"  >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">图像</label>
+									<div class="col-sm-5">
+										<img src="" way-data="headImgUrl">
+										<input type="hidden" class="form-control" way-data="headImgUrl" maxlength="500"
+											name="headImgUrl"  >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">是否关注</label>
+									<div class="col-sm-5">
+										<select class="form-control sf-select" way-data="subscribe"
+											name="subscribe" data-sf-dict-type="yes_no" >
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">关注时间</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control date" way-data="subscribeTime" 
+											name="subscribeTime"  >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">关注场景</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="subscribeScene" maxlength="100"
+											name="subscribeScene"  >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">openid<font class="text-red">*</font></label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="openid" maxlength="64"
+											name="openid"  required >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">unionid</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" way-data="unionid" maxlength="100"
+											name="unionid"  >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">备注信息</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="3" way-data="remarks" name="remarks" maxlength="255"   ></textarea>
+									</div>
+								</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left"
+							data-dismiss="modal">
+							<i class="fa fa-times"></i> 取消
+						</button>
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 添加与修改end -->
+	<!--查看  start-->
+	<div class="modal fade" id="modal-view" role="dialog"
+		way-scope="model.view">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">用户信息</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+								<div class="form-group">
+								<label class="col-sm-2 control-label">昵称:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="nickname" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">性别:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="sex" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">国家:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="country" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">省份:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="province" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">城市:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="city" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">图像:</label>
+								    <div class="col-sm-10">
+								    <img alt="" src="" way-data="headImgUrl">
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">是否关注:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="subscribe" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">关注时间:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="subscribeTime" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">关注场景:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="subscribeScene" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">openid:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="openid" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">unionid:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="unionid" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">创建时间:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="createDate" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">更新时间:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="updateDate" ></p>
+									</div>
+								</div>	
+								<div class="form-group">
+								<label class="col-sm-2 control-label">备注信息:</label>
+								    <div class="col-sm-10">
+									<p class="form-control-static" way-data="remarks" ></p>
+									</div>
+								</div>	
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	@@include('../common/common-js.html')
+	<script src="/admin/js/wechat/userinfo.js"></script>
+</body>
+</html>

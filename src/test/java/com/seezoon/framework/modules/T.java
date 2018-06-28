@@ -20,6 +20,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.beust.jcommander.internal.Maps;
+import com.seezoon.framework.common.http.HttpRequestUtils;
+
 public class T {
 
 	protected Logger logger = LoggerFactory.getLogger(T.class);
@@ -78,12 +81,6 @@ public class T {
 	}
 	@Test
 	public void t8() {
-		try {
-			File file= null;
-			file.exists();
-			System.out.println(1/0);
-		} catch (Exception e) {
-			logger.error("dsadsa",e);
-		}
+		String ipInfo = HttpRequestUtils.doGet("http://ip.taobao.com/service/getIpInfo.php", Maps.newHashMap("ip","223.73.212.106"));
 	}
 }

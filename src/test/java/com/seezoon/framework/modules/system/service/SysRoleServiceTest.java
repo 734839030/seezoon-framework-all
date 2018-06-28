@@ -1,6 +1,7 @@
 package com.seezoon.framework.modules.system.service;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
@@ -52,6 +53,11 @@ public class SysRoleServiceTest extends BaseJunitTest{
 			sysRole.setName("role" + RandomStringUtils.randomAscii(5));
 			sysRoleService.save(sysRole);
 		}
+	}
+	@Test
+	public void t6() {
+		Long expire = valueOperations.getOperations().getExpire("sdsada",TimeUnit.SECONDS);
+		System.out.println(expire);
 	}
 
 }

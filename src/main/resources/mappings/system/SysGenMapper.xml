@@ -73,7 +73,7 @@
   </select>
   <select id="findColumnByTableName" parameterType="String" resultType="com.seezoon.framework.modules.system.dto.DbTableColumn">
 	select
-	t.column_name name,
+	lower(t.column_name) name,
 	if(t.is_nullable = 'yes' , '1' , '0') nullable,
 	(t.ordinal_position * 10) sort ,
 	t.column_comment comment ,

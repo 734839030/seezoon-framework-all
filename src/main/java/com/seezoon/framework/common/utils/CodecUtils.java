@@ -5,6 +5,8 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.util.Assert;
 
 /**
  * 编解码器
@@ -51,5 +53,21 @@ public class CodecUtils {
 	
 	public static String base64Encode(byte[] data) {
 		return Base64.encodeBase64String(data);
+	}
+	public static String md5(String data) {
+		Assert.hasLength(data,"待md5 数据为空");
+		return DigestUtils.md5Hex(data);
+	}
+	public static String sha1(String data) {
+		Assert.hasLength(data,"待sha1 数据为空");
+		return DigestUtils.sha1Hex(data);
+	}
+	
+	public static String sha256(String data) {
+		Assert.hasLength(data,"待sha256 数据为空");
+		return DigestUtils.sha256Hex(data);
+	}
+	public static void main(String[] args) {
+		
 	}
 }
