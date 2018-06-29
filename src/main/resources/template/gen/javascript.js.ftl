@@ -87,7 +87,7 @@ $(function() {
 		<#list columnInfos as columnInfo>
 		<#if columnInfo.inputType! == "richtext">
 		 editor${columnInfo.javaFieldName ? cap_first}.sync();
-		 <#if columnInfo.inputType! == "date" && columnInfo.nullable! !="1">>
+		 <#if columnInfo.nullable! !="1">>
 		 if (!$("textarea[name='${columnInfo.javaFieldName}']").val()){
 			layer.msg("${columnInfo.columnComment}不能为空");
 			$('#data-form').bootstrapValidator('disableSubmitButtons', false);  
