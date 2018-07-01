@@ -26,4 +26,7 @@ public class IdGen {
 		return Math.abs(random.nextLong());
 	}
 
+	public static void main(String[] args) {
+		System.out.println(uuid());
+	}
 }

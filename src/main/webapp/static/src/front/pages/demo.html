@@ -4,9 +4,25 @@
 
 </head>
 <body>
-<a class="weui-btn weui-btn_primary" id="getUserInfo">获取用户信息1</a>
-@@include('common/footer.html')
-<script src="/front/js/demo.js"></script>
-@@include('common/wx-js.html')
+	<a class="weui-btn weui-btn_primary" id="getUserInfo">获取用户信息</a>
+
+	<a class="weui-btn weui-btn_primary" id="pay">支付1分</a>
+
+	<a class="weui-btn weui-btn_primary" id="qrpay1">扫码模式一支付1分</a>
+	<div id="qrcode1"></div>
+
+
+	<div class="page__bd">
+		<article class="weui-article">
+			<h1>静态二维码支付1分</h1>
+			<section>
+				<div id="qrcode2"></div>
+			</section>
+		</article>
+	</div>
+	@@include('common/footer.html')
+	<script src="/front/plugins/qrcode/qrcode.min.js"></script>
+	<script src="/front/js/demo.js"></script>
+	@@include('common/wx-js.html')
 </body>
 </html>

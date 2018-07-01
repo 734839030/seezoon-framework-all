@@ -98,20 +98,20 @@ http {
         ssl_prefer_server_ciphers on;
         #access_log  logs/host.access.log  main;
         location ~ \.do$ {
-            proxy_redirect off;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Real-PORT $remote_port;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            add_header Access-Control-Allow-Origin $corsHost;
-        add_header Access-Control-Allow-Credentials "true";
-        add_header Access-Control-Allow-Headers "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With";
-        add_header Access-Control-Expose-Headers "*";
-        add_header Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS";
-        if ($request_method = "OPTIONS" ) {
-            return 200;
-        }
-        add_header Access-Control-Max-Age 86400;
+	        proxy_redirect off;
+	        proxy_set_header Host $host;
+	        proxy_set_header X-Real-IP $remote_addr;
+	        proxy_set_header X-Real-PORT $remote_port;
+	        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	        add_header Access-Control-Allow-Origin $corsHost;
+	        add_header Access-Control-Allow-Credentials "true";
+	        add_header Access-Control-Allow-Headers "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With";
+	        add_header Access-Control-Expose-Headers "*";
+	        add_header Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS";
+	        if ($request_method = "OPTIONS" ) {
+	            return 200;
+	        }
+	        add_header Access-Control-Max-Age 86400;
             proxy_pass http://tomcat-seezoon;
 	}
         location / {
@@ -139,3 +139,31 @@ allow 192.168.1.0/24;
 allow 10.1.1.0/16;
 allow 2001:0db8::/32;
 deny  all;
+
+
+include extra/wx_dev.conf;
+//微信 本机开发共配置
+server {
+    listen       80;
+    server_name  wx-dev.seezoon.com;
+    location ~ \.do$ {
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Real-PORT $remote_port;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        add_header Access-Control-Allow-Origin http://wx-dev.seezoon.com;
+        add_header Access-Control-Allow-Credentials "true";
+        add_header Access-Control-Allow-Headers "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With";
+        add_header Access-Control-Expose-Headers "*";
+        add_header Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS";
+        if ($request_method = "OPTIONS" ) {
+            return 200;
+        }
+        add_header Access-Control-Max-Age 86400;
+        proxy_pass http://h734839030.imwork.net:39806;
+    }
+    location / {
+        proxy_pass http://h734839030.imwork.net:12186;
+    }
+}

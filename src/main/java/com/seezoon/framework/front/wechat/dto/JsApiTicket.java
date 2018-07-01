@@ -1,7 +1,7 @@
 package com.seezoon.framework.front.wechat.dto;
 
 /**
- * 
+ * 根据token 获取js ticket
  * @author hdf
  * 2018年6月29日
  */

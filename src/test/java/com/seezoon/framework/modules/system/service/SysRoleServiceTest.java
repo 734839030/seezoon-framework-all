@@ -12,7 +12,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 
+import com.seezoon.framework.common.context.support.SpringContextHolder;
 import com.seezoon.framework.common.context.test.BaseJunitTest;
+import com.seezoon.framework.front.wechat.service.PayResultHandler;
 import com.seezoon.framework.modules.system.entity.SysRole;
 
 public class SysRoleServiceTest extends BaseJunitTest{
@@ -58,6 +60,11 @@ public class SysRoleServiceTest extends BaseJunitTest{
 	public void t6() {
 		Long expire = valueOperations.getOperations().getExpire("sdsada",TimeUnit.SECONDS);
 		System.out.println(expire);
+	}
+	@Test
+	public void t7() {
+		PayResultHandler bean = SpringContextHolder.getBean("demoPayHandler", PayResultHandler.class);
+		System.out.println(bean.handle(null));
 	}
 
 }

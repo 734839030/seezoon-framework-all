@@ -2,7 +2,7 @@ package com.seezoon.framework.front.wechat.dto;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.seezoon.framework.common.context.exception.ServiceException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class BaseWechatDto {
 
@@ -21,12 +21,8 @@ public class BaseWechatDto {
 	public void setErrmsg(String errmsg) {
 		this.errmsg = errmsg;
 	}
-	
+	@JsonIgnore
 	public boolean isSuccess() {
-		if (StringUtils.isEmpty(errcode) || "0".equals(errcode)) {
-			return true;
-		} else {
-			return false;
-		}
+		return StringUtils.isEmpty(errcode) || "0".equals(errcode);
 	}
 }

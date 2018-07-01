@@ -67,9 +67,10 @@
 		<!-- 定时任务 -->
 		<elastic.job.version>2.1.5</elastic.job.version>
 		<useragent.version>1.21</useragent.version>
+		<jackson.version>2.9.6</jackson.version>
 	</properties>
 	<!-- 不同环境配置文件打包 mvn package -P id -->
-	<profiles> 
+	<profiles>
 		<profile>
 			<id>dev</id>
 			<properties>
@@ -458,6 +459,15 @@
 			<groupId>eu.bitwalker</groupId>
 			<artifactId>UserAgentUtils</artifactId>
 			<version>${useragent.version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>com.fasterxml.jackson.core</groupId> <artifactId>jackson-annotations</artifactId> 
+			<version>${jackson.version}</version> </dependency> <dependency> <groupId>com.fasterxml.jackson.core</groupId> 
+			<artifactId>jackson-core</artifactId> <version>${jackson.version}</version> 
+			</dependency> -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

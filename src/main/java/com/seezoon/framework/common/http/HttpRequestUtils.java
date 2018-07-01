@@ -62,6 +62,11 @@ public class HttpRequestUtils {
 		return execute(httpPost);
 	}
 
+	public static String postXml(String url,String content) {
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setEntity(new StringEntity(content, ContentType.create("application/xml", "UTF-8")));
+		return execute(httpPost);
+	}
 	public static String doGet(String url, Map<String, String> params) {
 		Assert.hasLength(url, "请求地址为空");
 		try {

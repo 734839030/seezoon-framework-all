@@ -9,19 +9,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
 import com.beust.jcommander.internal.Maps;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.seezoon.framework.common.http.HttpRequestUtils;
+import com.seezoon.framework.front.wechat.dto.UnifiedOrder;
+import com.seezoon.framework.front.wechat.utils.WxUtils;
 
 public class T {
 
@@ -82,5 +91,24 @@ public class T {
 	@Test
 	public void t8() {
 		String ipInfo = HttpRequestUtils.doGet("http://ip.taobao.com/service/getIpInfo.php", Maps.newHashMap("ip","223.73.212.106"));
+	}
+	@Test
+	public void t9() throws JsonProcessingException {
+		UnifiedOrder order = new UnifiedOrder();
+		order.setAppid("1");
+		 XmlMapper xmlMapper = new XmlMapper();
+		 xmlMapper.setSerializationInclusion(Include.NON_NULL);
+		String writeValueAsString = xmlMapper.writeValueAsString(order);
+		 System.out.println(writeValueAsString);
+		 UnifiedOrder xmlToBean = WxUtils.xmlToBean(writeValueAsString, UnifiedOrder.class);
+		 System.out.println(JSON.toJSONString(xmlToBean));
+	}
+	@Test
+	public void t10() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		TreeMap<String,Object> treeMap = new TreeMap<>();
+		UnifiedOrder order = new UnifiedOrder();
+		Map<String, String> describe = BeanUtils.describe(order);
+		System.out.println(JSON.toJSONString(describe));
+		
 	}
 }

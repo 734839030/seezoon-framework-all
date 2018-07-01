@@ -58,7 +58,7 @@ $.ajaxSetup({
 	statusCode : {
 		310 :function(){//未登录
 			//layer.msg("未登录");
-			location.href = publicContextPath + "/wechat/oauth2.do?scope=snsapi_base&redirectUrl=" + encodeURIComponent(location.href);
+			location.href = publicContextPath + "/wechat/oauth2.do?redirectUrl=" + encodeURIComponent(location.href);
 		},
 		404 : function() {
 		  layer.msg("请求路径错误");

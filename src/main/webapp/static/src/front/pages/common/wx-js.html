@@ -19,7 +19,44 @@ function wxConfig(appId,timestamp,nonceStr,signature){
 	    timestamp: timestamp, // 必填，生成签名的时间戳
 	    nonceStr: nonceStr, // 必填，生成签名的随机串
 	    signature: signature,// 必填，签名
-	    jsApiList: [] // 必填，需要使用的JS接口列表
+	    jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表
 	});
+}
+function wxPay(jsParams,successCallback,failCallback){
+	if (typeof WeixinJSBridge == "undefined"){
+		   if( document.addEventListener ){
+		       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		   }else if (document.attachEvent){
+		       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+		       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		   }
+		}else{
+		   onBridgeReady(jsParams,successCallback);
+		}
+}
+function onBridgeReady(jsParams,successCallback,failCallback,cancelCallback){
+	   WeixinJSBridge.invoke(
+	       'getBrandWCPayRequest', {
+	           "appId":jsParams.appId,     //公众号名称，由商户传入     
+	           "timeStamp":jsParams.timeStamp,        //时间戳，自1970年以来的秒数     
+	           "nonceStr":jsParams.nonceStr, //随机串     
+	           "package":jsParams._package,     
+	           "signType":"MD5",         //微信签名方式：     
+	           "paySign":jsParams.paySign //微信签名 
+	       },
+	       function(res){     
+	           if(res.err_msg == "get_brand_wcpay_request:ok" ) {//// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+	        	  	 successCallback();
+	           } else if (res.err_msg == "get_brand_wcpay_request:fail") {
+	        	    if (failCallback)
+	        	   	 failCallback();
+	           }   else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+	        	    if (cancelCallback)
+	        	   	 	cancelCallback();
+		       }  else {
+		    	   		alert(res.err_msg);
+		       }
+	       }
+	   ); 
 }
 </script>

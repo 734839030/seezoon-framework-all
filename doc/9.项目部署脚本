@@ -16,7 +16,8 @@ git pull
 case $input in
     1)
     cd ${source_code_path}/${project_name}
-    sed -i  "s/@xxxxxxxxx@/真密码/g" ${source_code_path}/${project_name}/src/main/resources/env/prod/application.properties
+    #sed -i  "s/@xxxxxxxxx@/真密码/g" ${source_code_path}/${project_name}/src/main/resources/env/prod/application.properties
+    \cp /usr/local/project-build/application.properties ${source_code_path}/${project_name}/src/main/resources/env/prod
     mvn clean package -P prod
     cpid=$(ps -ef |grep -c ${tomcat_path})
 	if [ $cpid -gt 1 ]
