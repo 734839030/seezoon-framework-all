@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
@@ -95,7 +96,10 @@ public class WxUtils {
 		Assert.notNull(object,"object 为null");
 		Class<? extends Object> clazz = object.getClass();
 		Field[] declaredFields = clazz.getDeclaredFields();
-		for (Field field:declaredFields) {
+		//也要包括父类
+		Field[] declaredFields2 = clazz.getSuperclass().getDeclaredFields();
+		Field[] all = ArrayUtils.addAll(declaredFields, declaredFields2);
+		for (Field field:all) {
 			ReflectionUtils.makeAccessible(field);
 			Object value = ReflectionUtils.getField(field, object);
 			if (null != value) {

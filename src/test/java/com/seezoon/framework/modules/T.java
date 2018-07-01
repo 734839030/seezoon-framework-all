@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.TreeMap;
@@ -21,6 +22,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ReflectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.beust.jcommander.internal.Maps;
@@ -29,6 +31,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.seezoon.framework.common.http.HttpRequestUtils;
+import com.seezoon.framework.front.wechat.dto.QrPayCallbackReturn;
 import com.seezoon.framework.front.wechat.dto.UnifiedOrder;
 import com.seezoon.framework.front.wechat.utils.WxUtils;
 
@@ -110,5 +113,13 @@ public class T {
 		Map<String, String> describe = BeanUtils.describe(order);
 		System.out.println(JSON.toJSONString(describe));
 		
+	}
+	@Test
+	public void t11() {
+		Field[] declaredFields = QrPayCallbackReturn.class.getDeclaredFields();
+		System.out.println(UnifiedOrder.class.getSuperclass().getDeclaredFields().length);
+		for (Field field:declaredFields) {
+			System.out.println(field.getName());
+		}
 	}
 }

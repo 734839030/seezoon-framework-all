@@ -11,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JacksonXmlRootElement(localName="xml")
 public class BaseWechatPayReturnDto {
 
-	private String return_code;
+	protected String return_code;
 	private String return_msg;
 	private String err_code;
 	private String err_code_des;
