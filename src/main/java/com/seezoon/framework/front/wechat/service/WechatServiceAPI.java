@@ -172,7 +172,7 @@ public class WechatServiceAPI extends BaseService{
 		qrPayCallbackReturn.setResult_code("SUCCESS");
 		qrPayCallbackReturn.setReturn_code("SUCCESS");
 		TreeMap<String, Object> bean2map = WxUtils.bean2map(qrPayCallbackReturn);
-		String sortStr = WxUtils.createSortStr(bean2map) + "&key1=" + mchKey;
+		String sortStr = WxUtils.createSortStr(bean2map) + "&key=" + mchKey;
 		String sign = CodecUtils.md5(sortStr).toUpperCase();
 		qrPayCallbackReturn.setSign(sign);
 		return WxUtils.beanToXml(qrPayCallbackReturn);
