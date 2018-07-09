@@ -12,6 +12,10 @@ cd nginx-1.14.0
 ./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-http_sub_module  --with-http_gunzip_module --with-http_gzip_static_module --with-http_auth_request_module  --with-http_stub_status_module  --with-stream
 make && make install
 
+./nginx 启动
+./nginx -s reload 热加载
+./nginx -s stop 如果报错则pkill nginx
+
 
 vim nginx.conf
 参数调优

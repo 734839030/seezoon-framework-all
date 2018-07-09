@@ -168,6 +168,8 @@ $(function() {
 		onPostBody:function(){//渲染完后执行
 			$.bntPermissionHandler();
 		},
+		sortName:'update_date', //默认顺序
+		sortOrder:'desc',
 		columns : [ {
 			checkbox : true
 		}, {

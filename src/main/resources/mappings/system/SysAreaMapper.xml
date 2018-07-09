@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.seezoon.framework.modules.system.dao.SysAreaDao" >
+  <resultMap id="BaseResultMap" type="com.seezoon.framework.modules.system.entity.SysArea" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  id,name,parent_id,sort,type,status,create_by,create_date,update_by,update_date,remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_area
+    where id = #{id}
+  </select>
+  <select id="findList" resultMap="BaseResultMap" parameterType="com.seezoon.framework.modules.system.entity.SysArea" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_area
+    <where>
+    <if test="id !=null and id!=''">
+    	and id = #{id}
+    </if>
+    <if test="parentId !=null and parentId!=''">
+    and parent_id = #{parentId}
+    </if>
+    <if test="type !=null and type!=''">
+    and type = #{type}
+    </if>
+    <if test="status !=null and status!=''">
+    and status = #{status}
+    </if>
+	${dsf}
+    </where>
+	<choose>
+    <when test="sortField != null and sortField != '' and direction != null and direction !=''">
+    order by ${sortField} ${direction}
+    </when>
+    <otherwise>
+   <!-- 默认排序设置 -->
+    </otherwise>
+    </choose>
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from sys_area
+    where id = #{id} ${dsf}
+  </delete>
+  <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysArea" >
+    insert into sys_area (id,name,parent_id,sort,type,status,create_by,create_date,update_by,update_date,remarks)
+    values (#{id},#{name},#{parentId},#{sort},#{type},#{status},#{createBy},#{createDate},#{updateBy},#{updateDate},#{remarks})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seezoon.framework.modules.system.entity.SysArea" >
+    update sys_area
+    <set>
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort},
+      </if>
+      <if test="type != null" >
+        type = #{type},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks},
+      </if>
+    </set>
+    where id = #{id} ${dsf}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seezoon.framework.modules.system.entity.SysArea" >
+    update sys_area
+    set 
+        name = #{name}
+        ,parent_id = #{parentId}
+        ,sort = #{sort}
+        ,type = #{type}
+        ,status = #{status}
+        ,update_by = #{updateBy}
+        ,update_date = #{updateDate}
+        ,remarks = #{remarks}
+    where id = #{id} ${dsf}
+  </update>
+</mapper>
