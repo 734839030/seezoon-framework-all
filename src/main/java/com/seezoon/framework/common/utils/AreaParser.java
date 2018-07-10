@@ -90,6 +90,7 @@ public class AreaParser {
 			area.setName(StringUtils.trim(v.getShengJiName()));
 			area.setStatus(Constants.YES);
 			area.setSort(list.size());
+			area.setRemarks(StringUtils.trim(v.getShengJiName()));
 			list.add(area);
 		});
 		cities.forEach((v)->{
@@ -106,6 +107,7 @@ public class AreaParser {
 			}
 			area.setStatus(Constants.YES);
 			area.setSort(list.size());
+			area.setRemarks(StringUtils.trim(v.getShengJiName())+"-"+area.getName());
 			list.add(area);
 		});
 		counties.forEach((v)->{
@@ -116,6 +118,7 @@ public class AreaParser {
 			area.setName(StringUtils.trim(v.getXianji()));
 			area.setStatus(Constants.YES);
 			area.setSort(list.size());
+			area.setRemarks(StringUtils.trim(v.getShengJiName())+"-"+StringUtils.trim(v.getDiji()) + "-" + StringUtils.trim(v.getXianji()));
 			list.add(area);
 		});
 		return list;
