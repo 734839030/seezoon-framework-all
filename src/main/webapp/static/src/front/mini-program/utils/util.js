@@ -5,9 +5,7 @@ var urlPreffix = app.globalData.url;
  * 后台的
  */
 function getSessionId(){
-  var seesionId = wx.getStorage({
-    key: 'fseezoon-sid'
-  });
+  var seesionId = wx.getStorageSync('fseezoon-sid');
   return seesionId ? seesionId : '';
 }
 
@@ -15,9 +13,7 @@ function getSessionId(){
  * 小程序的
  */
 function getSessionKey(){
-  var sessionKey = wx.getStorage({
-    key: 'session_key'
-  });
+  var sessionKey = wx.getStorageSync('session_key');
   return sessionKey ? sessionKey : '';
 }
 /**
@@ -35,13 +31,8 @@ function send(options, successCallback, failCallback) {
       var statusCode = respone.statusCode;
       if (statusCode == 310) {
         login();
-        //未登录
-        wx.showToast({
-          title: '未登录',
-          duration: 2000
-        });
       } else if (statusCode == 200) {
-        callback(respone.data);
+        successCallback(respone.data.data);
       } else {
         wx.showToast({
           title: '请求状态异常:' + statusCode,
@@ -69,7 +60,7 @@ function doGet(url, data, successCallback) {
   options.method = 'GET';
   options.url = url;
   options.data = data;
-  send(options, successCallback);
+  send(options,successCallback);
 }
 
 /**
@@ -84,19 +75,19 @@ function doPost(url, data, successCallback) {
 }
 
 function login() {
+  //未登录
+  wx.showLoading({
+    title: '正在登录...',
+    mask: true,
+  });
   wx.login({
     success: function (res) {
       if (res.code) {
         //发起网络请求
-        doPost('/public/wechat/mauth2Login.do', {code: res.code},function(respone){
-          wx.setStorage({
-            key: "fseezoon-sid",
-            data: respone.seezoonSessionKey
-          });
-          wx.setStorage({
-            key: "session_key",
-            data: respone.session_key
-          })
+        doPost('/f/wechat/mauth2Login.do', {code: res.code},function(respone){
+          wx.hideLoading();    
+          wx.setStorageSync('fseezoon-sid', respone.data.seezoonSessionKey);
+          wx.setStorageSync('session_key', respone.data.session_key);
         });
       } else {
         console.log('登录失败！' + res.errMsg)

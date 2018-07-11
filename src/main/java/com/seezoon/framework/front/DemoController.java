@@ -53,7 +53,7 @@ public class DemoController extends BaseController{
 	@RequestMapping("/mpay.do")
 	public ResponeModel mpay() {
 		FrontUser frontUser = FrontSubject.get();
-		Map<String, Object> jsPay = wechatServiceAPI.jsPay("商品-测试", RandomStringUtils.randomNumeric(20), 10, frontUser.getUserId(),"demoPayHandler");
-		return ResponeModel.ok(jsPay);
+		Map<String, Object> mPay = wechatServiceAPI.mpay("商品-测试", RandomStringUtils.randomNumeric(20), 10, frontUser.getUserId(),"demoPayHandler");
+		return ResponeModel.ok(mPay);
 	}
 }

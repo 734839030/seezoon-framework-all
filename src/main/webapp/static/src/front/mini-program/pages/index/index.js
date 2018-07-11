@@ -6,11 +6,18 @@ Page({
   },
   
   getUserInfo:function(){
-    util.doGet('/f/demo/getUserInfo.do');
+    util.doGet('/f/demo/getUserInfo.do',null,function(data){
+      wx.showToast({
+        title: data.name,
+        icon: 'none',
+        duration: 2000
+      })
+    });
   },
   pay:function(){
-    util.doPost("/f/demo/mpay.do",null,function(respone){
-      var jsParams = respone.data;
+    util.doPost("/f/demo/mpay.do",null,function(data){
+      var jsParams = data;
+      console.log(jsParams);
       wx.requestPayment(
         {
           'timeStamp': jsParams.timeStamp,
