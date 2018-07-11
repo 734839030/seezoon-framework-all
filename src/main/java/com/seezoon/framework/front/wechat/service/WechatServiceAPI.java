@@ -177,7 +177,7 @@ public class WechatServiceAPI extends BaseService{
 		//小程序支付openid 必传
 		unifiedOrderParams.setOpenid(openid);
 		UnifiedOrderResult unifiedOrder = this.unifiedOrder(unifiedOrderParams);
-		return this.getJsPayParams(unifiedOrder.getPrepay_id());
+		return this.getMPayParams(unifiedOrder.getPrepay_id());
 	}
 	/**
 	 * 扫码支付模式1 二维码有效期2个小时
@@ -296,7 +296,21 @@ public class WechatServiceAPI extends BaseService{
 		jsParams.put("_package", "prepay_id=" + prepay_id);
 		return jsParams;
 	}
-	
+	public Map<String,Object> getMPayParams(String prepay_id){
+		Assert.hasLength(prepay_id,"prepay_id 为空");
+		TreeMap<String,Object> jsParams = new TreeMap<>();
+		jsParams.put("appId", mappId);
+		jsParams.put("timeStamp", String.valueOf(WxUtils.createTimestamp()));
+		jsParams.put("nonceStr", WxUtils.createNoncestr());
+		jsParams.put("package", "prepay_id=" + prepay_id);
+		jsParams.put("signType", "MD5");
+		String sortStr = WxUtils.createSortStr(jsParams) + "&key=" +mchKey;
+		String paySign = CodecUtils.md5(sortStr).toUpperCase();
+		jsParams.put("paySign", paySign);
+		// package 为js 关键字需要转换下
+		jsParams.put("_package", "prepay_id=" + prepay_id);
+		return jsParams;
+	}
 	private String getUnifiedOrderSign(UnifiedOrder unifiedOrder) {
 		try {
 			String sortStr = WxUtils.createSortStr(WxUtils.bean2map(unifiedOrder));
