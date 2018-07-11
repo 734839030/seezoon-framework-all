@@ -46,4 +46,14 @@ public class DemoController extends BaseController{
 		//生成二维码
 		return ResponeModel.ok(payQrCode);
 	}
+	/**
+	 * 小程序支付
+	 * @return
+	 */
+	@RequestMapping("/mpay.do")
+	public ResponeModel mpay() {
+		FrontUser frontUser = FrontSubject.get();
+		Map<String, Object> jsPay = wechatServiceAPI.jsPay("商品-测试", RandomStringUtils.randomNumeric(20), 10, frontUser.getUserId(),"demoPayHandler");
+		return ResponeModel.ok(jsPay);
+	}
 }

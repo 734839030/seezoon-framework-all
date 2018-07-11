@@ -3,9 +3,12 @@ package com.seezoon.framework.front.wechat.utils;
 import com.seezoon.framework.common.context.utils.PropertyUtil;
 
 public class WechatConfig {
-
+	/**公众号**/
 	private static String appID = PropertyUtil.getString("wechat.appID");
 	private static String appsecret = PropertyUtil.getString("wechat.appsecret");
+	/**小程序**/
+	private static String mappID = PropertyUtil.getString("wechat.mappID");
+	private static String mappsecret = PropertyUtil.getString("wechat.mappsecret");
 	private static String mchId = PropertyUtil.getString("wechat.mchId");
 	private static String callBackBasePath = PropertyUtil.getString("wechat.callBackBasePath");
 	private static String notifyUrl = callBackBasePath + "/public/wechat/payResult.do";
@@ -14,6 +17,19 @@ public class WechatConfig {
 	//下单机器ip
 	private static String spbillCreateIp = PropertyUtil.getString("wechat.spbill_create_ip");
 	
+	
+	public static String getMappID() {
+		return mappID;
+	}
+	public static void setMappID(String mappID) {
+		WechatConfig.mappID = mappID;
+	}
+	public static String getMappsecret() {
+		return mappsecret;
+	}
+	public static void setMappsecret(String mappsecret) {
+		WechatConfig.mappsecret = mappsecret;
+	}
 	public static String getAppID() {
 		return appID;
 	}

@@ -19,6 +19,7 @@ import com.seezoon.framework.common.service.BaseService;
 import com.seezoon.framework.common.utils.CodecUtils;
 import com.seezoon.framework.front.wechat.dto.AuthAccessToken;
 import com.seezoon.framework.front.wechat.dto.JsApiTicket;
+import com.seezoon.framework.front.wechat.dto.JsCode2session;
 import com.seezoon.framework.front.wechat.dto.QrPayCallbackReturn;
 import com.seezoon.framework.front.wechat.dto.Token;
 import com.seezoon.framework.front.wechat.dto.UnifiedOrder;
@@ -37,6 +38,8 @@ public class WechatServiceAPI extends BaseService{
 
 	public static String appId = WechatConfig.getAppID();
 	public static String appsecret = WechatConfig.getAppsecret();
+	public static String mappId = WechatConfig.getMappID();
+	public static String mappsecret = WechatConfig.getMappsecret();
 	public static String mchId = WechatConfig.getMchId();
 	public static String notifyUrl = WechatConfig.getNotifyUrl();
 	public static String mchKey = WechatConfig.getMchKey();
@@ -46,6 +49,11 @@ public class WechatServiceAPI extends BaseService{
 	@Resource(name="redisTemplate")
 	private ValueOperations<String, String> valueOperations;
 	
+	/**
+	 * h5 auth code  换取auth token
+	 * @param code
+	 * @return
+	 */
 	public AuthAccessToken getUserInfoByCode(String code) {
 		Assert.hasLength(code,"code 为空");
 		Map<String,String> params = Maps.newHashMap();
@@ -60,6 +68,11 @@ public class WechatServiceAPI extends BaseService{
 			throw new ServiceException(accessToken.getErrmsg());
 		}
 	}
+	/**
+	 * author token 换取用户信息
+	 * @param accessToken
+	 * @return
+	 */
 	public UserInfo userinfo(AuthAccessToken accessToken) {
 		Assert.notNull(accessToken,"accessToken 为null");
 		Assert.hasLength(accessToken.getAccess_token(),"accessToken 为空");
@@ -76,6 +89,10 @@ public class WechatServiceAPI extends BaseService{
 			throw new ServiceException(accessToken.getErrmsg());
 		}
 	}
+	/**
+	 * 获取接口操作token
+	 * @return
+	 */
 	public String getToken() {
 		Map<String,String> params = Maps.newHashMap();
 		params.put("grant_type","client_credential");
@@ -95,6 +112,12 @@ public class WechatServiceAPI extends BaseService{
 			}
 		}
 	}
+	
+	/**
+	 * h5 js api ticket
+	 * 
+	 * @return
+	 */
 	public String getJsApiTicket() {
 		String token = this.getToken();
 		Assert.hasLength(token,"token 为null");
@@ -115,6 +138,11 @@ public class WechatServiceAPI extends BaseService{
 			}
 		}
 	}
+	/**
+	 * h5 需要js 的签名参数
+	 * @param url
+	 * @return
+	 */
 	public Map<String,Object> getJsConfig(String url){
 		Assert.hasLength(url,"url 为null");
 		String noncestr = WxUtils.createNoncestr();
@@ -135,6 +163,18 @@ public class WechatServiceAPI extends BaseService{
 		Assert.hasLength(openid,"openid 为空");
 		UnifiedOrder unifiedOrderParams = this.buildUnifiedOrderParams(body, out_trade_no, total_fee, attach, "JSAPI");
 		//js 支付openid 必传
+		unifiedOrderParams.setOpenid(openid);
+		UnifiedOrderResult unifiedOrder = this.unifiedOrder(unifiedOrderParams);
+		return this.getJsPayParams(unifiedOrder.getPrepay_id());
+	}
+	/*
+	 * 小程序 支付
+	 */
+	public Map<String,Object> mpay(String body,String out_trade_no,Integer total_fee,String openid,String attach) {
+		Assert.hasLength(openid,"openid 为空");
+		UnifiedOrder unifiedOrderParams = this.buildUnifiedOrderParams(body, out_trade_no, total_fee, attach, "JSAPI");
+		unifiedOrderParams.setAppid(mappId);
+		//小程序支付openid 必传
 		unifiedOrderParams.setOpenid(openid);
 		UnifiedOrderResult unifiedOrder = this.unifiedOrder(unifiedOrderParams);
 		return this.getJsPayParams(unifiedOrder.getPrepay_id());
@@ -225,6 +265,11 @@ public class WechatServiceAPI extends BaseService{
 		unifiedOrder.setNotify_url(notifyUrl);
 		return unifiedOrder;
 	}
+	/**
+	 * 统一下单
+	 * @param unifiedOrder
+	 * @return
+	 */
 	public UnifiedOrderResult unifiedOrder(UnifiedOrder unifiedOrder) {
 		String unifiedOrderSign = getUnifiedOrderSign(unifiedOrder);
 		unifiedOrder.setSign(unifiedOrderSign);
@@ -277,4 +322,23 @@ public class WechatServiceAPI extends BaseService{
 		return newSign.equals(sign);
 	}
 	
+	/**
+	 * 小程序登录获取
+	 * @param code
+	 * @return
+	 */
+	public JsCode2session jscode2session(String code) {
+		Assert.hasLength(code,"code为空");
+		Map<String,String> params = Maps.newHashMap();
+		params.put("appid",mappId);
+		params.put("secret",mappsecret);
+		params.put("js_code",code);
+		params.put("grant_type","authorization_code");
+		JsCode2session code2session = HttpRequestUtils.doGet("https://api.weixin.qq.com/sns/jscode2session", params, JsCode2session.class);
+		if (code2session.isSuccess())  {
+			return code2session;
+		} else {
+			throw new ServiceException(code2session.getErrmsg());
+		}
+	}
 }

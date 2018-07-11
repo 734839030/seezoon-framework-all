@@ -60,6 +60,7 @@
         <!-- 匹配的是url路径，后端通用拦截器 -->  
         <mvc:mapping path="/f/**" /> 
         <mvc:exclude-mapping path="/f/wechat/auth2Login.do"/>
+        <mvc:exclude-mapping path="/f/wechat/mauth2Login.do"/>
         <bean class="com.seezoon.framework.front.session.FrontSessionFilter"></bean>    
     </mvc:interceptor>
     </mvc:interceptors>

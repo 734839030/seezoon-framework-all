@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.seezoon.framework.common.context.beans.ResponeModel;
 import com.seezoon.framework.common.web.BaseController;
 import com.seezoon.framework.front.session.FrontSubject;
 import com.seezoon.framework.front.session.FrontUser;
 import com.seezoon.framework.front.wechat.dto.AuthAccessToken;
+import com.seezoon.framework.front.wechat.dto.JsCode2session;
 import com.seezoon.framework.front.wechat.dto.UserInfo;
 import com.seezoon.framework.front.wechat.service.WechatServiceAPI;
 import com.seezoon.framework.modules.wechat.entity.WechatUserInfo;
@@ -64,5 +66,19 @@ public class WechatLoginController extends BaseController{
 		}
 		FrontSubject.putUserSession(session, frontUser);
 		response.sendRedirect(redirectUrl);
+	}
+	/**
+	 * 小程序登录
+	 * @param code
+	 */
+	@RequestMapping("/mauth2Login.do")
+	public ResponeModel mauth2Login(@RequestParam String code,HttpSession session) {
+		JsCode2session jscode2session = wechatUserInfoServiceAPI.jscode2session(code);
+		FrontUser frontUser = new FrontUser();
+		frontUser.setUserId(jscode2session.getOpenid());
+		frontUser.setName("小程序获取名字测试");
+		FrontSubject.putUserSession(session, frontUser);
+		jscode2session.setSeezoonSessionKey(session.getId());
+		return ResponeModel.ok(jscode2session);
 	}
 }

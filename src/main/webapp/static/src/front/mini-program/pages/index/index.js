@@ -1,54 +1,71 @@
-//index.js
-//获取应用实例
-const app = getApp()
-
+var util = require('../../utils/util.js');
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
+    //判断小程序的API，回调，参数，组件等是否在当前版本可用。
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+  
+  getUserInfo:function(){
+    util.doGet('/f/demo/getUserInfo.do');
+  },
+  pay:function(){
+    util.doPost("/f/demo/mpay.do",null,function(respone){
+      var jsParams = respone.data;
+      wx.requestPayment(
+        {
+          'timeStamp': jsParams.timeStamp,
+          'nonceStr': jsParams.nonceStr,
+          'package': jsParams._package,
+          'signType': 'MD5',
+          'paySign': jsParams.paySign,
+          'success': function (res) {
+            wx.showToast({
+              title: '支付成功',
+              duration: 2000
+            });
+          },
+          'fail': function (res) {
+            if (res.errMsg == 'requestPayment:fail cancel') {
+              wx.showToast({
+                title: '取消支付',
+                duration: 2000
+              });
+            } else{
+              wx.showToast({
+                title: '支付失败' + res.errMsg,
+                duration: 2000
+              });
+            }
+          },
+          'complete': function (res) { }
+        })
+    });
   },
   onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
+    var $this = this;
+    // 查看是否授权
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+          $this.setData ({ canIUse:false});
+          wx.getUserInfo({
+            success: function (res) {
+              console.log(res.userInfo)
+              //用户已经授权过
+            }
           })
+        } else {
+          $this.setData({ canIUse: true });
         }
-      })
-    }
-  },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+      }
     })
+  },
+  bindGetUserInfo:function(){
+    console.log(e.detail.userInfo)
+    if (e.detail.userInfo) {
+      //用户按了允许授权按钮
+    } else {
+      //用户按了拒绝按钮
+    }
   }
-})
+});
