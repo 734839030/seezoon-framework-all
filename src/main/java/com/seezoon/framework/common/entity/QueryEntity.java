@@ -46,7 +46,7 @@ public class QueryEntity implements Serializable{
 	 */
 	private Map<String, Object> ext;
 	/**
-	 * 当前表的别名，默认sql语句没有别名，当有别名时候，为了避免冲突需要子类指定
+	 * 当前表的别名，默认sql语句没有别名，当有别名时候，为了避免冲突需要子类指定,同时sql 中查询 更新删除都得加上别名
 	 */
 	@JSONField(serialize=false)
 	private String tableAlias;

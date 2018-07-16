@@ -54,7 +54,7 @@ public class ${className}Controller extends BaseController {
 	@RequestMapping("/get.do")
 	public ResponeModel get(@RequestParam Serializable id) {
 		${className} ${className?uncap_first} = ${className?uncap_first}Service.findById(id);
-		//富文本处理
+		 <#-- 富文本处理 -->
 		<#list columnInfos as columnInfo>
 		<#if columnInfo.inputType! == "richtext">
         if (null != ${className?uncap_first}) {
@@ -64,7 +64,7 @@ public class ${className}Controller extends BaseController {
 		}
         </#if>
         <#if columnInfo.inputType! == "file" || columnInfo.inputType! == "picture">
-        	 //文件处理
+        	 <#-- 文件处理 -->
         	if (StringUtils.isNotEmpty(${className?uncap_first}.get${columnInfo.javaFieldName?cap_first}())) {
         		String[] ${columnInfo.javaFieldName}s = StringUtils.split(${className?uncap_first}.get${columnInfo.javaFieldName?cap_first}(), Constants.SEPARATOR);
         		List<FileInfo> ${columnInfo.javaFieldName}Array = new ArrayList<>();
