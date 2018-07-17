@@ -71,8 +71,8 @@
     </choose>
   </select>
   <delete id="deleteByPrimaryKey" >
-    delete from sys_login_log
-    where id = #{id} ${dsf}
+    delete l from sys_login_log l
+    where l.id = #{id} ${dsf}
   </delete>
   <insert id="insert" parameterType="com.seezoon.framework.modules.system.entity.SysLoginLog" >
     insert into sys_login_log (id,user_id,status,login_time,ip,area,user_agent,device_name,browser_name,create_by,create_date,update_by,update_date,remarks)
