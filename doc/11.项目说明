@@ -1,0 +1,63 @@
+**开发约定**
+
+>  数据库表
+
+```
+必须有主键且名为id;create_by,create_date,update_by,update_date,remarks 
+为内置字段
+```
+数据字段不设置默认值，由程序插入时控制。left join 操作实现参见SysUserMapper.xml
+
+如果表记录需要备份，在实体类复写如下方法
+
+```
+	@Override
+	public boolean isNeedBak() {
+		return Boolean.TRUE;
+	}
+	
+```
+同时添加insert-bak sql xml 参见SysUserMapper.xml SysUser.java
+
+和实体相关的常量建议都写在实体中。
+
+> 常用组件
+
+```
+利用字段生成单选
+<div class="col-sm-5 sf-radio" data-sf-input-name="status"  data-sf-dict-type="yes_no" data-sf-required="true" >
+</div>
+复选
+<div class="col-sm-5 sf-checkbox" data-sf-input-name="status"  data-sf-dict-type="yes_no" data-sf-required="true" >
+</div>
+下拉
+<select class="form-control sf-select" data-sf-dict-type name="yes_no" way-data="status" name="status">
+	<option value="">请选择类型</option>
+</select>
+时间(class="date" data-default-day 支持负数-1 则默认为前一天)
+ <input type="text" class="form-control date"  data-date-clear="false" data-default-day="1"  placeholder="<=" name="endDate"  way-data="endDate"  maxlength="100">
+ 
+权限按钮控制（class="sf-permission-ctl" && data-sf-permission ="xxxx"）
+<button type="button" class="btn btn-default sf-permission-ctl" id="search" data-sf-permission="sys:user:qry"><i class="fa fa-search"></i>
+</button>
+
+如果是后面添加的空间需要手动执行，$.bntPermissionHandler(); 如果是bootstap table 中则不需要，框架已经封装
+
+其余控制则为bootstrap 原生组件参见官网
+
+```
+
+> 数据权限
+
+数据权限是在sql后加上${dsf}， 如果表有别名需要在实体中复写下面方法。同时xml中删除、修改、查询都该加上别名。参见SysUserMapper.xml
+
+```
+ @Override
+	public String getTableAlias() {
+		return "m";
+	}
+	
+```
+
+
+
