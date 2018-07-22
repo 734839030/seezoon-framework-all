@@ -32,6 +32,7 @@ public class SysMenuController extends BaseController {
 
 	@PostMapping("/qryAll.do")
 	public ResponeModel qryAll(SysMenu sysMenu) {
+		sysMenu.setIsShow(sysMenu.getIsShow());
 		sysMenu.setSortField("sort");
 		sysMenu.setDirection(Constants.ASC);
 		List<SysMenu> list = sysMenuService.findList(sysMenu);

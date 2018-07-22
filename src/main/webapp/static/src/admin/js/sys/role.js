@@ -26,7 +26,9 @@ $(function() {
 					var roleMenus = respone1.data;
 					for(var i=0; i<roleMenus.length; i++) {
 						var node = model.menuTree.getNodeByParam("id", roleMenus[i].id);
-						model.menuTree.checkNode(node, true, false);
+						if (node) {
+							model.menuTree.checkNode(node, true, false);
+						}
 					} 
 				});
 				var dataScope = respone.data.dataScope;
@@ -47,7 +49,7 @@ $(function() {
 		deptTree:null,
 		init:function(){
 			//初始化菜单 ztree
-			$.post(adminContextPath + "/sys/menu/qryAll.do",function(respone){
+			$.post(adminContextPath + "/sys/menu/qryAll.do",{isShow:'1'},function(respone){
 				model.menuTree = $.fn.zTree.init($("#menuTree"), {
 					data:{
 						simpleData:{

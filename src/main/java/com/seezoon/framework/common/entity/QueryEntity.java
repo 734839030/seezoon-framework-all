@@ -55,11 +55,15 @@ public class QueryEntity implements Serializable{
 	 */
 	@JSONField(serialize=false)
 	private String dsf;
-
+	/**
+	 * 是否启用数据权限 默认开启
+	 */
+	private boolean openDsf = true;
+	
 	public String getDsf() {
 		// /a 路径的后端请求需要后端需要，前端不需要
 		AdminUser user = CurrentThreadContext.getUser();
-		if (user != null && StringUtils.isEmpty(dsf)) {
+		if (user != null && StringUtils.isEmpty(dsf) && this.openDsf()) {
 			dsf = DataPermissionBuilder.build(this.getTableAlias());
 		}
 		return dsf;
@@ -73,6 +77,17 @@ public class QueryEntity implements Serializable{
 	public String getTableAlias(){
 		return tableAlias;
 	}
+	
+	public boolean openDsf() {
+		return openDsf;
+	}
+
+
+	public void setOpenDsf(boolean openDsf) {
+		this.openDsf = openDsf;
+	}
+
+
 	/**
 	 * 添加自定义参数
 	 * 
