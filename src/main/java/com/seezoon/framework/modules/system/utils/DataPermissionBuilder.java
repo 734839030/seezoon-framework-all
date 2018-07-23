@@ -65,15 +65,16 @@ public class DataPermissionBuilder {
 				if (StringUtils.isNotEmpty(tableAlias)) {
 					sb.append(tableAlias).append(".");
 				}
+				// 因为mysql update delete 子查询限制，最好对子查询取别名
 				if (CURRENT_DEPT_LOW_LEVEL.equals(dataScope)) {//本部门及以下
-					sb.append("create_by ").append("in (select su.id from sys_user su left join sys_dept sd on su.dept_id = sd.id  where sd.id= '")
-					.append(deptId).append("' or sd.parent_ids like ").append("'%").append(deptId).append("%')");
+					sb.append("create_by ").append("in (select sf_alias.id in (select su.id from sys_user su left join sys_dept sd on su.dept_id = sd.id  where sd.id= '")
+					.append(deptId).append("' or sd.parent_ids like ").append("'%").append(deptId).append("%') sf_alias) ");
 				} else if (CURRENT_DEPT.equals(dataScope)) {//本部门
-					sb.append("create_by ").append("in (select id from sys_user where dept_id = '").append(deptId).append("')");
+					sb.append("create_by ").append("in (select sf_alias.id (select id from sys_user where dept_id = '").append(deptId).append("') sf_alias) ");
 				} else if (CURRENT_USER.equals(dataScope)) {//本人
 					sb.append("create_by = ").append("'").append(currentUser).append("'");
 				} else if (CUSTOM_DEPT.equals(dataScope)) {//自定义部门
-				   sb.append("create_by ").append("in (select su.id from sys_user su where su.dept_id in (select dept_id from sys_role_dept where role_id = '").append(role.getId()).append("')) ");
+				   sb.append("create_by ").append("in (select sf_alias.id (select su.id from sys_user su where su.dept_id in (select dept_id from sys_role_dept where role_id = '").append(role.getId()).append("')) sf_alias) ");
 				}
 			}
 			//去掉最前面的or

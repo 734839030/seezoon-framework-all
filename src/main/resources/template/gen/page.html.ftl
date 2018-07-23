@@ -35,12 +35,12 @@
 										<#if columnInfo.dictType?? && columnInfo.dictType!="">
 										<select class="form-control sf-select" way-data="${columnInfo.javaFieldName}"
 											name="${columnInfo.javaFieldName}" data-sf-dict-type="${columnInfo.dictType}">
-											<option value="">请选择</option>
+											<option value="">请选择${columnInfo.columnComment}</option>
 										</select>
 										<#else>
 										<select class="form-control" way-data="${columnInfo.javaFieldName}"
 											name="${columnInfo.javaFieldName}">
-											<option value="">请选择</option>
+											<option value="">请选择${columnInfo.columnComment}</option>
 										</select>
 										</#if>
 									</div>
