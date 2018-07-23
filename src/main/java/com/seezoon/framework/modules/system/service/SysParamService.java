@@ -16,6 +16,7 @@ public class SysParamService extends CrudService<SysParamDao, SysParam>{
 		Assert.hasLength("paramKey","paramKey 不能为空");
 		SysParam sysParam = new SysParam();
 		sysParam.setParamKey(paramKey);
+		sysParam.setOpenDsf(false);
 		List<SysParam> list = this.findList(sysParam);
 		return list.isEmpty()?null:list.get(0);
 	}

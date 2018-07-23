@@ -23,6 +23,7 @@ public class SysUserService extends CrudService<SysUserDao, SysUser> {
 		Assert.hasLength(loginName, "loginName 为空");
 		SysUser sysUser = new SysUser();
 		sysUser.setLoginName(loginName);
+		sysUser.setOpenDsf(false);
 		List<SysUser> list = this.findList(sysUser);
 		return list.isEmpty() ? null : list.get(0);
 	}
