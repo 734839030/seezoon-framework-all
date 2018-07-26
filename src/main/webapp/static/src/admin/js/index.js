@@ -130,7 +130,8 @@ $(function() {
 		var $this = $(this);
 		var href = $(this).data("href");
 		var target = $(this).attr("target");
-		
+		$(".menu").parent().removeClass("active");
+		$this.parent().addClass("active");
 		if ("main" != target) {
 			window.open(href,target);
 			//window.location.href = href;
