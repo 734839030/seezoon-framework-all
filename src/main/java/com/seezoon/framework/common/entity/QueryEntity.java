@@ -56,7 +56,7 @@ public class QueryEntity implements Serializable{
 	@JSONField(serialize=false)
 	private String dsf;
 	/**
-	 * 是否启用数据权限 默认开启
+	 * 是否启用数据权限 默认关闭
 	 */
 	private boolean openDsf = true;
 	
