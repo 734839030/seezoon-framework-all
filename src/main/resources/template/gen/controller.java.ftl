@@ -21,6 +21,7 @@ import com.seezoon.framework.modules.${moduleName}.service.${className}Service;
 <#if hasFileUpload >
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import com.seezoon.framework.modules.system.entity.SysFile;
 import com.seezoon.framework.modules.system.service.SysFileService;
 import com.seezoon.framework.common.file.FileConfig;

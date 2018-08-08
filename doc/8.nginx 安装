@@ -117,14 +117,14 @@ http {
 	        }
 	        add_header Access-Control-Max-Age 86400;
             proxy_pass http://tomcat-seezoon;
-	}
+		}
         location / {
              access_log off;
             alias   html/seezoon-framework/;
             index  admin/pages/index.html;
         }
+	}
 }
-
 限流配置
 http：
 
