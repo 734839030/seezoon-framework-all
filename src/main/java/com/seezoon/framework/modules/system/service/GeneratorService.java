@@ -198,7 +198,7 @@ public class GeneratorService extends BaseService{
 		} else if (ftl.contains("controller.java")) {
 			name = javaFolder + moduleName + "/web/" + className + "Controller.java";
 		} else if (ftl.contains("mapper.xml")) {
-			name = resourcesFolder + "datasource/mappings/" + moduleName + "/" + className + "Mapper.xml";
+			name = resourcesFolder + "mappings/" + moduleName + "/" + className + "Mapper.xml";
 		} else if (ftl.contains("page.html")) {
 			name = staticFolder + "pages/" + moduleName + "/" + functionName + ".html";
 		} else if (ftl.contains("javascript.js")) {
