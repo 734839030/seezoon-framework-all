@@ -100,7 +100,7 @@ $(function() {
 					$.each(dictList, function(j, k) {
 						k.inputName = inputName;
 						if (required) {
-							k.required = required
+							k.required = "required"
 						}
 						// 禁用
 						if (k.status == '0') {
