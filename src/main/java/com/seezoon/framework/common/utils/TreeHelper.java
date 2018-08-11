@@ -60,7 +60,7 @@ public class TreeHelper<T extends TreeEntity<String>> {
 		} else {
 			if (null != parent) {
 				t.setParentId(parent.getId());
-				t.setParentIds(parent.getParentIds() + parent.getId());
+				t.setParentIds(parent.getParentIds() + parent.getId() + Constants.SEPARATOR);
 			}
 		}
 	}
