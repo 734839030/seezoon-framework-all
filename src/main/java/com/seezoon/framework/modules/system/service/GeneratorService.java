@@ -117,7 +117,7 @@ public class GeneratorService extends BaseService{
 				genColumnInfo.setInputType(GenEnum.InputType.TEXTAREA.value());
 				genColumnInfo.setList(Constants.NO);
 			}
-			if ("Integer".equals(genColumnInfo.getJavaType()) || "Long".equals(genColumnInfo.getJavaType())) {//整数框
+			if (!"id".equals(column.getName()) && ("Integer".equals(genColumnInfo.getJavaType()) || "Long".equals(genColumnInfo.getJavaType()))) {//整数框
 				genColumnInfo.setInputType(GenEnum.InputType.ZHENGSHU.value());
 			}
 			if ("Float".equals(genColumnInfo.getJavaType()) || "Double".equals(genColumnInfo.getJavaType()) || "BigDecimal".equals(genColumnInfo.getJavaType()) ) {//小数框

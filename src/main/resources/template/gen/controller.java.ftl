@@ -53,7 +53,7 @@ public class ${className}Controller extends BaseController {
 	}
 	@RequiresPermissions("${moduleName}:${functionName}:qry")
 	@RequestMapping("/get.do")
-	public ResponeModel get(@RequestParam Serializable id) {
+	public ResponeModel get(@RequestParam ${pkType} id) {
 		${className} ${className?uncap_first} = ${className?uncap_first}Service.findById(id);
 		 <#-- 富文本处理 -->
 		<#list columnInfos as columnInfo>
