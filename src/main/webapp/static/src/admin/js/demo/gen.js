@@ -1,13 +1,10 @@
 $(function() {
-        	var editorRichText;
-	KindEditor.ready(function(K) {
-        editorRichText = K.create("textarea[name='richText']",{
+      var   editorRichText = K.create("textarea[name='richText']",{
 	        	syncType:'auto',//无效
 	    		items:items,
 	    		zIndex:99999999,
 	    		uploadJson : adminContextPath + '/file/k_upload_image.do'
         });
-	});
 	var model = {
 		path : adminContextPath + "/demo/gen",
 		resetDataForm : function() {
