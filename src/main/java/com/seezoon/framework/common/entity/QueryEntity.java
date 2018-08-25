@@ -54,7 +54,7 @@ public class QueryEntity implements Serializable{
 	 * dataScopeFilter
 	 */
 	@JSONField(serialize=false)
-	private String dsf;
+	protected String dsf;
 	/**
 	 * 是否启用数据权限 默认开启
 	 */

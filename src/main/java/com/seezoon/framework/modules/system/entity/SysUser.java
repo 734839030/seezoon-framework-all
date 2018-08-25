@@ -6,10 +6,14 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.seezoon.framework.common.entity.AdminUser;
 import com.seezoon.framework.common.entity.BaseEntity;
+import com.seezoon.framework.common.utils.CurrentThreadContext;
+import com.seezoon.framework.modules.system.utils.DataPermissionBuilder;
 
 public class SysUser extends BaseEntity<String> {
 
@@ -107,6 +111,18 @@ public class SysUser extends BaseEntity<String> {
 	 */
 	private String lastLoginArea;
 
+	public String getDsf() {
+		// /a 路径的后端请求需要后端需要，前端不需要
+		AdminUser user = CurrentThreadContext.getUser();
+		if (user != null && StringUtils.isEmpty(dsf) && this.openDsf()) {
+			dsf = DataPermissionBuilder.build(this.getTableAlias());
+			if (StringUtils.isNotEmpty(dsf)) {
+				// 加上查询自己的限制
+				dsf = dsf.substring(0,dsf.lastIndexOf(")")) + " or " + getTableAlias() + ".id='" + user.getUserId()  + "' ) " ;
+			}
+		}
+		return dsf;
+	}
 	@Override
 	public boolean isNeedBak() {
 		return Boolean.TRUE;

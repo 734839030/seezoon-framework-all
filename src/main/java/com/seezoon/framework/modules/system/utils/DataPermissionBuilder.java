@@ -51,6 +51,8 @@ public class DataPermissionBuilder {
 		for (SysRole role : roles) {
 			mergeDataScope.add(role.getDataScope());
 		}
+		//已处理过的数据权限
+		Set<String> handled = Sets.newHashSet();
 		//多个角色数据权限取OR ,包含关系自动跳过
 		if (!ShiroUtils.isSuperAdmin() && null != roles && !roles.isEmpty() && !mergeDataScope.contains(ALL)) {
 			for (SysRole role : roles) {
@@ -59,6 +61,10 @@ public class DataPermissionBuilder {
 					continue;
 				}
 				if (CURRENT_USER.equals(dataScope) && mergeDataScope.containsAll(Arrays.asList(new String[]{CURRENT_DEPT_LOW_LEVEL,CURRENT_DEPT}))) {
+					continue;
+				}
+				//已经处理过的
+				if (handled.contains(dataScope)) {
 					continue;
 				}
 				sb.append(" or ");
