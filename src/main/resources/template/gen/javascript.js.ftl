@@ -1,7 +1,7 @@
 $(function() {
     <#list columnInfos as columnInfo>
     <#if columnInfo.inputType! == "richtext">
-       var editor${columnInfo.javaFieldName ? cap_first} = K.create("textarea[name='${columnInfo.javaFieldName}']",{
+       var editor${columnInfo.javaFieldName ? cap_first} = KindEditor.create("textarea[name='${columnInfo.javaFieldName}']",{
 	        	syncType:'auto',//无效
 	    		items:items,
 	    		zIndex:99999999,
