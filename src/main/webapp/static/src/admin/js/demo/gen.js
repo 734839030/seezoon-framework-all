@@ -1,5 +1,5 @@
 $(function() {
-      var   editorRichText = K.create("textarea[name='richText']",{
+      var   editorRichText = KindEditor.create("textarea[name='richText']",{
 	        	syncType:'auto',//无效
 	    		items:items,
 	    		zIndex:99999999,
