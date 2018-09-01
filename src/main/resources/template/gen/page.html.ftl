@@ -45,7 +45,7 @@
 										</#if>
 									</div>
 									</#if>
-									<#if columnInfo.inputType! == "number">
+									<#if columnInfo.inputType! == "zhengshu" || columnInfo.inputType! == "xiaoshu">
 									<div class="form-group">
 										<input type="number" class="form-control" placeholder="${columnInfo.columnComment}" name="${columnInfo.javaFieldName}" way-data="${columnInfo.javaFieldName}">
 									</div>
