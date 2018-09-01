@@ -5,6 +5,9 @@
 
 前端采用最简单jquery + wayjs(双向数据绑定)，wayjs 只做数据绑定这一件事，所以入门非常快，几分钟就可以熟练使用，这也是没有采用Vue的原因，这里引入nodejs工具gulp 打包工具，方便编译出前端文件。
 
+## srping boot 版本 ##
+[https://github.com/734839030/seezoon-fast-framework](https://github.com/734839030/seezoon-fast-framework)
+
 官方QQ群：514685454、574933593
 ## 体验地址 ##
 [https://dev.seezoon.com](https://dev.seezoon.com)   大家如果觉得做的还可以，麻烦给个star,万分感谢；
@@ -82,7 +85,6 @@ static/src 为前端源文件，static/dist 为编译后的静态资源，这边
 
 ## 后续逐步开源如下功能（star 是开源的动力） ##
 
-* spring boot maven多模块版本；
 * spring cloud 版本脚手架；
 
 ## 部分项目截图 ##
