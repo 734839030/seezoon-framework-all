@@ -15,9 +15,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.seezoon.framework.common.context.exception.ServiceException;
 import com.seezoon.framework.common.utils.CodecUtils;
@@ -75,6 +74,8 @@ public class WxUtils {
 	public static <T> T xmlToBean(String xml, Class<T> clazz) {
 		 Assert.hasLength(xml,"xml 为空");
 		 XmlMapper xmlMapper = new XmlMapper();
+		 xmlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
 		try {
 			return xmlMapper.readValue(xml, clazz);
 		} catch (IOException e) {
