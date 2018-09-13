@@ -18,7 +18,7 @@ public class HttpClientConfig {
 	// 站点最大连接数
 	private int maxPerRoute = maxTotal;
 	// 不活跃多久检查ms
-	private int validateAfterInactivity = 60 * 1000;
+	private int validateAfterInactivity = 2 * 1000;
 	// 重试次数 0 不重试，
 	private int retyTimes = 0;
 	// 空闲时间多久销毁ms
