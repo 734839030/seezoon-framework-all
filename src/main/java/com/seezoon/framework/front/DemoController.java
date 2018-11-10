@@ -2,6 +2,8 @@ package com.seezoon.framework.front;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,13 @@ public class DemoController extends BaseController{
 	@Autowired
 	private WechatServiceAPI wechatServiceAPI;
 	
+	@RequestMapping("/login.do")
+	public ResponeModel login(HttpSession session) {
+		FrontUser frontUser = new FrontUser();
+		frontUser.setName("hello");
+		FrontSubject.putUserSession(session, frontUser);
+		return ResponeModel.ok();
+	}
 	@RequestMapping("/getUserInfo.do")
 	public ResponeModel getUserInfo() {
 		FrontUser frontUser = FrontSubject.get();
