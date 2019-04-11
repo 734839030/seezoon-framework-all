@@ -20,3 +20,8 @@ npm install gulp -g
 验证gulp -v
 
 npm install gulp gulp-file-include del express gulp-replace gulp-sequence -g  
+
+
+
+如果很慢 可以设置npm镜像
+npm config set registry https://registry.npm.taobao.org
