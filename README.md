@@ -6,7 +6,7 @@
 前端采用最简单jquery + wayjs(双向数据绑定)，wayjs 只做数据绑定这一件事，所以入门非常快，几分钟就可以熟练使用，这也是没有采用Vue的原因，这里引入nodejs工具gulp 打包工具，方便编译出前端文件。
 
 ## srping boot 版本 ##
-[https://github.com/734839030/seezoon-fast-framework](https://github.com/734839030/seezoon-fast-framework)
+[https://github.com/734839030/seezoon-boot](https://github.com/734839030/seezoon-boot)
 
 官方QQ群：514685454、574933593
 ## 体验地址 ##
