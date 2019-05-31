@@ -171,3 +171,6 @@ server {
         proxy_pass http://h734839030.imwork.net:12186;
     }
 }
+
+抓包
+sudo tcpdump tcp port 7003 -tt -i eth1 -n -s  0 -w /tmp/tcp.cap
